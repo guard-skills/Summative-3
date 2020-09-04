@@ -116,6 +116,7 @@
 
 .signupBox .form-group input:focus, .signinBox .form-group input:focus {
   outline: none !important;
+  box-shadow: none !important;
 }
 
 .signupBox .form-group select, .signinBox .form-group select {
