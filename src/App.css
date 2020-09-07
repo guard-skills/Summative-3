@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css");
-
 .app {
   background-color: #eeeeee;
   min-height: 100vh;
@@ -320,16 +319,10 @@
   height: 1.5em;
 }
 
-.nav-item {
-  background-color: #5B8C5A;
-  height: 1.7em;
-  display: flex;
-  align-items: center;
-}
-
 .post-tabs .active {
-  background-color: white;
+  background-color: transparent !important;
   border: none !important;
+  outline: none !important;
 }
 
 .post-tabs .active svg {
@@ -354,9 +347,14 @@
   left: 0.75em;
 }
 
-.post-tabs .comments-tab {
+.post-tabs a {
+  text-transform: uppercase;
+  color: white;
+}
+
+.comments-tab {
   position: absolute;
-  top: 0rem;
+  top: 0.1rem;
   left: 1.75rem;
   background-color: #5B8C5A;
   height: 1.5rem;
@@ -372,14 +370,15 @@
   font-size: 0.9rem;
 }
 
-.post-tabs .comments-tab.active {
+.comments-tab.active {
   background-color: white !important;
   color: #5B8C5A !important;
 }
 
-.post-tabs a {
-  text-transform: uppercase;
-  color: white;
+.comments-tab .container {
+  height: 100%;
+  width: 100%;
+  background-color: white;
 }
 
 .post-info {
@@ -469,8 +468,4 @@
   color: rgba(112, 112, 112, 0.5);
   margin-top: -0.3em;
 }
-
-.likePost {
-  fill: #5B8C5A;
-}
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=App.css.map */
