@@ -321,7 +321,7 @@
 }
 
 .nav-item {
-  background-color: green;
+  background-color: #5B8C5A;
   height: 1.7em;
   display: flex;
   align-items: center;
@@ -468,5 +468,9 @@
   font-size: 0.85rem;
   color: rgba(112, 112, 112, 0.5);
   margin-top: -0.3em;
+}
+
+.likePost {
+  fill: #5B8C5A;
 }
 /*# sourceMappingURL=style.css.map */
