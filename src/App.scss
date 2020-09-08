@@ -1,0 +1,568 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css');
+
+$light-color: white;
+$main-color: #5B8C5A;
+$alt-color: #707070;
+$dark-color: #4E4E4E;
+
+@mixin container {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    height: 100%;
+}
+
+.app {
+    background-color: #eeeeee;
+    min-height: 100vh;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Lato';
+}
+
+.landing-background {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-image: url('https://images.squarespace-cdn.com/content/v1/582029da03596e90591221dd/1514448136405-8X2261J9NWM4K2PZ54VJ/ke17ZwdGBToddI8pDm48kLkXF2pIyv_F2eUT9F60jBl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0iyqMbMesKd95J-X4EagrgU9L3Sa3U8cogeb0tjXbfawd0urKshkc5MgdBeJmALQKw/58Maddox+Photography+nz.jpg?format=2500w');
+    background-size: 500%;
+    background-repeat: no-repeat;
+    background-position: 55% 75%;
+
+    &::after{
+        content: '';
+        // border: 1px red solid;
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        height: 100%;
+        width: 100%;
+        display: block;
+        background-color: rgba($color: #000000, $alpha: 0.7);
+    }
+}
+
+.landing {
+    // border: 1px blue solid;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    
+    .container {
+        padding: 0;
+        width: 90%;
+        margin: auto;
+        height: 100%;
+    }
+}
+
+.landing-start {
+    @include container();
+
+    .logo {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .tapToStart {
+        position: absolute;
+        bottom: 5%;
+        text-align: center;
+        width: 100%;
+        color: $light-color;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+}
+
+.landing-register, .landing-login {
+
+    .signup, .signin{
+        @include container();
+    }
+
+    .logo {
+        position: absolute;
+        top: 20%;
+    }
+
+}
+
+.signupBox, .signinBox{
+    position: absolute;
+    left: -5.5%;
+    bottom: -7.5%;
+    height: 60%;
+    width: 100vw;
+    border-radius: 2em;
+    background-color: rgba($color: white, $alpha: 0.7);
+    padding: 2em 2em 1em 2em;
+
+    h3 {
+        color: $main-color;
+        font-weight: 400;
+        font-size: 1.5em;
+        margin-bottom: 1em;
+    }
+
+    .form-group {
+
+        input {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            color: $dark-color;
+            border-bottom: 1px $alt-color solid;
+            padding-bottom: 0.5em;
+            padding-left: 0.2em;
+            border-radius: 0em;
+
+            &:focus{
+                outline: none !important;
+                box-shadow: none !important;
+            }
+        }
+
+        select {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            color: $dark-color;
+            border-bottom: 1px $alt-color solid;
+            padding-bottom: 0.5em;
+            padding-left: 0.2em;
+            border-radius: 0em;
+
+            &:focus{
+                outline: none !important;
+                box-shadow: none !important;
+            }
+        }
+    }
+    
+    .subtext {
+        margin: -0.5rem 0 2rem 0;
+        font-size: 0.9em;
+        color: darken($alt-color, 20%);
+
+        span {
+            color: $main-color;
+            font-weight: 700;
+        }
+
+    }
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-back {
+        border-radius: 5em;
+        background-color: lighten($alt-color, 20%);
+        border: none;
+        margin-right: 1.5em;
+
+        i {
+            color: white;
+        }
+    }
+
+    .btn-next {
+        flex: 1 0 auto;
+        border-radius: 2em;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background-color: $main-color;
+        border: none;
+    }
+}
+
+.signinBox {
+    height: 45%;
+}
+
+.hide {
+    display: none;
+}
+
+.nav-top {
+    width: 100%;
+    position: relative;
+    height: 5em;
+    // border: 1px red solid;
+
+    .profile-image-small {
+        width: 2.5em;
+        height: 2.5em;
+        overflow: hidden;
+        border-radius: 2em;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 2em;
+
+        img {
+            width: 2.5em;
+            min-height: 4em;
+        }
+    }
+
+    .heading {
+        color: $dark-color;
+        font-weight: 700;
+        font-size: 1.5em;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 5rem;
+    }
+
+    .navbar {
+        // border: 1px red solid;
+        display: block;
+        padding: 1em;
+        position: absolute;
+        top: 52%;
+        transform: translateY(-50%);
+        left: 1em;
+    }
+
+}
+
+.nav-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    // border: 1px red solid;
+    height: 3.5em;
+    align-items: center;
+    background-color: #eeeeee;
+    z-index: 99;
+
+    svg {
+        height: 2em;
+        width: 2em;
+        fill: $dark-color;
+    }
+
+    .selected {
+        fill: $main-color;
+    }
+}
+
+.filter-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8.5%;
+    margin-top: 1em;
+    
+    div {
+        color: $main-color;
+        border-bottom: 1px $main-color solid;
+        padding-bottom: 0.4em;
+    }
+
+    .filter {
+        font-weight: 300;
+        color: $alt-color;
+        border-bottom: 1px $alt-color solid;
+    }
+
+    i {
+        font-size: 0.7em;
+        margin-right: 0.6em;        
+    }
+}
+
+.post-item {
+    width: 84%;
+    // border: 1px red solid;
+    margin: 1.5em auto 10.5em auto;
+    position: relative;
+    
+    .post-image {
+        width: 100%;
+        height: 12.5em;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.posts {
+    min-height: 100%;
+    // border: 1px red solid;
+    position: relative;
+    padding-bottom: 3.5em;
+}
+
+.post-tabs{
+    border: none !important;
+    position: relative;
+    top: -1.5em;
+    height: 1.5em;
+    // border: 1px red solid !important;
+
+    .active {
+        background-color: transparent !important;
+        // padding: 0;
+        border: none !important;
+        
+        svg {
+            fill: white;
+        }
+    }
+
+    .comments-triangle {
+        height: 1.5em;
+        position: absolute;
+        top: 0em;
+        left: -1;
+        z-index: 2;
+        // border: 1px red solid;
+        padding: 0 !important; 
+    }
+
+    .nav-triangle {
+        height: 2em;
+        width: 2em;
+        fill: $main-color;
+        position: absolute;
+        top: -0.1em;
+        left: 0.75em;
+    }
+
+    .comments-tab {
+        position: absolute;
+        top: 0.1rem;
+        left: 1.75rem;
+        background-color: $main-color;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        border-radius: 0 !important;
+        z-index: 1;
+        padding-left: 1.2rem;
+        font-size: 0.9rem;
+
+        &.active {
+            background-color: white !important;
+            color: $main-color !important;
+        }
+    }
+
+
+    a {
+        text-transform: uppercase;
+        color: white;
+    }
+}
+
+.post-info {
+    background-color: white;
+    position: absolute;
+    top: 12.5em;
+    z-index: 5;
+    width: 100%;
+    box-shadow: 1px 2px 5px -1px rgba($color: #000000, $alpha: 0.2);
+    min-height: 10em;
+    border-radius: 0em 0em 0.5em 0.5em;
+    padding: 1.2em 0em 0em 0em;
+
+    .post-top {
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
+        align-items: center;
+        width: 90%;
+        padding-bottom: 0.7em;
+        border-bottom: 1px rgba($alt-color, 0.4) solid;
+        // border: 1px red solid;
+
+        .post-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: $main-color;
+        }
+
+        svg {
+            width: 1.8em;
+            height: 1.8em;
+        }
+    }
+
+    .post-bottom {
+        margin: auto;
+        width: 90%;
+        margin-top: 0.3em;
+
+        .post-location {
+            color: rgba($alt-color, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .post-profile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-top: 1em;
+
+            .post-profile-picture {
+                border-radius: 2.5em;
+                height: 2.5em;
+                width: 2.5em;
+                // border: 1px red solid;
+                overflow: hidden;
+                margin-right: 1em;
+            }
+
+            img {
+                width: 2.5em;
+                position: relative;
+                top: -15%;
+            }
+            
+        }
+
+        .post-name {
+            font-weight: 700;
+            color: $dark-color;
+        }
+
+        .post-timestamp {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: rgba($alt-color, 0.5);
+            margin-top: -0.3em;
+        }
+    }
+}
+
+.comments {
+    height: 100%;
+    padding-top: 1em;
+    padding-bottom: 0.2em;
+    position: relative;
+    top: -1.5em;
+    z-index: 999;
+    background: white;
+    box-shadow: 1px 2px 5px -1px rgba($color: #000000, $alpha: 0.2);
+    border-radius: 0em 0em 0.5em 0.5em;
+
+    .comment {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        // border: 1px red solid;
+    }
+
+    .profile-photo {
+        border-radius: 2em;
+        height: 2em;
+        width: 2em;
+        // border: 1px red solid;
+        overflow: hidden;
+        margin-right: 0.7em;
+        position: relative;
+        flex: 0 0 2em;
+
+        img {
+            width: 2em;
+            position: relative;
+            top: -15%;
+        }
+    }
+
+    .comment-name {
+        font-weight: 700;
+        color: $dark-color;
+        margin-right: 0.2rem;
+    }
+
+    .comment-content {
+        line-height: 1em;
+        font-size: 0.9rem;
+        color: rgba($color: #000000, $alpha: 0.6);
+        // border: 1px red solid;
+    }
+
+    .comment {
+        margin-bottom: 0.5rem;
+    }
+
+    .author-comment {
+        border-bottom: 1px rgba($alt-color, 0.4) solid;
+        padding-bottom: 0.5em;
+        margin-bottom: 0.75em;
+    }
+}
+
+.makeComment {
+    width: 104%;
+    margin-left: -2%;
+    background-color: rgba($alt-color, 0.15);
+    border-radius: 0.2rem;
+    margin-bottom: 1rem;
+    padding: 1.5% 2%;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+
+    .profile-image-small{
+        border-radius: 2em;
+        height: 2em;
+        width: 2em;
+        // border: 1px red solid;
+        overflow: hidden;
+        margin-right: 0.7em;
+        position: relative;
+        flex: 0 0 2em;
+
+        img {
+            width: 2em;
+            position: relative;
+            top: -15%;
+        }
+    }
+
+    form {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        input {
+            width: 90%;
+            // border: 1px red solid;
+            background-color: transparent;
+            border: none;
+
+            &:focus {
+                outline: none !important;
+                border: none !important;
+            }
+        }
+
+        button {
+            flex: 0 0 25%;
+            border: none;
+            background-color: white;
+        }
+    }
+}
