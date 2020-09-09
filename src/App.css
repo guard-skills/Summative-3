@@ -2,9 +2,6 @@
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css");
 .app {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   background-color: #eeeeee;
   min-height: 100vh;
   padding: 0;
@@ -264,6 +261,10 @@
   fill: #5B8C5A;
 }
 
+.nav-bottom-buttons{
+  fill: #5B8C5A;
+}
+
 .filter-bar {
   width: 100%;
   display: -webkit-box;
@@ -322,11 +323,21 @@
   stroke-width: 32px;
 }
 
-.profile-posts {
-  border: thin red solid;
+/* .profile-posts{
+  min-height: 100%;
   position: relative;
   padding-bottom: 3.5em;
 }
+
+.profile-post-item{
+  width: 84%;
+  margin: 1.5em auto 10.5em auto;
+  position: relative;
+}
+
+.profile-post-item .profile-post-img{
+  width: 100%;
+} */
 
 .post-tabs {
   border: none !important;
@@ -351,6 +362,15 @@
   left: -1;
   z-index: 2;
   padding: 0 !important;
+}
+
+.profile-posts {
+  position: relative;
+  margin-top: 11em;
+}
+
+.edit-icon i{
+  margin-left: 10em;
 }
 
 .post-tabs .nav-triangle {
@@ -574,6 +594,131 @@
   position: relative;
   top: -15%;
 }
+
+.profile-image-big{
+  border-radius: 3em;
+  height: 6em;
+  width: 6em;
+  overflow: hidden;
+  margin-right: 0.7em;
+  position: fixed;
+  top: 5em;
+  left: 3em;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 2em;
+          flex: 0 0 2em;
+
+}
+
+.profile-image-big img{
+  width: 6em;
+  height: 8em;
+  position: relative;
+  top: -2%;
+}
+
+.personal-details{
+  position: absolute;
+  top: 6em;
+  left: 10em;
+  border: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.personal-details h1{
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #4E4E4E;
+  margin: 0;
+}
+
+.personal-details h2{
+  font-size: 1em;
+  color: rgb(128, 128, 128);
+  margin: 0;
+}
+
+.edit-personal-details{
+  font-size: 1em;
+  color: rgb(128, 128, 128);
+  margin: 0;
+}
+
+.mypost{
+  position: fixed;
+  top: 13.2em;
+  left: 2em;
+  display: flex;
+  justify-items: space-between;
+  width: 100%;
+}
+
+.mypost .number-of-post{
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.mypost .number-of-post2{
+  font-size: 0.8em;
+  background-color: #5B8C5A;
+  color: white;
+  width: 2.8em;
+  height: 1.45em;
+  border-radius: 0.3em;
+  text-align: center;
+  margin-top: 0.3em;
+}
+
+.search{
+position: absolute;
+top: 11em;
+left: 12em;
+}
+
+input .form-control{
+  outline:none !important;
+}
+
+.form-control{
+  outline: none;
+  border: none;
+}
+
+.form-control:hover{
+  outline: none;
+  border: none;
+}
+
+.search input{
+  background-color: #eeeeee;
+  width: 100%;
+  font-size: 1em;
+}
+
+.form-group-search{
+  margin-left: 1em;
+}
+
+.search-icon{
+  display: flex;
+  color:#808080;
+  margin-top: 1.5em;
+  border-bottom: thin #808080 solid;
+  width: 83%;
+}
+
+.search-icon i{
+  margin: auto;
+}
+
+.search-icon input:focus{
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
 
 .makeComment form {
   font-size: 0.9rem;
