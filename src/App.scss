@@ -16,6 +16,7 @@ $dark-color: #4E4E4E;
 }
 
 .app {
+    display: flex;
     background-color: #eeeeee;
     min-height: 100vh;
     padding: 0;
@@ -318,6 +319,13 @@ $dark-color: #4E4E4E;
     fill: none;
     stroke: $main-color;
     stroke-width: 32px;
+}
+
+.profile-posts {
+    border: thin red solid;
+    // border: 1px red solid;
+    position: relative;
+    padding-bottom: 3.5em;
 }
 
 .post-tabs{
