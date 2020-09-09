@@ -292,8 +292,10 @@ $dark-color: #4E4E4E;
 .post-item {
     width: 84%;
     // border: 1px red solid;
-    margin: 1.5em auto 10.5em auto;
+    margin: 1.5em auto 0 auto;
     position: relative;
+    // border: 1px red solid;
+    min-height: 22.5em;
     
     .post-image {
         width: 100%;
@@ -310,7 +312,13 @@ $dark-color: #4E4E4E;
     min-height: 100%;
     // border: 1px red solid;
     position: relative;
-    padding-bottom: 3.5em;
+    padding-bottom: 4.5em;
+}
+
+.likePost {
+    fill: none;
+    stroke: $main-color;
+    stroke-width: 32px;
 }
 
 .profile-posts {
@@ -468,10 +476,11 @@ $dark-color: #4E4E4E;
     padding-bottom: 0.2em;
     position: relative;
     top: -1.5em;
-    z-index: 999;
+    z-index: 50;
     background: white;
     box-shadow: 1px 2px 5px -1px rgba($color: #000000, $alpha: 0.2);
     border-radius: 0em 0em 0.5em 0.5em;
+    margin-bottom: -1.5em;
 
     .comment {
         display: flex;
@@ -572,5 +581,99 @@ $dark-color: #4E4E4E;
             border: none;
             background-color: white;
         }
+    }
+}
+
+
+.profileImageChange {
+    background-color: rgba($color: #000000, $alpha: 0) !important;
+    // position: relative;
+    // height: 100%;
+
+    .modal-dialog {
+        // border: 1px red solid;
+        width: 55vw;
+        position: absolute;
+        right: 5.5%;
+        top: 4em;
+    }
+
+    .modal-body {
+        position: relative;
+        top: 0;
+        left: 0;
+        padding: 2em 0em;
+        // border: 1px red solid;
+
+        .fa-times-circle {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            color: rgba($alt-color, 0.6);
+        }
+    }
+
+    .uploadPhotoForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: $dark-color;
+
+        .form-group {
+            text-align: center;
+        }
+
+        .photoBrowse {
+            display: none;
+        }
+
+        input {
+            width: 9em;
+            text-align: center;
+        }
+
+        .browseLabel {
+            color: rgba($alt-color, 0.6);
+            display: block;
+            border: 1px rgba($alt-color, 0.6) dashed;
+            width: 9em;
+            padding: 0.2em 0;
+            margin: 0.5em 0 -0.2em 0em;
+        }
+
+        .photoURL{
+            border: none;
+            border-bottom: 1px rgba($alt-color, 0.6) solid;
+            margin: 0.5em 0 0.75em 0;
+            padding-bottom: 0.2em;
+
+            &:focus {
+                // border: none !important;
+                outline: none !important;
+            }
+        }
+    }
+
+    .profileImage {
+        height: 7em;
+        width: 7em;
+        // border: 1px red solid;
+        overflow: hidden;
+        border-radius: 7em;
+        margin-bottom: 1em;
+
+        img {
+            width: 7em;
+        }
+    }
+
+    .submitPhotoChange {
+        margin: -0.5em 0 0 0;
+        padding: 0em 1em;
+        text-transform: uppercase;
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        background-color: $main-color;
+        border: none;
     }
 }
