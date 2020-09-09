@@ -292,8 +292,9 @@
 
 .post-item {
   width: 84%;
-  margin: 1.5em auto 10.5em auto;
+  margin: 1.5em auto 0 auto;
   position: relative;
+  min-height: 22.5em;
 }
 
 .post-item .post-image {
@@ -309,7 +310,13 @@
 .posts {
   min-height: 100%;
   position: relative;
-  padding-bottom: 3.5em;
+  padding-bottom: 4.5em;
+}
+
+.likePost {
+  fill: none;
+  stroke: #5B8C5A;
+  stroke-width: 32px;
 }
 
 .post-tabs {
@@ -468,11 +475,12 @@
   padding-bottom: 0.2em;
   position: relative;
   top: -1.5em;
-  z-index: 999;
+  z-index: 50;
   background: white;
   -webkit-box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.2);
           box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.2);
   border-radius: 0em 0em 0.5em 0.5em;
+  margin-bottom: -1.5em;
 }
 
 .comments .comment {
@@ -586,5 +594,99 @@
           flex: 0 0 25%;
   border: none;
   background-color: white;
+}
+
+.profileImageChange {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.profileImageChange .modal-dialog {
+  width: 55vw;
+  position: absolute;
+  right: 5.5%;
+  top: 4em;
+}
+
+.profileImageChange .modal-body {
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 2em 0em;
+}
+
+.profileImageChange .modal-body .fa-times-circle {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+  color: rgba(112, 112, 112, 0.6);
+}
+
+.profileImageChange .uploadPhotoForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #4E4E4E;
+}
+
+.profileImageChange .uploadPhotoForm .form-group {
+  text-align: center;
+}
+
+.profileImageChange .uploadPhotoForm .photoBrowse {
+  display: none;
+}
+
+.profileImageChange .uploadPhotoForm input {
+  width: 9em;
+  text-align: center;
+}
+
+.profileImageChange .uploadPhotoForm .browseLabel {
+  color: rgba(112, 112, 112, 0.6);
+  display: block;
+  border: 1px rgba(112, 112, 112, 0.6) dashed;
+  width: 9em;
+  padding: 0.2em 0;
+  margin: 0.5em 0 -0.2em 0em;
+}
+
+.profileImageChange .uploadPhotoForm .photoURL {
+  border: none;
+  border-bottom: 1px rgba(112, 112, 112, 0.6) solid;
+  margin: 0.5em 0 0.75em 0;
+  padding-bottom: 0.2em;
+}
+
+.profileImageChange .uploadPhotoForm .photoURL:focus {
+  outline: none !important;
+}
+
+.profileImageChange .profileImage {
+  height: 7em;
+  width: 7em;
+  overflow: hidden;
+  border-radius: 7em;
+  margin-bottom: 1em;
+}
+
+.profileImageChange .profileImage img {
+  width: 7em;
+}
+
+.profileImageChange .submitPhotoChange {
+  margin: -0.5em 0 0 0;
+  padding: 0em 1em;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  background-color: #5B8C5A;
+  border: none;
 }
 /*# sourceMappingURL=App.css.map */
