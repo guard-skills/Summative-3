@@ -219,74 +219,258 @@ class App extends Component {
                       <div className="author-comment comment">
                         <div className="author-profile-photo profile-photo">
                           <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="author-profile" />
-                                    </div>
-                          <div className="author-info comment-content">
-                            <span className="author-name comment-name">David Smith</span>
+                        </div>
+                        <div className="author-info comment-content">
+                          <span className="author-name comment-name">David Smith</span>
                                         This is a bird.
                                     </div>
+                      </div>
+                      <div className="comment">
+                        <div className="profile-photo">
+                          <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
                         </div>
-                        <div className="comment">
-                          <div className="profile-photo">
-                            <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
-                                    </div>
-                            <div className="comment-content">
-                              <span className="comment-name">Mary Jane</span>
+                        <div className="comment-content">
+                          <span className="comment-name">Mary Jane</span>
                                         Yes, I concur with that statement.
                                     </div>
-                          </div>
-                          
-                          <div className="comment">
-                            <div className="profile-photo">
-                              <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
-                                    </div>
-                              <div className="comment-content">
-                                <span className="comment-name">Mary Jane</span>
+                      </div>
+
+                      <div className="comment">
+                        <div className="profile-photo">
+                          <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
+                        </div>
+                        <div className="comment-content">
+                          <span className="comment-name">Mary Jane</span>
                                         That is certainly a bird.
                                     </div>
-                            </div>
-                            
-                            <div className="makeComment">
-                              <div className="profile-image-small">
-                                <img src={profileSmall} alt="profile-small" />
-                              </div>
-                              <form>
-                                <input type="text" placeholder="Type comment..." />
-                                <button type="submit">Submit</button>
-                              </form>
-                            </div>
-                          </div>
+                      </div>
+
+                      <div className="makeComment">
+                        <div className="profile-image-small">
+                          <img src={profileSmall} alt="profile-small" />
+                        </div>
+                        <form>
+                          <input type="text" placeholder="Type comment..." />
+                          <button type="submit">Submit</button>
+                        </form>
+                      </div>
+                    </div>
                   </Tab.Pane>
 
                 </Tab.Content>
               </Tab.Container>
-                    {/* End of Tabbies */}
+              {/* End of Tabbies */}
 
             </div>
           </div>
 
-                <div className="nav-bottom">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path
-                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                </div>
+          <div className="nav-bottom">
 
-                <div className="nav-sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
 
-                </div>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+
+            <div className="nav-bottom-buttons" onClick={
+              () => this.setActiveView('profile-Page')
+            }>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
+            </div>
+
+          </div>
+
+          <div className="nav-sidebar">
+
+          </div>
 
         </View>
 
+
+
+
+
+        <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
+
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" />
+            <div className="heading">My Profile</div>
+            <div className="profile-image-big">
+              <img src={profileSmall} alt="profile-big" />
             </div>
+            <div className="personal-details">
+              <h1>Jane Doe</h1>
+              <h2>Auckland</h2>
+              <div className="edit-personal-details">
+                <i class="fas fa-pen"></i>
+              </div>
+            </div>
+          </div>
+
+          <div className="posts-search">
+            <div className="mypost">
+              <div className="number-of-post">My posts</div>
+              <div className="number-of-post2">2</div>
+            </div>
+
+            <div className="search">
+              <div className="form-group-search">
+                <div className="search-icon"><i class="fas fa-search"></i>
+                  <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
+                </div>
+              </div>
+              <div className="bottom-border"></div>
+            </div>
+          </div>
+
+          <div className="profile-posts">
+            <div className="post-item">
+
+              <div className="post-image">
+                <img src={postImage} alt="" />
+              </div>
+
+              {/* Tabbies */}
+              <Tab.Container id="left-tabs-example" defaultActiveKey="home">
+                <Nav className="nav nav-tabs post-tabs">
+                  <Nav.Item className="nav-item comments-triangle">
+                    <Nav.Link className="nav-link" href="#" eventKey="home">
+                      <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512' className="nav-triangle"><title>ionicons-v5-q</title><path d='M464,464H48a16,16,0,0,1-14.07-23.62l208-384a16,16,0,0,1,28.14,0l208,384A16,16,0,0,1,464,464Z' /></svg>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item className="nav-item">
+                    <Nav.Link className="nav-link comments-tab" href="#" eventKey="comments">Comments</Nav.Link>
+                  </Nav.Item>
+                </Nav>
+                <Tab.Content className="tab-content" id="postTabContent">
+                  <Tab.Pane eventKey="home" className="tab-pane fade show post-info" id="home" >
+                    <div className="container">
+                      <div className="post-top">
+                        <div className="post-title">
+                          Bird
+                      </div>
+                        <div className="edit-icon">
+                          <i class="fas fa-edit"></i>
+                        </div>
+                        <div className="delete-icon">
+                          <i class="fas fa-trash"></i>
+                        </div>
+                      </div>
+                      <div className="post-bottom">
+                        <div className="post-location">
+                          Warkworth, Auckland
+                      </div>
+                        <div className="post-profile">
+                          <div className="post-profile-picture">
+                            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" alt="profile-placeholder" />
+                          </div>
+                          <div className="post-profile-info">
+                            <div className="post-name">
+                              David Smith
+                      </div>
+                            <div className="post-timestamp">
+                              2m ago
+                      </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="comments" className="tab-pane fade comments-tab">
+
+                    <div className="container comments">
+                      <div className="author-comment comment">
+                        <div className="author-profile-photo profile-photo">
+                          <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="author-profile" />
+                        </div>
+                        <div className="author-info comment-content">
+                          <span className="author-name comment-name">David Smith</span>
+                                        This is a bird.
+                                    </div>
+                      </div>
+                      <div className="comment">
+                        <div className="profile-photo">
+                          <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
+                        </div>
+                        <div className="comment-content">
+                          <span className="comment-name">Mary Jane</span>
+                                        Yes, I concur with that statement.
+                                    </div>
+                      </div>
+
+                      <div className="comment">
+                        <div className="profile-photo">
+                          <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
+                        </div>
+                        <div className="comment-content">
+                          <span className="comment-name">Mary Jane</span>
+                                        That is certainly a bird.
+                                    </div>
+                      </div>
+
+                      <div className="makeComment">
+                        <div className="profile-image-small">
+                          <img src={profileSmall} alt="profile-small" />
+                        </div>
+                        <form>
+                          <input type="text" placeholder="Type comment..." />
+                          <button type="submit">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+                  </Tab.Pane>
+
+                </Tab.Content>
+              </Tab.Container>
+              {/* End of Tabbies */}
+
+
+
+
+
+
+            </div>
+          </div>
+
+          <div className="nav-bottom">
+
+            <div className="nav-bottom-buttons" onClick={
+              () => this.setActiveView('dashboard')
+            }>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+
+          </div>
+
+          <div className="nav-sidebar">
+
+          </div>
+
+        </View>
+
+      </div>
     )
   }
 
