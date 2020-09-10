@@ -5,6 +5,7 @@ import navbar from './navbar.png';
 import profileSmall from './profile-image-small.png';
 import View from './View';
 import Post from './Post';
+import MyPost from './MyPost';
 import Modal from 'react-bootstrap/Modal';
 
 class App extends Component {
@@ -241,7 +242,11 @@ class App extends Component {
           <div className="nav-top">
             <img src={navbar} alt="navbar" className="navbar" />
             <div className="heading">My Profile</div>
-            <div className="profile-image-big">
+            
+          </div>
+
+          <div className="profile-info">
+            <div className="profile-image-big" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-big" />
             </div>
             <div className="personal-details">
@@ -262,15 +267,16 @@ class App extends Component {
             <div className="search">
               <div className="form-group-search">
                 <div className="search-icon"><i className="fas fa-search"></i>
-                  <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
                 </div>
+                <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
               </div>
-              <div className="bottom-border"></div>
             </div>
           </div>
 
           <div className="profile-posts">
-            <Post/>
+            <MyPost/>
+            <MyPost/>
+            <MyPost/>
           </div>  
 
           <div className="nav-bottom">
@@ -290,7 +296,33 @@ class App extends Component {
                 d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </div>
+          
+          <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profilePageImageChange">
 
+            <Modal.Body>
+              <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
+              <form className="uploadPhotoForm">
+                <div className="profileImage">
+                  <img src={profileSmall} alt="profileSmall"/>
+                </div>
+                <div>Upload Photo</div>
+                <div className="form-group">
+                  <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+                  <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
+                </div>
+                <div>or</div>
+                <div className="form-group">
+                  <input type="url" className="photoURL" placeholder="URL" />
+                </div>
+                <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
+                  (e) => {
+                    e.preventDefault()
+                  }
+                }>Submit</button>
+              </form>
+            </Modal.Body>
+
+          </Modal>
 
         </View>
 
