@@ -8,7 +8,6 @@ import Post from './Post';
 import Create from './Create';
 import MyPost from './MyPost';
 import Modal from 'react-bootstrap/Modal';
-import Drawer from '@material-ui/core/Drawer';
 
 class App extends Component {
   constructor(props) {
