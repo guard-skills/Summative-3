@@ -170,7 +170,7 @@ class App extends Component {
           <div className="nav-top">
             <img src={navbar} alt="navbar" className="navbar" />
             <div className="heading">Dashboard</div>
-            <div className="profile-image-small" onClick={this.handleProfileImageClick}>
+            <div className="dashboard-image-change" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-small" />
             </div>
           </div>
@@ -257,13 +257,13 @@ class App extends Component {
               () => this.setActiveView('dashboard')}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
               () => this.setActiveView('create-page')}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
               () => this.setActiveView('profile-Page')}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path
