@@ -948,4 +948,91 @@
   background-color: #5B8C5A;
   border: none;
 }
+
+.wrap {
+  background-color: #ececec;
+}
+
+.wrap .add-post {
+  margin: 0% 8% 8% 8%;
+  padding-top: 1%;
+}
+
+.wrap .add-post .add-post-title {
+  font-size: 1em;
+}
+
+.wrap .add-post .photo-upload-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.wrap .add-post .photo-upload-buttons .btn {
+  width: 44%;
+  padding: 0.2em;
+  margin-bottom: 5%;
+  color: #a1a1a1;
+  text-transform: uppercase;
+}
+
+.wrap .add-post .photo-upload-buttons .btn-browse {
+  text-transform: lowercase;
+  border: 0.14em #a1a1a1 solid;
+  border-style: dashed;
+  background-color: #fafafa;
+}
+
+.wrap .add-post .photo-upload-buttons h3 {
+  margin-top: 2%;
+  font-size: 1em;
+}
+
+.wrap .add-post .photo-upload-buttons .btn-url {
+  border: none;
+  border-radius: 0%;
+  border-bottom: #a1a1a1 0.1em solid;
+  background-color: #ececec;
+}
+
+.wrap .add-post img {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.wrap .add-post label {
+  font-weight: 500;
+  margin: 0em;
+}
+
+.wrap .add-post .form-control {
+  border-radius: 0%;
+  color: #a1a1a1;
+  background-color: #fafafa;
+  border: none;
+}
+
+.wrap .add-post .btn-success {
+  width: 25%;
+  background-color: #458b3f;
+  color: white;
+  border: #458b3f 0.14em solid;
+}
+
+.wrap .url-input, .wrap .browse-input {
+  display: none;
+  position: absolute;
+  top: 27%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  border: thin #a1a1a1 solid;
+  background-color: white;
+  width: 90%;
+  padding: 1%;
+  height: 0%;
+}
 /*# sourceMappingURL=App.css.map */
