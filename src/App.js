@@ -7,6 +7,7 @@ import View from './View';
 import Post from './Post';
 import MyPost from './MyPost';
 import Modal from 'react-bootstrap/Modal';
+import Drawer from '@material-ui/core/Drawer';
 
 class App extends Component {
   constructor(props) {
@@ -234,9 +235,9 @@ class App extends Component {
             </Modal.Body>
 
           </Modal>
+
         </View>
 
-        
         <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
 
           <div className="nav-top">

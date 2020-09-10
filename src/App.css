@@ -939,7 +939,8 @@
 }
 
 .posts-search .mypost .number-of-post {
-  font-weight: bold;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.7);
   margin-right: 0.5em;
 }
 
@@ -1052,9 +1053,13 @@
   margin: 0;
 }
 
-.my-post .editProfilePost {
-  color: rgba(0, 0, 0, 0.6);
+.my-post .postIcons {
+  color: #8a8a8a;
   font-size: 1.1em;
+}
+
+.my-post .deleteProfilePost {
+  margin-left: 0.3em;
 }
 
 .my-post .comments-triangle {
