@@ -7,6 +7,7 @@
   padding: 0;
   font-size: 16px;
   font-family: 'Lato';
+  height: 100%;
 }
 
 .landing-background {
@@ -357,7 +358,7 @@
 .nav-bottom {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -507,8 +508,9 @@
 }
 
 .profile-posts {
+  min-height: 100%;
   position: relative;
-  margin-top: 11em;
+  padding-bottom: 4.5em;
 }
 
 .edit-icon i {
@@ -727,138 +729,6 @@
   background-color: white;
 }
 
-.profile-page .profile-image-big {
-  border-radius: 3em;
-  height: 6em;
-  width: 6em;
-  overflow: hidden;
-  margin-right: 0.7em;
-  position: fixed;
-  top: 5em;
-  left: 3em;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 2em;
-  flex: 0 0 2em;
-}
-
-.profile-page .profile-image-big img {
-  width: 6em;
-  height: 8em;
-  position: relative;
-  top: -2%;
-}
-
-.profile-page .personal-details {
-  position: absolute;
-  top: 6em;
-  left: 10em;
-  border: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
-.profile-page .personal-details h1 {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #4E4E4E;
-  margin: 0;
-}
-
-.profile-page .personal-details h2 {
-  font-size: 1em;
-  color: gray;
-  margin: 0;
-}
-
-.profile-page .edit-personal-details {
-  font-size: 1em;
-  color: gray;
-  margin: 0;
-}
-
-.profile-page .mypost {
-  position: fixed;
-  top: 13.2em;
-  left: 2em;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-items: space-between;
-  width: 100%;
-}
-
-.profile-page .mypost .number-of-post {
-  font-weight: bold;
-  margin-right: 0.5em;
-}
-
-.profile-page .mypost .number-of-post2 {
-  font-size: 0.8em;
-  background-color: #5B8C5A;
-  color: white;
-  width: 2.8em;
-  height: 1.45em;
-  border-radius: 0.3em;
-  text-align: center;
-  margin-top: 0.3em;
-}
-
-.profile-page .search {
-  position: absolute;
-  top: 11em;
-  left: 12em;
-}
-
-.profile-page .search input {
-  background-color: #eeeeee;
-  width: 100%;
-  font-size: 1em;
-}
-
-.profile-page input .form-control {
-  outline: none !important;
-}
-
-.profile-page .form-control {
-  outline: none;
-  border: none;
-}
-
-.profile-page .form-control:hover {
-  outline: none;
-  border: none;
-}
-
-.profile-page .form-group-search {
-  margin-left: 1em;
-}
-
-.profile-page .search-icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  color: #808080;
-  margin-top: 1.5em;
-  border-bottom: thin #808080 solid;
-  width: 83%;
-}
-
-.profile-page .search-icon i {
-  margin: auto;
-}
-
-.profile-page .search-icon input:focus {
-  outline: none;
-  border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  background-color: transparent;
-}
-
-.profileImageChange {
-  background-color: rgba(0, 0, 0, 0) !important;
-}
-
 .profileImageChange .modal-dialog {
   width: 55vw;
   position: absolute;
@@ -947,5 +817,247 @@
   letter-spacing: 0.02em;
   background-color: #5B8C5A;
   border: none;
+}
+
+.profilePageImageChange .modal-dialog {
+  width: 55vw;
+  position: absolute;
+  left: 5.5%;
+  top: 11.5em;
+}
+
+.profilePageImageChange .modal-body {
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 2em 0em;
+}
+
+.profilePageImageChange .modal-body .fa-times-circle {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+  color: rgba(112, 112, 112, 0.6);
+}
+
+.profilePageImageChange .uploadPhotoForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #4E4E4E;
+}
+
+.profilePageImageChange .uploadPhotoForm .form-group {
+  text-align: center;
+}
+
+.profilePageImageChange .uploadPhotoForm .photoBrowse {
+  display: none;
+}
+
+.profilePageImageChange .uploadPhotoForm input {
+  width: 9em;
+  text-align: center;
+}
+
+.profilePageImageChange .uploadPhotoForm .browseLabel {
+  color: rgba(112, 112, 112, 0.6);
+  display: block;
+  border: 1px rgba(112, 112, 112, 0.6) dashed;
+  width: 9em;
+  padding: 0.2em 0;
+  margin: 0.5em 0 -0.2em 0em;
+}
+
+.profilePageImageChange .uploadPhotoForm .photoURL {
+  border: none;
+  border-bottom: 1px rgba(112, 112, 112, 0.6) solid;
+  margin: 0.5em 0 0.75em 0;
+  padding-bottom: 0.2em;
+}
+
+.profilePageImageChange .uploadPhotoForm .photoURL:focus {
+  outline: none !important;
+}
+
+.profilePageImageChange .profileImage {
+  height: 7em;
+  width: 7em;
+  overflow: hidden;
+  border-radius: 7em;
+  margin-bottom: 1em;
+}
+
+.profilePageImageChange .profileImage img {
+  width: 7em;
+}
+
+.profilePageImageChange .submitPhotoChange {
+  margin: -0.5em 0 0 0;
+  padding: 0em 1em;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  background-color: #5B8C5A;
+  border: none;
+}
+
+.profile-page {
+  min-height: 100vh;
+  position: relative;
+}
+
+.posts-search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: auto;
+  width: 84%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.posts-search .mypost {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-items: space-between;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 45%;
+          flex: 0 0 45%;
+}
+
+.posts-search .mypost .number-of-post {
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.posts-search .mypost .number-of-post2 {
+  font-size: 0.8em;
+  background-color: #5B8C5A;
+  color: white;
+  width: 2.8em;
+  height: 1.45em;
+  border-radius: 0.3em;
+  text-align: center;
+  margin-top: 0.3em;
+}
+
+.posts-search .search {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 45%;
+          flex: 0 0 45%;
+}
+
+.posts-search .search input {
+  background-color: #eeeeee;
+  width: 100%;
+  font-size: 1em;
+}
+
+.posts-search .form-control {
+  outline: none !important;
+  border: none !important;
+}
+
+.posts-search .form-control:focus-within {
+  outline: none !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.posts-search .form-group-search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px #808080 solid;
+}
+
+.posts-search .search-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: #808080;
+  width: 83%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 10%;
+          flex: 0 0 10%;
+}
+
+.posts-search .search-icon i {
+  margin: auto;
+}
+
+.profile-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 1em;
+}
+
+.profile-info .profile-image-big {
+  border-radius: 3em;
+  height: 6em;
+  width: 6em;
+  overflow: hidden;
+  margin-right: 0.7em;
+  margin-left: 1.8em;
+}
+
+.profile-info .profile-image-big img {
+  width: 6em;
+  height: 8em;
+  position: relative;
+  top: -2%;
+}
+
+.profile-info .personal-details {
+  border: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-left: 1em;
+}
+
+.profile-info .personal-details h1 {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #4E4E4E;
+  margin: 0;
+}
+
+.profile-info .personal-details h2 {
+  font-size: 1em;
+  color: gray;
+  margin: 0;
+}
+
+.profile-info .edit-personal-details {
+  font-size: 1em;
+  color: gray;
+  margin: 0;
+}
+
+.my-post .editProfilePost {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1.1em;
+}
+
+.my-post .comments-triangle {
+  top: 0.05em;
 }
 /*# sourceMappingURL=App.css.map */
