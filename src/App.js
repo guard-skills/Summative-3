@@ -188,7 +188,7 @@ class App extends Component {
           </div>
 
           <div className="nav-sidebar">
-
+                    
           </div>
 
           <div className="nav-bottom">
