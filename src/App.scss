@@ -834,9 +834,10 @@
         justify-items: space-between;
 		// border: 1px red solid;
 		flex: 0 0 45%;
-		
+
         .number-of-post {
-            font-weight: bold;
+			font-weight: 600;
+			color: rgba(0, 0, 0, 0.7);
             margin-right: 0.5em;
         }
         .number-of-post2 {
@@ -934,9 +935,13 @@
 
 .my-post {
 
-	.editProfilePost {
-		color: rgba(0, 0, 0, 0.6);
+	.postIcons {
+		color: lighten($color: #707070, $amount: 10%);
 		font-size: 1.1em;
+	}
+
+	.deleteProfilePost{
+		margin-left: 0.3em;
 	}
 
 	.comments-triangle {

@@ -32,8 +32,11 @@ class MyPost extends Component {
                       <div className="post-top">
                         <div className="post-title">
                           Bird
-                      </div>
-                        <i className="far fa-edit editProfilePost"></i>
+                        </div>
+                        <div className="postIcons">
+                          <i className="far fa-edit editProfilePost"></i>
+                          <i class="far fa-trash-alt deleteProfilePost"></i>
+                        </div>
                       </div>
                       <div className="post-bottom">
                         <div className="post-location">
