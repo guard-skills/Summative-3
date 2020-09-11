@@ -21,6 +21,8 @@ class App extends Component {
 
       isProfileImageModalOpen: false,
 
+      isProfilePageImageModalOpen: false,
+
       isNavbarOpen: false,
     }
   }
@@ -41,6 +43,18 @@ class App extends Component {
   handleProfileImageClick = () => {
     this.openProfileImageModal();
   }
+
+  //Modal
+  openProfilePageImageModal = () => {
+    this.setState({ isProfilePageImageModalOpen: true })
+  }
+  closeProfilePageImageModal = () => {
+    this.setState({ isProfilePageImageModalOpen: false })
+  }
+  
+  handleProfilePageImageClick = () => {
+    this.openProfilePageImageModal();
+  }  
 
   //Navbar
   openNavbar = () => {
@@ -182,6 +196,8 @@ class App extends Component {
           </div>
         </View>
 
+        {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} closeNavbar={this.closeNavbar}/> : null}
+        
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
           <div className="nav-top">
@@ -224,41 +240,13 @@ class App extends Component {
             </svg>
           </div>
 
-          <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profileImageChange">
-
-            <Modal.Body>
-              <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
-              <form className="uploadPhotoForm">
-                <div className="profileImage">
-                  <img src={profileSmall} alt="profileSmall"/>
-                </div>
-                <div>Upload Photo</div>
-                <div className="form-group">
-                  <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                  <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
-                </div>
-                <div>or</div>
-                <div className="form-group">
-                  <input type="url" className="photoURL" placeholder="URL" />
-                </div>
-                <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
-                  (e) => {
-                    e.preventDefault()
-                  }
-                }>Submit</button>
-              </form>
-            </Modal.Body>
-
-          </Modal>
-
-          {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} closeNavbar={this.closeNavbar}/> : null}
 
         </View>
 
         <View viewName="create-page" activeView={this.state.activeView} className="create-page">
 
           <div className="nav-top">
-            <img src={navbar} alt="navbar" className="navbar" />
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick}/>
             <div className="heading">Post</div>
             <div className="profile-image-small" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-small" />
@@ -290,7 +278,7 @@ class App extends Component {
         <View viewName="update-Page" activeView={this.state.activeView} className="update-page">
 
           <div className="nav-top">
-            <img src={navbar} alt="navbar" className="navbar" />
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick}/>
             <div className="heading">Update Post</div>
             <div className="profile-image-small" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-small" />
@@ -323,13 +311,13 @@ class App extends Component {
         <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
 
           <div className="nav-top">
-            <img src={navbar} alt="navbar" className="navbar" />
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick}/>
             <div className="heading">My Profile</div>
             
           </div>
 
           <div className="profile-info">
-            <div className="profile-image-big" onClick={this.handleProfileImageClick}>
+            <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
               <img src={profileSmall} alt="profile-big" />
             </div>
             <div className="personal-details">
@@ -381,7 +369,7 @@ class App extends Component {
             </svg>
           </div>
           
-          <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profilePageImageChange">
+          <Modal show={this.state.isProfilePageImageModalOpen} onHide={() => { this.closeProfilePageImageModal() }} className="profilePageImageChange">
 
             <Modal.Body>
               <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
@@ -409,6 +397,33 @@ class App extends Component {
           </Modal>
 
         </View>
+
+        <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profileImageChange">
+
+          <Modal.Body>
+            <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
+            <form className="uploadPhotoForm">
+              <div className="profileImage">
+                <img src={profileSmall} alt="profileSmall"/>
+              </div>
+              <div>Upload Photo</div>
+              <div className="form-group">
+                <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+                <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
+              </div>
+              <div>or</div>
+              <div className="form-group">
+                <input type="url" className="photoURL" placeholder="URL" />
+              </div>
+              <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
+                (e) => {
+                  e.preventDefault()
+                }
+              }>Submit</button>
+            </form>
+          </Modal.Body>
+
+        </Modal>
 
       </div>
     )

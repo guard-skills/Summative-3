@@ -743,6 +743,31 @@ $dark-color: #4E4E4E;
 
 .wrap{
   background-color: rgb(236, 236, 236);
+  textarea {
+	resize: none;
+	color: $dark-color !important;
+	
+	&:focus {
+		box-shadow: none !important;
+	}
+  }
+
+  input {
+	color: $dark-color !important;
+
+	&:focus {
+		box-shadow: none !important;
+	}
+  }
+
+  select {
+	  color: $dark-color !important;
+
+	  &:focus {
+		box-shadow: none !important;
+	}
+  }
+
   .add-post{
 	margin: 0% 8% 8% 8% ;
 	padding-top: 1%;
@@ -792,10 +817,12 @@ $dark-color: #4E4E4E;
 		border: none;
 	}
 	.btn-success{
-		width: 25%;
-		background-color: rgb(69, 139, 63);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		// width: 25%;
+		background-color: $main-color;
 		color: white;
-		border: rgb(69, 139, 63) 0.14em solid;
+		border: none;
 	}
   }
   .url-input , .browse-input{
@@ -817,7 +844,7 @@ $dark-color: #4E4E4E;
 		width: 55vw;
 		position: absolute;
 		left: 5.5%;
-		top: 11.5em;
+		top: 10.5em;
 	}
 	.modal-body {
 		position: relative;
