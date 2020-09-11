@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-/*import ReactDOM from 'react-dom';*/
-import Butterfly1 from '../assets/Butterfly1.jpg'
+import Butterfly1 from './Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+/*import {navigate} from '@reach/router'
+import API from './API'*/
 
 class Create extends Component {
 
@@ -12,7 +13,6 @@ class Create extends Component {
         title: '',
         description: '',
         city: '',
-        isUrlInputOpen: false,
     };
   }
 
@@ -22,34 +22,13 @@ class Create extends Component {
     this.setState(state);
   }
 
-  openBrowseInput = ()=>{
-    this.setState({
-      isBrowseInputOpen:true
-    })
-  }
-  closeBrowseInput = ()=>{
-    this.setState({
-      isBrowseInputOpen:false
-    })
-  }
   handleBrowseBtnClick = (e)=>{
     this.fileInput.click()
   }
   handleBrowseBlur = (e)=>{
     this.closeBrowseInput()
   }
-
   
-  openUrlInput = ()=>{
-    this.setState({
-      isUrlInputOpen:true
-    })
-  }
-  closeUrlInput = ()=>{
-    this.setState({
-      isUrlInputOpen:false
-    })
-  }
   handleUrlBtnClick = (e)=>{
     this.openUrlInput()
   }
@@ -57,40 +36,41 @@ class Create extends Component {
     this.closeUrlInput()
   }
 
-  onSubmit = (e) => {
-    e.preventDefault();
+  formSubmit = (e) => {
+    e.preventDefault()
 
-    const { title, city, description } = this.state;
+    /*var formData = new FormData(this.form)
 
-    this.ref.add({
-      title,
-      description,
-      city
-    }).then((docRef) => {
-      this.setState({
-        title: '',
-        description: '',
-        city: ''
-      });
-      this.props.history.push("/")
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
+    API.uploadFile(formData)
+      .then(res => res.data)
+
+      .then(fileName => {
+        var {currentUser} = this.props;
+        var data = {
+          tittle:formData.get('tittle-input'),
+          description:formData.get('description-input'),
+          photo: fileName,
+          type_id:formData.get('type-input'),
+          user_id:currentUser.id
+        }
+        API.addProject(data).then(res => navigate('/post'))
+
+      })*/
+  
   }
 
 
   render() {
-    const { title, description, city ,isBrowseInputOpen, isUrlInputOpen} = this.state;
+    const { title, description, city} = this.state;
     return (
 
-      <div className="wrap">
+      <div className="wrap" viewname="create-Page" activeview={this.state.activeView}>
         <div className="add-post">
           <h3 className="add-post-title">Upload Photo</h3>
           <div className="photo-upload-buttons">
             <Button type="button" className="btn btn-browse" onClick={this.handleBrowseBtnClick}>Browse</Button>
             <h3>or</h3>
-            <Button type="button" className="btn btn-url" onClick={this.handleUrlBtnClick}>url</Button>
+            <Button type="button" className="btn btn-url">url</Button>
           </div>
           <img src={Butterfly1} alt="" className="add-post-img"></img>
           <Form onSubmit={this.onSubmit}>
@@ -120,12 +100,12 @@ class Create extends Component {
           </Form>
         </div>
   
-        <div className="browse-popup" show={this.state.isBrowseInputOpen} >
+        <div className="browse-popup">
           <input className="browse-input" id="browse-input" type="file" ref={(el) => {this.fileInput = el}}/>
         </div>
   
 
-        <div className="url-popup" show={this.state.isUrlInputOpen} onBlur={this.handleUrlBlur}>
+        <div className="url-popup">
           <input className="url-input" id="url-input" type="url" placeholder=" https://"></input>
         </div>
         
