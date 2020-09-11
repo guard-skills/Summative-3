@@ -287,11 +287,11 @@ class App extends Component {
           </div>
         </View>
 
-        <View viewName="update-page" activeView={this.state.activeView} className="update-page">
+        <View viewName="update-Page" activeView={this.state.activeView} className="update-page">
 
           <div className="nav-top">
             <img src={navbar} alt="navbar" className="navbar" />
-            <div className="heading">Post</div>
+            <div className="heading">Update Post</div>
             <div className="profile-image-small" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-small" />
             </div>
