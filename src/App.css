@@ -823,6 +823,34 @@
   background-color: #ececec;
 }
 
+.wrap textarea {
+  resize: none;
+  color: #4E4E4E !important;
+}
+
+.wrap textarea:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.wrap input {
+  color: #4E4E4E !important;
+}
+
+.wrap input:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.wrap select {
+  color: #4E4E4E !important;
+}
+
+.wrap select:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
 .wrap .add-post {
   margin: 0% 8% 8% 8%;
   padding-top: 1%;
@@ -886,10 +914,11 @@
 }
 
 .wrap .add-post .btn-success {
-  width: 25%;
-  background-color: #458b3f;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #5B8C5A;
   color: white;
-  border: #458b3f 0.14em solid;
+  border: none;
 }
 
 .wrap .url-input, .wrap .browse-input {
@@ -910,7 +939,7 @@
   width: 55vw;
   position: absolute;
   left: 5.5%;
-  top: 11.5em;
+  top: 10.5em;
 }
 
 .profilePageImageChange .modal-body {
