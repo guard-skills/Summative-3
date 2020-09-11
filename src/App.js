@@ -6,6 +6,7 @@ import profileSmall from './profile-image-small.png';
 import View from './View';
 import Post from './Post';
 import Create from './Create';
+import Update from './Update';
 import Modal from 'react-bootstrap/Modal';
 
 class App extends Component {
@@ -268,6 +269,40 @@ class App extends Component {
             </svg>
           </div>
         </View>
+
+        <View viewName="update-page" activeView={this.state.activeView} className="update-page">
+
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" />
+            <div className="heading">Post</div>
+            <div className="profile-image-small" onClick={this.handleProfileImageClick}>
+              <img src={profileSmall} alt="profile-small" />
+            </div>
+          </div>
+
+          <Update/>      
+
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+
+        </View>
+
 
         <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
 
