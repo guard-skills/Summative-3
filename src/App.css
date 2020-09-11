@@ -1152,4 +1152,75 @@
 .my-post .comments-triangle {
   top: 0.05em;
 }
+
+.nav-sidebar {
+  background-color: #5B8C5A;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50vw;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 2em 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 100vh;
+  z-index: 100;
+}
+
+.nav-sidebar .logo {
+  margin-left: -0.75em;
+}
+
+.nav-sidebar .nav {
+  margin-top: 2em;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 40vh;
+}
+
+.nav-sidebar .nav-link {
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1.1em;
+}
+
+.nav-sidebar i {
+  color: white;
+  font-size: 1.5em;
+}
+
+.nav-sidebar .active {
+  font-weight: 700;
+}
+
+.nav-sidebar .visit {
+  position: absolute;
+  bottom: 3em;
+  color: white;
+  font-weight: 400;
+  text-align: center;
+}
+
+.nav-sidebar .visit .visitLink {
+  color: white;
+  font-weight: 700;
+  font-size: 1em;
+  margin-top: -0.5em;
+  text-transform: none;
+  letter-spacing: 0.05em;
+}
 /*# sourceMappingURL=App.css.map */

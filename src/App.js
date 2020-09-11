@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './logo-large.png';
-import navbar from './navbar.png';
-import profileSmall from './profile-image-small.png';
-import View from './View';
-import Post from './Post';
-import Create from './Create';
-import MyPost from './MyPost';
+import logo from './assets/logo-large.png';
+import navbar from './assets/navbar.png';
+import profileSmall from './assets/profile-image-small.png';
+import View from './components/View';
+import Post from './components/Post';
+import Create from './components/Create';
+import MyPost from './components/MyPost';
 import Modal from 'react-bootstrap/Modal';
+import Navbar from './components/Navbar';
+import {useSpring, animated} from 'react-spring';
 
 class App extends Component {
   constructor(props) {
@@ -17,13 +19,17 @@ class App extends Component {
       activeView: 'landing',
 
       isProfileImageModalOpen: false,
+
+      isNavbarOpen: false,
     }
   }
+
 
   setActiveView = (view) => {
     this.setState({ activeView: view })
   }
 
+  //Modal
   openProfileImageModal = () => {
     this.setState({ isProfileImageModalOpen: true })
   }
@@ -35,9 +41,20 @@ class App extends Component {
     this.openProfileImageModal();
   }
 
+  //Navbar
+  openNavbar = () => {
+    this.setState({ isNavbarOpen: true })
+  }
+  closeNavbar = () => {
+    this.setState({ isNavbarOpen: false })
+  }
+
+  handleNavbarClick = () => {
+    this.openNavbar();
+  }
 
   render() {
-
+    
     return (
       <div className="app">
 
@@ -167,7 +184,7 @@ class App extends Component {
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
           <div className="nav-top">
-            <img src={navbar} alt="navbar" className="navbar" />
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick}/>
             <div className="heading">Dashboard</div>
             <div className="dashboard-image-change" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-small" />
@@ -185,10 +202,6 @@ class App extends Component {
           <div className="posts">
             <Post />
             <Post />
-          </div>
-
-          <div className="nav-sidebar">
-                    
           </div>
 
           <div className="nav-bottom">
@@ -236,6 +249,8 @@ class App extends Component {
             </Modal.Body>
 
           </Modal>
+
+          {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} closeNavbar={this.closeNavbar}/> : null}
 
         </View>
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+// import './App.css';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
-import profileSmall from './profile-image-small.png';
-import postImage from './post-image-1.png';
+import profileSmall from '../assets/profile-image-small.png';
+import postImage from '../assets/post-image-1.png';
 
 class MyPost extends Component {
 
