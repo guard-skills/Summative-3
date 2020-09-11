@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Butterfly1 from './Butterfly1.jpg'
+import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 /*import {navigate} from '@reach/router'
@@ -64,7 +64,7 @@ class Update extends Component {
     const { title, description, city} = this.state;
     return (
 
-      <div className="wrap" viewname="update-Page" activeview={this.state.activeView}>
+      <div className="wrap update-wrap" viewname="update-Page" activeview={this.state.activeView}>
         <div className="add-post">
           <h3 className="add-post-title">Upload Photo</h3>
           <div className="photo-upload-buttons">

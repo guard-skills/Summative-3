@@ -297,7 +297,7 @@ class App extends Component {
             </div>
           </div>
 
-          <Update/>      
+          <Update/>
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -319,7 +319,6 @@ class App extends Component {
           </div>
 
         </View>
-
 
         <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
 
@@ -358,9 +357,9 @@ class App extends Component {
           </div>
 
           <div className="profile-posts">
-            <MyPost/>
-            <MyPost/>
-            <MyPost/>
+            <MyPost setActiveView={this.setActiveView}/>
+            <MyPost setActiveView={this.setActiveView}/>
+            <MyPost setActiveView={this.setActiveView}/>
           </div>  
 
           <div className="nav-bottom">
