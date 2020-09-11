@@ -35,7 +35,7 @@ class MyPost extends Component {
                         </div>
                         <div className="postIcons">
                           <i className="far fa-edit editProfilePost"></i>
-                          <i class="far fa-trash-alt deleteProfilePost"></i>
+                          <i className="far fa-trash-alt deleteProfilePost"></i>
                         </div>
                       </div>
                       <div className="post-bottom">
