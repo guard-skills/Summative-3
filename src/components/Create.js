@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 /*import ReactDOM from 'react-dom';*/
-
-import Butterfly1 from './Butterfly1.jpg'
+import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -85,7 +84,7 @@ class Create extends Component {
     const { title, description, city ,isBrowseInputOpen, isUrlInputOpen} = this.state;
     return (
 
-      <div className="wrap" viewName="create-Page" activeView={this.state.activeView}>
+      <div className="wrap">
         <div className="add-post">
           <h3 className="add-post-title">Upload Photo</h3>
           <div className="photo-upload-buttons">
