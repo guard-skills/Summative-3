@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-/*import ReactDOM from 'react-dom';*/
-import firebase from '../Firebase';
-import { Link } from 'react-router-dom';
-import Butterfly1 from '../Butterfly1.jpg'
+import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -10,7 +7,6 @@ class Update extends Component {
 
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('posts');
     this.state = {
       title: '',
       description: '',
@@ -90,7 +86,7 @@ class Update extends Component {
     const { title, description, city ,isBrowseInputOpen, isUrlInputOpen} = this.state;
     return (
 
-      <div className="wrap" viewName="create-Page" activeView={this.state.activeView}>
+      <div className="wrap" viewName="update-Page" activeView={this.state.activeView}>
         <div className="update-post">
           <h3 className="update-post-title">Upload Photo</h3>
           <div className="photo-upload-buttons">
@@ -122,7 +118,6 @@ class Update extends Component {
                   <Form.Label>Description</Form.Label>
                   <Form.Control as="textarea" id="description-input" defaultValue={description} onChange={this.onChange} rows="2"></Form.Control>
               </Form.Group>
-              <Button type="button" className="btn btn-home"><Link to="/" className="link-btn">Home</Link></Button>
               <Button type="submit" className="btn btn-success">Submit</Button>
           </Form>
         </div>
