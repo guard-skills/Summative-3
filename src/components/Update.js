@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Butterfly1 from './Butterfly1.jpg'
+import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
