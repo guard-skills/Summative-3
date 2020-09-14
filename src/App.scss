@@ -777,12 +777,19 @@ $dark-color: #4E4E4E;
 	.photo-upload-buttons{
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 5%;
+
 		.btn{
-			width: 44%;
+			flex: 0 0 40%;
 			padding: 0.2em;
-			margin-bottom: 5%;
+			margin-right: 2%;
 			color: rgb(161, 161, 161);
 			text-transform: uppercase;
+
+			&:focus {
+				box-shadow: none !important;
+			}
 		}
 		.btn-browse{
 			text-transform: lowercase;
@@ -793,12 +800,20 @@ $dark-color: #4E4E4E;
 		h3{
 			margin-top: 2%;
 			font-size: 1em;
-		  }
-		.btn-url{
+		}
+		.urlInput {
+			text-align: center;
+			height: 2.2em;
+			width: 45%;
 			border: none;
-			border-radius: 0%;
-			border-bottom: rgb(161, 161, 161) 0.1em solid;
-			background-color: rgb(236, 236, 236);
+			background-color: transparent;
+			border-bottom: 1px rgba(112, 112, 112, 0.4) solid;
+
+			&:focus {
+				// border: none;
+				outline: none;
+				box-shadow: none;
+			}
 		}
 	}
 	img{

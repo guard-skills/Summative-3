@@ -66,17 +66,17 @@ class Create extends Component {
 
       <div className="wrap" viewname="create-Page" activeview={this.state.activeView}>
         <div className="add-post">
+          <Form onSubmit={this.onSubmit}>
           <h3 className="add-post-title">Upload Photo</h3>
           <div className="photo-upload-buttons">
             <Button type="button" className="btn btn-browse" onClick={this.handleBrowseBtnClick}>Browse</Button>
             <h3>or</h3>
-            <Button type="button" className="btn btn-url">url</Button>
+            <input type="url" className="urlInput" placeholder="URL"></input>
           </div>
-          <img src={Butterfly1} alt="" className="add-post-img"></img>
-          <Form onSubmit={this.onSubmit}>
+          <img src={Butterfly1} alt="#" className="add-post-img"></img>
               <Form.Group>
                   <Form.Label>Title</Form.Label>
-                  <Form.Control id="tittle-input" type="title" defaultValue={title} onChange={this.onChange}></Form.Control>
+                  <Form.Control id="title-input" type="title" defaultValue={title} onChange={this.onChange}></Form.Control>
               </Form.Group>
               <Form.Group>
                   <Form.Label>City</Form.Label>
