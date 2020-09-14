@@ -3,13 +3,15 @@ import './App.css';
 import logo from './assets/logo-large.png';
 import navbar from './assets/navbar.png';
 import profileSmall from './assets/profile-image-small.png';
+import Modal from 'react-bootstrap/Modal';
+//components
+import Navbar from './components/Navbar';
 import View from './components/View';
 import Post from './components/Post';
 import Create from './components/Create';
 import MyPost from './components/MyPost';
 import Update from './components/Update';
-import Modal from 'react-bootstrap/Modal';
-import Navbar from './components/Navbar';
+import LoginRegister from './components/Login-Register';
 
 class App extends Component {
   constructor(props) {
@@ -74,78 +76,8 @@ class App extends Component {
 
         <View viewName="landing" activeView={this.state.activeView} className="landing landing-page">
 
-          <div className="landing-background">
-          </div>
+          <LoginRegister {...this.state.activeView} setActiveView={this.setActiveView}/>
 
-          <div className="container landing-start" onClick={
-            () => this.setActiveView('landing-Register')
-          }>
-            <div className="logo">
-              <img src={logo} className="mw-100" alt="logo" />
-            </div>
-
-            <div className="tapToStart">
-              Tap anywhere to begin
-                </div>
-          </div>
-
-        </View>
-
-        <View viewName="landing-Register" activeView={this.state.activeView} className="landing landing-register">
-          <div className="landing-background">
-          </div>
-
-          <div className="container signup">
-
-            <div className="logo">
-              <img src={logo} className="mw-100" alt="logo" />
-            </div>
-
-            <div className="signupBox">
-              <h3>Sign Up</h3>
-
-              <form className="register-form">
-                <div className="form-group">
-                  <input type="text" className="form-control" name="username-input" id="username-input" placeholder="Username" />
-                </div>
-                <div className="form-group">
-                  <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" />
-                </div>
-                <div className="form-group">
-                  <input type="password" className="form-control" name="password-input" id="password-input" placeholder="Password" />
-                </div>
-                <div className="form-group">
-                  <select className="form-control custom-select" name="region-input" id="region-input">
-                    <option defaultValue="Auckland">Auckland</option>
-                    <option value="Northland">Northland</option>
-                    <option value="Waikato">Waikato</option>
-                    <option value="Wellington">Wellington</option>
-                  </select>
-                </div>
-                <div className="subtext">
-                  Already have an account? <span onClick={
-                    () => this.setActiveView('landing-Login')
-                  }>Login.</span>
-                </div>
-
-                <div className="buttons">
-                  <button type="button" className="btn btn-light btn-back">
-                    <i className="fas fa-arrow-left" onClick={
-                      () => this.setActiveView('landing')
-                    }></i>
-                  </button>
-                  <button type="submit" className="btn btn-primary btn-next" onClick={(e) => {
-                    e.preventDefault()
-
-                    this.setActiveView('dashboard')
-                  }}>
-                    Next
-                  </button>
-                </div>
-              </form>
-
-            </div>
-          </div>
         </View>
 
         <View viewName="landing-Login" activeView={this.state.activeView} className="landing landing-login">
