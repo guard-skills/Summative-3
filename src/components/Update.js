@@ -66,14 +66,15 @@ class Update extends Component {
 
       <div className="wrap update-wrap" viewname="update-Page" activeview={this.state.activeView}>
         <div className="add-post">
-          <h3 className="add-post-title">Upload Photo</h3>
-          <div className="photo-upload-buttons">
-            <Button type="button" className="btn btn-browse" onClick={this.handleBrowseBtnClick}>Browse</Button>
-            <h3>or</h3>
-            <Button type="button" className="btn btn-url">url</Button>
-          </div>
-          <img src={Butterfly1} alt="" className="add-post-img"></img>
           <Form onSubmit={this.onSubmit}>
+              <h3 className="add-post-title">Upload Photo</h3>
+              <div className="photo-upload-buttons">
+                <Button type="button" className="btn btn-browse" onClick={this.handleBrowseBtnClick}>Browse</Button>
+                <h3>or</h3>
+                <input type="url" className="urlInput" placeholder="URL"></input>
+
+              </div>
+              <img src={Butterfly1} alt="" className="add-post-img"></img>
               <Form.Group>
                   <Form.Label>Title</Form.Label>
                   <Form.Control id="tittle-input" type="title" defaultValue={title} onChange={this.onChange}></Form.Control>

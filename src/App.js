@@ -246,7 +246,7 @@ class App extends Component {
 
           <div className="nav-top">
             <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick}/>
-            <div className="heading">Post</div>
+            <div className="heading">Create Post</div>
             <div className="profile-image-small" onClick={this.handleProfileImageClick}>
               <img src={profileSmall} alt="profile-small" />
             </div>
