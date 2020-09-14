@@ -10,7 +10,6 @@ import MyPost from './components/MyPost';
 import Update from './components/Update';
 import Modal from 'react-bootstrap/Modal';
 import Navbar from './components/Navbar';
-import {useSpring, animated} from 'react-spring';
 
 class App extends Component {
   constructor(props) {
@@ -196,7 +195,7 @@ class App extends Component {
           </div>
         </View>
 
-        {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} closeNavbar={this.closeNavbar}/> : null}
+        {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView}/> : null}
         
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
@@ -372,7 +371,7 @@ class App extends Component {
           <Modal show={this.state.isProfilePageImageModalOpen} onHide={() => { this.closeProfilePageImageModal() }} className="profilePageImageChange">
 
             <Modal.Body>
-              <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
+              <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
               <form className="uploadPhotoForm">
                 <div className="profileImage">
                   <img src={profileSmall} alt="profileSmall"/>

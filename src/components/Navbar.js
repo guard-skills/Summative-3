@@ -9,6 +9,23 @@ class Navbar extends Component {
         closeNavbar()
     }
 
+    handleHomeClick = () => {
+        var {setActiveView}= this.props
+
+        setActiveView('dashboard')
+    }
+
+    handleProfileClick = () => {
+        var {setActiveView}= this.props
+
+        setActiveView('profile-Page')
+    }
+
+    handleAddPostClick = () => {
+        var {setActiveView}= this.props
+
+        setActiveView('create-page')
+    }
 
     render (){
 
@@ -23,13 +40,13 @@ class Navbar extends Component {
                         </div>
                         <Nav className="nav flex-column">
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link active">Home</Nav.Link>
+                                <Nav.Link className="nav-link" onClick={()=>{this.handleHomeClick()}}>Home</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link">Profile</Nav.Link>
+                                <Nav.Link className="nav-link" onClick={()=>{this.handleProfileClick()}}>Profile</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link">Add Post</Nav.Link>
+                                <Nav.Link className="nav-link" onClick={()=>{this.handleAddPostClick()}}>Add Post</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
                                 <Nav.Link href="https://zip.org.nz/contact" className="nav-link" target="_blank" rel="noopener noreferrer">Contact</Nav.Link>
