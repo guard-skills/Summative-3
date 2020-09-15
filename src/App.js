@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './assets/logo-large.png';
+// import logo from './assets/logo-large.png';
 import navbar from './assets/navbar.png';
 import profileSmall from './assets/profile-image-small.png';
 import Modal from 'react-bootstrap/Modal';
@@ -80,54 +80,7 @@ class App extends Component {
 
         </View>
 
-        <View viewName="landing-Login" activeView={this.state.activeView} className="landing landing-login">
-          <div className="landing-background">
-          </div>
-
-          <div className="container signin">
-
-            <div className="logo">
-              <img src={logo} className="mw-100" alt="logo" />
-            </div>
-
-            <div className="signinBox">
-              <h3>Login</h3>
-
-              <form className="login-form">
-                <div className="form-group">
-                  <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" />
-                </div>
-                <div className="form-group">
-                  <input type="password" className="form-control" name="password-input" id="password-input" placeholder="Password" />
-                </div>
-                <div className="subtext">
-                  Don't have an account? <span onClick={
-                    () => this.setActiveView('landing-Register')
-                  }>Sign Up.</span>
-                </div>
-
-                <div className="buttons">
-                  <button type="button" className="btn btn-light btn-back">
-                    <i className="fas fa-arrow-left" onClick={
-                      () => this.setActiveView('landing')
-                    }></i>
-                  </button>
-                  <button type="submit" className="btn btn-primary btn-next"
-                    onClick={(e) => {
-                      e.preventDefault()
-
-                      this.setActiveView('dashboard')
-                    }}>
-                    Next
-                            </button>
-                </div>
-              </form>
-
-            </div>
-          </div>
-        </View>
-
-        {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView}/> : null}
+        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView}/>
         
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 

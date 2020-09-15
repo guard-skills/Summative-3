@@ -4,6 +4,13 @@ import logoWhite from '../assets/Logo-small-white.png';
 import {Spring} from 'react-spring/renderprops'
 
 class Navbar extends Component {
+
+    // constructor(props){
+    //     super(props)
+    //     // this.state = {
+    //     //     isActive:props.isActive
+    //     // }
+    // }
     handleCloseNavbar = () => {
         var {closeNavbar} = this.props
         closeNavbar()
@@ -26,13 +33,19 @@ class Navbar extends Component {
 
         setActiveView('create-page')
     }
+    componentWillUnmount(){
+    
+        this.setState({isActive:false})
+        console.log(this.state.isActive)
+    }
 
     render (){
 
+        var {isActive} = this.props
         return (
             <Spring
                 from={{ x: -50 }}
-                to={{ x: 0 }}>
+                to={{ x: isActive ? 0 : -50 }}>
                 {props => (
                     <div style={{left:props.x+'vw'}} className="nav-sidebar">
                         <div className="logo">

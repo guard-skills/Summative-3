@@ -193,7 +193,7 @@ $dark-color: #4E4E4E;
 }
 .signinBox {
 	position: absolute;
-	left: -5.5%;
+	left: 100%;
 	bottom: -7.5%;
 	height: 60%;
 	width: 100vw;
@@ -201,6 +201,7 @@ $dark-color: #4E4E4E;
 	background-color: rgba(255, 255, 255, 0.7);
 	padding: 2em 2em 1em 2em;
 	height: 45%;
+	z-index: 20;
 	h3 {
 		color: #5B8C5A;
 		font-weight: 400;
