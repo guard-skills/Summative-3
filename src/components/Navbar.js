@@ -5,12 +5,21 @@ import {Spring} from 'react-spring/renderprops'
 
 class Navbar extends Component {
 
-    // constructor(props){
-    //     super(props)
-    //     // this.state = {
-    //     //     isActive:props.isActive
-    //     // }
-    // }
+    constructor(props){
+        super(props)
+        this.state = {
+            isActive:props.isActive
+        }
+    }
+
+    handleLogoutClick = () => {
+        var {setActiveView, closeNavbar} = this.props
+
+        setActiveView('landing')
+
+        closeNavbar()
+    }
+
     handleCloseNavbar = () => {
         var {closeNavbar} = this.props
         closeNavbar()
@@ -33,15 +42,17 @@ class Navbar extends Component {
 
         setActiveView('create-page')
     }
+    
     componentWillUnmount(){
     
         this.setState({isActive:false})
-        console.log(this.state.isActive)
+        // console.log(this.state.isActive)
     }
 
     render (){
 
         var {isActive} = this.props
+
         return (
             <Spring
                 from={{ x: -50 }}
@@ -51,21 +62,21 @@ class Navbar extends Component {
                         <div className="logo">
                             <img src={logoWhite} alt="logo-small" />
                         </div>
-                        <Nav className="nav flex-column">
+                        <Nav className="nav flex-column" activeKey={this.state.active} defaultActiveKey="1">
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link" onClick={()=>{this.handleHomeClick()}}>Home</Nav.Link>
+                                <Nav.Link eventKey="1" className="nav-link" onClick={()=>{this.handleHomeClick()}}>Home</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link" onClick={()=>{this.handleProfileClick()}}>Profile</Nav.Link>
+                                <Nav.Link eventKey="2" className="nav-link" onClick={()=>{this.handleProfileClick()}}>Profile</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link" onClick={()=>{this.handleAddPostClick()}}>Add Post</Nav.Link>
+                                <Nav.Link eventKey="3" className="nav-link" onClick={()=>{this.handleAddPostClick()}}>Add Post</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
                                 <Nav.Link href="https://zip.org.nz/contact" className="nav-link" target="_blank" rel="noopener noreferrer">Contact</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link">Logout</Nav.Link>
+                                <Nav.Link onClick={this.handleLogoutClick} className="nav-link">Logout</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
                                 <i className="far fa-times-circle" onClick={this.handleCloseNavbar}></i>

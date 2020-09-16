@@ -12,8 +12,6 @@ import Create from './components/Create';
 import MyPost from './components/MyPost';
 import Update from './components/Update';
 import LoginRegister from './components/Login-Register';
-import Modal from 'react-bootstrap/Modal';
-import Navbar from './components/Navbar';
 import {Spring} from 'react-spring/renderprops';
 import { Button,Form } from 'react-bootstrap';
 
@@ -28,7 +26,7 @@ class App extends Component {
       post: [
         {
           id: 1,
-          image: "https://images.pexels.com/photos/2662434/pexels-photo-2662434.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+          image: "https://images.pexels.com/photos/1774927/pexels-photo-1774927.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
           photo: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
           title: "Bird",
           location: "Auckland",
@@ -127,8 +125,11 @@ class App extends Component {
   openFilter = () => {
     this.setState({ isFilterOpen: true })
   }
-  closeFilter = () => {
+
+  closeFilter = (e) => {
     this.setState({ isFilterOpen: false })
+
+    e.preventDefault()
   }
 
   handleFilterClick = () => {
@@ -136,6 +137,7 @@ class App extends Component {
   }
 
   render() {
+    const filterToggle = this.state.isFilterOpen
 
     return (
       <div className="app">
@@ -164,41 +166,42 @@ class App extends Component {
               <i className="fas fa-chevron-down"></i>
                     Filter
                 </div>
-          </div>
-          {this.state.isFilterOpen ? 
-            <Spring 
-            from={{ y: -100 }} 
-            to={{ y: 0 }}> 
-              {props => (
-                <div className="filter-select"> 
-                  <Form style={{ top: props.y + '%' }}> 
-                    <i className="far fa-times-circle" onClick={this.closeFilter}></i> 
-                    <Form.Check id="Auckland" label="Auckland" /> 
-                    <Form.Check id="Wellington" label="Wellington" /> 
-                    <Form.Check id="Christchurch" label="Christchurch" /> 
-                    <Form.Check id="Dunedin" label="Dunedin" /> 
-                    <Form.Check id="Waikato" label="Waikato" /> 
-                    <div className="form-buttons"> 
-                      <Button type="submit" className="submit" onClick={(e) => { e.preventDefault() }, this.closeFilter}>
-                        Submit
-                      </Button> 
-                      <Button type="reset">
-                        Reset
-                      </Button> 
-                    </div> 
-                  </Form> 
+          </div> 
+
+          <Spring 
+          from={{ y: -55 }} 
+          to={{ y: filterToggle ? 0 : -55 }}> 
+            {props => (
+              <div className="filter-select"> 
+                <Form style={{ top: props.y + '%' }}> 
+                  <i className="far fa-times-circle" onClick={this.closeFilter}></i> 
+                  <Form.Check id="Auckland" label="Auckland" /> 
+                  <Form.Check id="Wellington" label="Wellington" /> 
+                  <Form.Check id="Christchurch" label="Christchurch" /> 
+                  <Form.Check id="Dunedin" label="Dunedin" /> 
+                  <Form.Check id="Waikato" label="Waikato" /> 
+                  <div className="form-buttons"> 
+                    <Button type="submit" className="submit" onClick={this.closeFilter}>
+                      Submit
+                    </Button> 
+                    <Button type="reset">
+                      Reset
+                    </Button> 
+                  </div> 
+                </Form> 
               </div>
-              )}
-            </Spring> : null}
+            )}
+          </Spring>
 
           <div className="posts">
             {
-              this.state.post.map((post) => {
-                var postProps = {
-                  ...post
+              this.state.post.map((item) => {
+                var itemProps = {
+                  key: item.id,
+                  ...item
                 }
 
-                return (<Post {...postProps}/>)
+                return (<Post {...itemProps}/>)
               })
             }
 
