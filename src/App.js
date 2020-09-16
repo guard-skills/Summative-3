@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-// import logo from './assets/logo-large.png';
 import navbar from './assets/navbar.png';
 import profileSmall from './assets/profile-image-small.png';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 //components
 import Navbar from './components/Navbar';
 import View from './components/View';
@@ -13,11 +13,25 @@ import MyPost from './components/MyPost';
 import Update from './components/Update';
 import LoginRegister from './components/Login-Register';
 
+var url = 'http://localhost:4000/api'
+
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      post: [
+        {
+          id: 1,
+          image: "https://images.pexels.com/photos/2662434/pexels-photo-2662434.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+          photo: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+          title: "Bird",
+          location: "Auckland",
+          name: "David Smith",
+          time: "2m ago",
+        }
+      ],
+
       activeView: 'landing',
 
       isProfileImageModalOpen: false,
@@ -69,6 +83,39 @@ class App extends Component {
     this.openNavbar();
   }
 
+  //CRUD
+  getPosts = () => {
+    axios.get(url + '/posts')
+    .then(res => {
+      this.setState({news:res.data})
+    })
+  }
+
+  addPost = (data) => {
+    axios.get(url + '/posts', data)
+    .then(res => {
+      this.getPosts()
+    })
+  }
+
+  updatePost = (id,data) => {
+    axios.put(url + '/posts/' + id, data)
+    .then(res => {
+      this.getPosts()
+    })
+  }
+
+  deletePost = (id) => {
+    axios.delete(url + '/posts/' + id)
+    .then(rest=>{
+      this.getPosts()
+    })
+  }
+  
+  componentDidMount = () => {
+    // this.getPosts()
+  }
+
   render() {
     
     return (
@@ -101,8 +148,16 @@ class App extends Component {
           </div>
 
           <div className="posts">
-            <Post />
-            <Post />
+            {
+              this.state.post.map((post) => {
+                var postProps = {
+                  ...post
+                }
+
+                return (<Post {...postProps}/>)
+              })
+            }
+
           </div>
 
           <div className="nav-bottom">
