@@ -7,6 +7,62 @@ $main-color: #5B8C5A;
 $alt-color: #707070;
 $dark-color: #4E4E4E;
 
+.filter-select {
+    //border: 1px red solid;
+    width: 50vw;
+    position: absolute;
+    z-index: 20;
+    right: 1.8em;
+    height: 50%;
+    overflow: hidden;
+
+    form {
+        border-radius: 0.5em 0em 0em 0.5em;
+        padding: 1.5em;
+        background-color: white;
+        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+        color: $dark-color;
+        position: absolute;
+        right: 0;
+        top: -100%;
+    }
+
+    i {
+        position: absolute;
+        color: rgba(112, 112, 112, 0.6);
+        top: 0.5em;
+        right: 0.5em;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5em;
+
+        button {
+            background-color: transparent;
+            color: $alt-color;
+            border: none;
+            padding: 0.2em 0.5em;
+
+            &:focus {
+                outline: none;
+                box-shadow: none !important;
+                background-color: transparent !important;
+            }
+        }
+
+        .submit {
+            background-color: $main-color;
+            color: white;
+
+            &:focus {
+                background-color: lighten($main-color, 10%) !important;
+            }
+        }
+    }
+}
+
 .app {
 	background-color: #eeeeee;
 	min-height: 100vh;
