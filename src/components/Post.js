@@ -10,16 +10,14 @@ class Post extends Component {
     super(props)
     
     this.state = {
-      isLiked: false,
+      // isLiked: this.props.isLiked
+      isLiked:false
     }
   }
 
-  postLiked = () => {
-    this.setState({ isLiked: true })
-  }
-
-  postUnliked = () => {
-    this.setState({ isLiked: false })
+  handleLikeClick = () => {
+    this.setState({ isLiked:!this.state.isLiked })
+    // console.log(this.state)
   }
 
   render (){
@@ -50,10 +48,40 @@ class Post extends Component {
                     <div className="post-title">
                       {this.props.title}
                     </div>
-                    <div className="likeIcon">
 
-                          <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512' className="likePost" ><title>ionicons-v5-f</title><path d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z' /></svg>
+                    {/* <div className={ likeToggle ? 'likePost liked' : 'likePost'} onClick={this.handleLikeClick}>
+                      <svg viewBox="-5 -5 110 110">
+                        <defs>
+                          <clipPath id="svgPath">
+                            <path d='M70.617,6.296c-10.321,0-16.836,5.023-20.617,9.565c-3.781-4.542-10.295-9.565-20.62-9.565   C11.805,6.296,0,22.577,0,37.782c0,22.135,42.518,51.801,47.366,55.11c0.794,0.541,1.714,0.812,2.634,0.812s1.84-0.271,2.634-0.812   C57.482,89.583,100,59.917,100,37.782C100,22.577,88.193,6.296,70.617,6.296z' />
+                          </clipPath>
+                        </defs>
+                        <g>
+                          <path fill="none" stroke="#5B8C5A" strokeWidth="10px" d='M70.617,6.296c-10.321,0-16.836,5.023-20.617,9.565c-3.781-4.542-10.295-9.565-20.62-9.565   C11.805,6.296,0,22.577,0,37.782c0,22.135,42.518,51.801,47.366,55.11c0.794,0.541,1.714,0.812,2.634,0.812s1.84-0.271,2.634-0.812   C57.482,89.583,100,59.917,100,37.782C100,22.577,88.193,6.296,70.617,6.296z' />
+                        </g>
+                      </svg>
+                      <div className="likeFill"></div>
+                    </div> */}
+                    
+                    <div className="postLikeButton">
+                      <svg viewBox="-5 -5 110 110" className='likePost'>
+                        <g>
+                          <path d='M70.617,6.296c-10.321,0-16.836,5.023-20.617,9.565c-3.781-4.542-10.295-9.565-20.62-9.565   C11.805,6.296,0,22.577,0,37.782c0,22.135,42.518,51.801,47.366,55.11c0.794,0.541,1.714,0.812,2.634,0.812s1.84-0.271,2.634-0.812   C57.482,89.583,100,59.917,100,37.782C100,22.577,88.193,6.296,70.617,6.296z' />
+                        </g>
+                      </svg>
+                      <Spring
+                        from={{ opacity: 0 }}
+                        to={{ opacity: likeToggle ? 1 : 0 }}>
+                          {props => 
+                            <svg style={props} viewBox="-5 -5 110 110" className='likePost liked' onClick={this.handleLikeClick}>
+                            <g>
+                              <path d='M70.617,6.296c-10.321,0-16.836,5.023-20.617,9.565c-3.781-4.542-10.295-9.565-20.62-9.565   C11.805,6.296,0,22.577,0,37.782c0,22.135,42.518,51.801,47.366,55.11c0.794,0.541,1.714,0.812,2.634,0.812s1.84-0.271,2.634-0.812   C57.482,89.583,100,59.917,100,37.782C100,22.577,88.193,6.296,70.617,6.296z' />
+                            </g>
+                            </svg>
+                          }
+                      </Spring>
                     </div>
+
                   </div>
                   <div className="post-bottom">
                     <div className="post-location">

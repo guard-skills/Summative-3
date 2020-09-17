@@ -501,9 +501,20 @@
   padding-bottom: 4.5em;
 }
 
+.postLikeButton {
+  position: relative;
+}
+
 .likePost {
+  fill: none;
   stroke: #5B8C5A;
-  stroke-width: 32px;
+  stroke-width: 7px;
+}
+
+.likePost.liked {
+  fill: #5B8C5A;
+  position: absolute;
+  left: 0;
 }
 
 .post-tabs {

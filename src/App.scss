@@ -469,10 +469,48 @@ $dark-color: #4E4E4E;
 	padding-bottom: 4.5em;
 }
 
+// .likePost {
+// 	// clip-path: url('#svgPath');
+// 	height: 1.9em !important;
+// 	width: 1.9em !important;
+// 	position: relative;
+// 	border: 1px red solid;
+
+// 	.likeFill {
+// 		position: absolute;
+// 		width: 0;
+// 		height: 0;
+// 		background-color: $main-color;
+// 		border-radius: 2em;
+// 		left: 0;
+// 		bottom: 0;
+// 		transition: all ease 0.3s;
+// 	}
+
+// 	&.liked {
+// 		border: 1px blue solid; 
+
+// 		.likeFill{
+// 			height: 2em;
+// 			width: 2em;
+// 		}
+// 	}
+// }
+
+.postLikeButton{
+	position: relative;
+}
+
 .likePost {
-	// fill: none;
-	stroke: #5B8C5A;
-	stroke-width: 32px;
+	fill: none;
+	stroke: $main-color;
+	stroke-width: 7px;
+
+	&.liked {
+		fill: $main-color;
+		position: absolute;
+		left: 0;
+	}
 }
 
 .post-tabs {
