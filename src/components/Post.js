@@ -70,8 +70,10 @@ class Post extends Component {
                         </g>
                       </svg>
                       <Spring
+                        config={{ tension: 500, precision: 0.1 }}
                         from={{ opacity: 0 }}
-                        to={{ opacity: likeToggle ? 1 : 0 }}>
+                        to={{ opacity: likeToggle ? 1 : 0 }}
+                        >
                           {props => 
                             <svg style={props} viewBox="-5 -5 110 110" className='likePost liked' onClick={this.handleLikeClick}>
                             <g>
