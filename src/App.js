@@ -23,17 +23,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      post: [
-        {
-          id: 1,
-          image: "https://images.pexels.com/photos/1774927/pexels-photo-1774927.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-          photo: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-          title: "Bird",
-          location: "Auckland",
-          name: "David Smith",
-          time: "2m ago",
-        }
-      ],
+      post: [],
 
       activeView: 'landing',
 
@@ -88,16 +78,16 @@ class App extends Component {
     this.openNavbar();
   }
 
-  //CRUD
+  //CRUD for posts
   getPosts = () => {
     axios.get(url + '/posts')
     .then(res => {
-      this.setState({news:res.data})
+      this.setState({post:res.data})
     })
   }
 
   addPost = (data) => {
-    axios.get(url + '/posts', data)
+    axios.post(url + '/posts', data)
     .then(res => {
       this.getPosts()
     })
@@ -116,9 +106,11 @@ class App extends Component {
       this.getPosts()
     })
   }
+
   
   componentDidMount = () => {
-    // this.getPosts()
+    this.getPosts()
+    // this.getProjects()
   }
   
   //Filter
@@ -134,6 +126,14 @@ class App extends Component {
 
   handleFilterClick = () => {
     this.openFilter();
+  }
+
+  //file upload
+  uploadFile = (formData) => {
+
+    var settings = { headers: {'Content-Type': 'multipart/form-data' }}
+    return axios.post(url+'/upload',formData,settings)
+
   }
 
   render() {
@@ -195,7 +195,7 @@ class App extends Component {
 
           <div className="posts">
             {
-              this.state.post.map((item) => {
+              this.state.post.reverse().map((item) => {
                 var itemProps = {
                   key: item.id,
                   ...item
@@ -239,7 +239,7 @@ class App extends Component {
                 </div>
               </div>
 
-              <Create />
+              <Create uploadFile={this.uploadFile} addPost={this.addPost} setActiveView={this.setActiveView}/>
 
               <div className="nav-bottom">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -395,7 +395,7 @@ class App extends Component {
                   <div>Upload Photo</div>
                   <div className="form-group">
                     <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                    <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
+                    <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" />
                   </div>
                   <div>or</div>
                   <div className="form-group">

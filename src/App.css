@@ -664,8 +664,11 @@
 
 .post-info .post-bottom .post-profile img {
   width: 2.5em;
+  min-height: 2.5em;
   position: relative;
-  top: -15%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .post-info .post-bottom .post-name {
@@ -718,9 +721,9 @@
 }
 
 .comments .profile-photo img {
+  min-height: 2em;
   width: 2em;
   position: relative;
-  top: -15%;
 }
 
 .comments .comment-name {
@@ -771,7 +774,6 @@
 .makeComment .profile-image-small img {
   width: 2em;
   position: relative;
-  top: -15%;
 }
 
 .makeComment form {
@@ -939,55 +941,51 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 5%;
+  color: #4E4E4E;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
-.wrap .add-post .photo-upload-buttons .btn {
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 40%;
-          flex: 0 0 40%;
-  padding: 0.2em;
-  margin-right: 2%;
-  color: #a1a1a1;
-  text-transform: uppercase;
-}
-
-.wrap .add-post .photo-upload-buttons .btn:focus {
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
-}
-
-.wrap .add-post .photo-upload-buttons .btn-browse {
-  text-transform: lowercase;
-  border: 0.14em #a1a1a1 solid;
-  border-style: dashed;
-  background-color: #fafafa;
-}
-
-.wrap .add-post .photo-upload-buttons h3 {
-  margin-top: 2%;
-  font-size: 1em;
-}
-
-.wrap .add-post .photo-upload-buttons .urlInput {
+.wrap .add-post .photo-upload-buttons .form-group {
   text-align: center;
-  height: 2.2em;
-  width: 45%;
-  border: none;
-  background-color: transparent;
-  border-bottom: 1px rgba(112, 112, 112, 0.4) solid;
 }
 
-.wrap .add-post .photo-upload-buttons .urlInput:focus {
-  outline: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+.wrap .add-post .photo-upload-buttons .photoBrowse {
+  display: none;
+}
+
+.wrap .add-post .photo-upload-buttons input {
+  width: 8em;
+  text-align: center;
+}
+
+.wrap .add-post .photo-upload-buttons .browseLabel {
+  color: rgba(112, 112, 112, 0.6);
+  display: block;
+  border: 1px rgba(112, 112, 112, 0.6) dashed;
+  width: 9em;
+  padding: 0.2em 0;
+  margin: 0.5em 0 -0.2em 0em;
+}
+
+.wrap .add-post .photo-upload-buttons .photoURL {
+  border: none;
+  border-bottom: 1px rgba(112, 112, 112, 0.6) solid;
+  margin: 0.5em 0 0em 0;
+  padding-bottom: 0.2em;
+  background-color: transparent;
+}
+
+.wrap .add-post .photo-upload-buttons .photoURL:focus {
+  outline: none !important;
 }
 
 .wrap .add-post img {

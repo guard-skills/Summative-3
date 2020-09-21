@@ -645,8 +645,12 @@ $dark-color: #4E4E4E;
 			}
 			img {
 				width: 2.5em;
+				min-height: 2.5em;
 				position: relative;
-				top: -15%;
+				top: 50%;
+				transform: translateY(-50%);
+				// left: 50%;
+				// transform: translateX(-50%);
 			}
 		}
 		.post-name {
@@ -695,9 +699,10 @@ $dark-color: #4E4E4E;
 		-ms-flex: 0 0 2em;
 		flex: 0 0 2em;
 		img {
+			min-height: 2em;
 			width: 2em;
 			position: relative;
-			top: -15%;
+			// top: -15%;
 		}
 	}
 	.comment-name {
@@ -743,7 +748,7 @@ $dark-color: #4E4E4E;
 		img {
 			width: 2em;
 			position: relative;
-			top: -15%;
+			// top: -15%;
 		}
 	}
 	form {
@@ -885,48 +890,43 @@ $dark-color: #4E4E4E;
   .add-post{
 	margin: 0% 8% 8% 8% ;
 	padding-top: 1%;
+	
 	.add-post-title{
 		font-size: 1em;
 	}
 	.photo-upload-buttons{
 		display: flex;
-		justify-content: space-between;
+		flex-direction: row;
 		align-items: center;
-		margin-bottom: 5%;
-
-		.btn{
-			flex: 0 0 40%;
-			padding: 0.2em;
-			margin-right: 2%;
-			color: rgb(161, 161, 161);
-			text-transform: uppercase;
-
-			&:focus {
-				box-shadow: none !important;
-			}
-		}
-		.btn-browse{
-			text-transform: lowercase;
-			border: 0.14em rgb(161, 161, 161) solid;
-			border-style: dashed;
-			background-color: rgb(250, 250, 250);
-		}
-		h3{
-			margin-top: 2%;
-			font-size: 1em;
-		}
-		.urlInput {
+		color: #4E4E4E;
+		justify-content: space-between;
+		
+		.form-group {
 			text-align: center;
-			height: 2.2em;
-			width: 45%;
+		}
+		.photoBrowse {
+			display: none;
+		}
+		input {
+			width: 8em;
+			text-align: center;
+		}
+		.browseLabel {
+			color: rgba(112, 112, 112, 0.6);
+			display: block;
+			border: 1px rgba(112, 112, 112, 0.6) dashed;
+			width: 9em;
+			padding: 0.2em 0;
+			margin: 0.5em 0 -0.2em 0em;
+		}
+		.photoURL {
 			border: none;
+			border-bottom: 1px rgba(112, 112, 112, 0.6) solid;
+			margin: 0.5em 0 0em 0;
+			padding-bottom: 0.2em;
 			background-color: transparent;
-			border-bottom: 1px rgba(112, 112, 112, 0.4) solid;
-
 			&:focus {
-				// border: none;
-				outline: none;
-				box-shadow: none;
+				outline: none !important;
 			}
 		}
 	}

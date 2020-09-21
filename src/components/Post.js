@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import profileSmall from '../assets/profile-image-small.png';
+import placeholder from '../assets/profile-placeholder.png';
 import {Spring} from 'react-spring/renderprops';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 class Post extends Component {
   constructor(props){
@@ -23,10 +26,12 @@ class Post extends Component {
   render (){
     const likeToggle = this.state.isLiked
 
+    var dateString = this.props.createdAt;
+
     return (
         <div className="post-item">
           <div className="post-image">
-            <img src={this.props.image} alt="" />
+            <img src={this.props.postImage} alt="" />
           </div>
 
           {/* Tabbies */}
@@ -87,19 +92,20 @@ class Post extends Component {
                   </div>
                   <div className="post-bottom">
                     <div className="post-location">
-                      {this.props.location}
+                      {this.props.type.location}
                   </div>
                     <div className="post-profile">
                       <div className="post-profile-picture">
-                        <img src={this.props.photo} alt="profile-placeholder" />
+                        <img src={this.props.user.profileImage ? this.props.user.profileImage : placeholder} alt="profile-placeholder" />
                       </div>
                       <div className="post-profile-info">
                         <div className="post-name">
-                          {this.props.name}
-                  </div>
+                          {this.props.user.userName}
+                        </div>
                         <div className="post-timestamp">
-                        {this.props.time}
-                  </div>
+                          {/* <Moment format="YYYY/MM/DD HH:mm" date={dateString} /> */}
+                          <Moment fromNow>{dateString}</Moment>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -110,11 +116,11 @@ class Post extends Component {
                 <div className="container comments">
                   <div className="author-comment comment">
                     <div className="author-profile-photo profile-photo">
-                      <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="author-profile" />
+                      <img src={this.props.user.profileImage ? this.props.user.profileImage : placeholder} alt="author-profile" />
                                 </div>
                       <div className="author-info comment-content">
-                        <span className="author-name comment-name">David Smith</span>
-                                    This is a bird.
+                        <span className="author-name comment-name">{this.props.userName}</span>
+                                    {this.props.description}
                                 </div>
                     </div>
                     <div className="comment">
