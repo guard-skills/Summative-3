@@ -10,8 +10,11 @@ import MyPost from './components/MyPost';
 import Update from './components/Update';
 import Modal from 'react-bootstrap/Modal';
 import Navbar from './components/Navbar';
-import {Spring} from 'react-spring/renderprops';
-import { Button,Form } from 'react-bootstrap';
+import RegisterUser from './components/RegisterUser';
+import { Spring } from 'react-spring/renderprops';
+import { Button, Form } from 'react-bootstrap';
+import apiInfo from './components/apiInfo';
+import Login from './components/Login';
 
 class App extends Component {
   constructor(props) {
@@ -27,9 +30,45 @@ class App extends Component {
       isNavbarOpen: false,
 
       isFilterOpen: false,
+
+      projects: [
+        {
+          id: 1,
+          name: '',
+          description: '',
+          type_id: 1,
+          comments: [],
+        },
+      ],
+
+      projectToUpdate: {
+        id: '',
+        name: '',
+        description: '',
+        type_id: '',
+      },
+
+      currentUser: {
+        _id: 1,
+        id: 1,
+        userName: "",
+        email: "",
+        password: "",
+        location: "",
+        profileImage: "",
+
+        projects: [
+          {
+            id: 1,
+            name: '',
+            description: '',
+            type_id: 1,
+            comments: []
+          },
+        ],
+      },
     }
   }
-
 
   setActiveView = (view) => {
     this.setState({ activeView: view })
@@ -71,17 +110,102 @@ class App extends Component {
     this.openNavbar();
   }
 
-    //Filter
-    openFilter = () => {
-      this.setState({ isFilterOpen: true })
-    }
-    closeFilter = () => {
-      this.setState({ isFilterOpen: false })
-    }
-  
-    handleFilterClick = () => {
-      this.openFilter();
-    }
+  //Filter
+  openFilter = () => {
+    this.setState({ isFilterOpen: true })
+  }
+  closeFilter = () => {
+    this.setState({ isFilterOpen: false })
+  }
+
+  handleFilterClick = () => {
+    this.openFilter();
+  }
+
+  //Jin's functions
+
+  setUserId = (user) => {
+    this.setState({ currentUser: user })
+    return user
+  }
+
+  userLogin = (data) => {
+    apiInfo.userAuth(data)
+      .then(res => {
+        var user = res.data
+        console.log(res.data)
+        return user
+      })
+  }
+
+  setProfileProjectToUpdate = (id) => { //take info from Project to updatedProjectForm
+    var foundProject = this.state.currentUser.projects.find((project) => {
+      console.log(project.id)
+      return project.id === id
+    })
+    this.setState({ projectToUpdate: foundProject }) //state 에있는 projectToUpdate 를 업뎃해줌
+  }
+
+  setProjectToUpdate = (id) => { //take info from Project to updatedProjectForm
+    var foundProject = this.state.projects.find((project) => {
+      console.log(project.id)
+      return project.id === id
+    })
+    this.setState({ projectToUpdate: foundProject }) //state 에있는 projectToUpdate 를 업뎃해줌
+  }
+
+  listProjects = () => { //create list of projects from DB (all projects)
+    apiInfo.getProjects().then(res => {
+      this.setState({ projects: res.data })
+    })
+  }
+
+  listUserProjects = () => { //create list of user's project from DB (only current logged in user)
+    apiInfo.getUser(this.state.currentUser.id).then(res => {
+      this.setState({ currentUser: res.data })
+    })
+  }
+
+  activeViewListProject = (view) => {
+    apiInfo.getProjects().then(res => {
+      this.setState({ projects: res.data })
+    }).then(() => this.setActiveView(view))
+  }
+
+  activeViewListUserProject = (view) => {
+    apiInfo.getUser(this.state.currentUser.id).then(res => {
+      this.setState({ currentUser: res.data })
+    }).then(() => this.setActiveView(view))
+  }
+
+  activeViewLogout = (view) => {
+    this.setState({
+      currentUser: {
+        _id: 1,
+        id: 1,
+        userName: "",
+        email: "",
+        password: "",
+        location: "",
+        profileImage: "",
+
+        projects: [
+          {
+            id: 1,
+            name: '',
+            description: '',
+            type_id: 1,
+            comments: []
+          },
+        ],
+      }, projects:[]
+    })
+    this.setActiveView(view)
+  }
+
+  deleteProject = () => {
+    apiInfo.deleteProject()
+  }
 
   render() {
 
@@ -110,108 +234,27 @@ class App extends Component {
         <View viewName="landing-Register" activeView={this.state.activeView} className="landing landing-register">
           <div className="landing-background">
           </div>
+          <RegisterUser
+            setActiveView={this.setActiveView}
+            listProjects={this.listProjects}
+            setUserId={this.setUserId}>
+          </RegisterUser>
 
-          <div className="container signup">
-
-            <div className="logo">
-              <img src={logo} className="mw-100" alt="logo" />
-            </div>
-
-            <div className="signupBox">
-              <h3>Sign Up</h3>
-
-              <form className="register-form">
-                <div className="form-group">
-                  <input type="text" className="form-control" name="username-input" id="username-input" placeholder="Username" />
-                </div>
-                <div className="form-group">
-                  <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" />
-                </div>
-                <div className="form-group">
-                  <input type="password" className="form-control" name="password-input" id="password-input" placeholder="Password" />
-                </div>
-                <div className="form-group">
-                  <select className="form-control custom-select" name="region-input" id="region-input">
-                    <option defaultValue="Auckland">Auckland</option>
-                    <option value="Northland">Northland</option>
-                    <option value="Waikato">Waikato</option>
-                    <option value="Wellington">Wellington</option>
-                  </select>
-                </div>
-                <div className="subtext">
-                  Already have an account? <span onClick={
-                    () => this.setActiveView('landing-Login')
-                  }>Login.</span>
-                </div>
-
-                <div className="buttons">
-                  <button type="button" className="btn btn-light btn-back">
-                    <i className="fas fa-arrow-left" onClick={
-                      () => this.setActiveView('landing')
-                    }></i>
-                  </button>
-                  <button type="submit" className="btn btn-primary btn-next" onClick={(e) => {
-                    e.preventDefault()
-
-                    this.setActiveView('dashboard')
-                  }}>
-                    Next
-                  </button>
-                </div>
-              </form>
-
-            </div>
-          </div>
         </View>
 
         <View viewName="landing-Login" activeView={this.state.activeView} className="landing landing-login">
           <div className="landing-background">
           </div>
-
-          <div className="container signin">
-
-            <div className="logo">
-              <img src={logo} className="mw-100" alt="logo" />
-            </div>
-
-            <div className="signinBox">
-              <h3>Login</h3>
-
-              <form className="login-form">
-                <div className="form-group">
-                  <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" />
-                </div>
-                <div className="form-group">
-                  <input type="password" className="form-control" name="password-input" id="password-input" placeholder="Password" />
-                </div>
-                <div className="subtext">
-                  Don't have an account? <span onClick={
-                    () => this.setActiveView('landing-Register')
-                  }>Sign Up.</span>
-                </div>
-
-                <div className="buttons">
-                  <button type="button" className="btn btn-light btn-back">
-                    <i className="fas fa-arrow-left" onClick={
-                      () => this.setActiveView('landing')
-                    }></i>
-                  </button>
-                  <button type="submit" className="btn btn-primary btn-next"
-                    onClick={(e) => {
-                      e.preventDefault()
-
-                      this.setActiveView('dashboard')
-                    }}>
-                    Next
-                            </button>
-                </div>
-              </form>
-
-            </div>
-          </div>
+          <Login
+            setActiveView={this.setActiveView}
+            listProjects={this.listProjects}
+            setUserId={this.setUserId}
+            userLogin={this.userLogin}
+            listUserProjects={this.listUserProjects}>
+          </Login>
         </View>
 
-        {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} /> : null}
+        {this.state.isNavbarOpen ? <Navbar {...this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} activeViewLogout={this.activeViewLogout} /> : null}
 
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
@@ -230,240 +273,240 @@ class App extends Component {
                     Filter
                 </div>
           </div>
-          {this.state.isFilterOpen ? 
-            <Spring 
-            from={{ y: -100 }} 
-            to={{ y: 0 }}> 
+          {this.state.isFilterOpen ?
+            <Spring
+              from={{ y: -100 }}
+              to={{ y: 0 }}>
               {props => (
-                <div className="filter-select"> 
-                  <Form style={{ top: props.y + '%' }}> 
-                    <i className="far fa-times-circle" onClick={this.closeFilter}></i> 
-                    <Form.Check id="Auckland" label="Auckland" /> 
-                    <Form.Check id="Wellington" label="Wellington" /> 
-                    <Form.Check id="Christchurch" label="Christchurch" /> 
-                    <Form.Check id="Dunedin" label="Dunedin" /> 
-                    <Form.Check id="Waikato" label="Waikato" /> 
-                    <div className="form-buttons"> 
+                <div className="filter-select">
+                  <Form style={{ top: props.y + '%' }}>
+                    <i className="far fa-times-circle" onClick={this.closeFilter}></i>
+                    <Form.Check id="Auckland" label="Auckland" />
+                    <Form.Check id="Wellington" label="Wellington" />
+                    <Form.Check id="Christchurch" label="Christchurch" />
+                    <Form.Check id="Dunedin" label="Dunedin" />
+                    <Form.Check id="Waikato" label="Waikato" />
+                    <div className="form-buttons">
                       <Button type="submit" className="submit" onClick={(e) => { e.preventDefault() }, this.closeFilter}>
                         Submit
-                      </Button> 
+                      </Button>
                       <Button type="reset">
                         Reset
-                      </Button> 
-                    </div> 
-                  </Form> 
-              </div>
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
               )}
             </Spring> : null}
 
-            <div className="posts">
-              <Post />
-              <Post />
-            </div>
+          <div className="posts">
+            <Post />
+            <Post />
+          </div>
 
-            <div className="nav-bottom">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                () => this.setActiveView('dashboard')}>
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                () => this.setActiveView('create-page')}>
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-              </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                () => this.setActiveView('profile-Page')}>
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
-            </div>
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
 
 
         </View>
 
-            <View viewName="create-page" activeView={this.state.activeView} className="create-page">
+        <View viewName="create-page" activeView={this.state.activeView} className="create-page">
 
-              <div className="nav-top">
-                <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
-                <div className="heading">Create Post</div>
-                <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={profileSmall} alt="profile-small" />
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
+            <div className="heading">Create Post</div>
+            <div className="profile-image-small" onClick={this.handleProfileImageClick}>
+              <img src={profileSmall} alt="profile-small" />
+            </div>
+          </div>
+
+          <Create />
+
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+        </View>
+
+        <View viewName="update-Page" activeView={this.state.activeView} className="update-page">
+
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
+            <div className="heading">Update Post</div>
+            <div className="profile-image-small" onClick={this.handleProfileImageClick}>
+              <img src={profileSmall} alt="profile-small" />
+            </div>
+          </div>
+
+          <Update />
+
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+
+        </View>
+
+        <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
+
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
+            <div className="heading">My Profile</div>
+
+          </div>
+
+          <div className="profile-info">
+            <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
+              <img src={profileSmall} alt="profile-big" />
+            </div>
+            <div className="personal-details">
+              <h1>Jane Doe</h1>
+              <h2>Auckland</h2>
+              <div className="edit-personal-details">
+                <i className="fas fa-pen"></i>
+              </div>
+            </div>
+          </div>
+
+          <div className="posts-search">
+            <div className="mypost">
+              <div className="number-of-post">My posts</div>
+              <div className="number-of-post2">2</div>
+            </div>
+
+            <div className="search">
+              <div className="form-group-search">
+                <div className="search-icon"><i className="fas fa-search"></i>
                 </div>
+                <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
               </div>
+            </div>
+          </div>
 
-              <Create />
+          <div className="profile-posts">
+            <MyPost setActiveView={this.setActiveView} />
+            <MyPost setActiveView={this.setActiveView} />
+            <MyPost setActiveView={this.setActiveView} />
+          </div>
 
-              <div className="nav-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('dashboard')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                  () => this.setActiveView('create-page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('profile-Page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-              </div>
-            </View>
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
 
-            <View viewName="update-Page" activeView={this.state.activeView} className="update-page">
+          <Modal show={this.state.isProfilePageImageModalOpen} onHide={() => { this.closeProfilePageImageModal() }} className="profilePageImageChange">
 
-              <div className="nav-top">
-                <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
-                <div className="heading">Update Post</div>
-                <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={profileSmall} alt="profile-small" />
+            <Modal.Body>
+              <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
+              <form className="uploadPhotoForm">
+                <div className="profileImage">
+                  <img src={profileSmall} alt="profileSmall" />
                 </div>
-              </div>
-
-              <Update />
-
-              <div className="nav-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('dashboard')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('create-page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                  () => this.setActiveView('profile-Page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-              </div>
-
-            </View>
-
-            <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
-
-              <div className="nav-top">
-                <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
-                <div className="heading">My Profile</div>
-
-              </div>
-
-              <div className="profile-info">
-                <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
-                  <img src={profileSmall} alt="profile-big" />
+                <div>Upload Photo</div>
+                <div className="form-group">
+                  <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+                  <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
                 </div>
-                <div className="personal-details">
-                  <h1>Jane Doe</h1>
-                  <h2>Auckland</h2>
-                  <div className="edit-personal-details">
-                    <i className="fas fa-pen"></i>
-                  </div>
+                <div>or</div>
+                <div className="form-group">
+                  <input type="url" className="photoURL" placeholder="URL" />
                 </div>
+                <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
+                  (e) => {
+                    e.preventDefault()
+                  }
+                }>Submit</button>
+              </form>
+            </Modal.Body>
+
+          </Modal>
+
+        </View>
+
+        <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profileImageChange">
+
+          <Modal.Body>
+            <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
+            <form className="uploadPhotoForm">
+              <div className="profileImage">
+                <img src={profileSmall} alt="profileSmall" />
               </div>
-
-              <div className="posts-search">
-                <div className="mypost">
-                  <div className="number-of-post">My posts</div>
-                  <div className="number-of-post2">2</div>
-                </div>
-
-                <div className="search">
-                  <div className="form-group-search">
-                    <div className="search-icon"><i className="fas fa-search"></i>
-                    </div>
-                    <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
-                  </div>
-                </div>
+              <div>Upload Photo</div>
+              <div className="form-group">
+                <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+                <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
               </div>
-
-              <div className="profile-posts">
-                <MyPost setActiveView={this.setActiveView} />
-                <MyPost setActiveView={this.setActiveView} />
-                <MyPost setActiveView={this.setActiveView} />
+              <div>or</div>
+              <div className="form-group">
+                <input type="url" className="photoURL" placeholder="URL" />
               </div>
+              <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
+                (e) => {
+                  e.preventDefault()
+                }
+              }>Submit</button>
+            </form>
+          </Modal.Body>
 
-              <div className="nav-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('dashboard')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('create-page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                  () => this.setActiveView('profile-Page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-              </div>
-
-              <Modal show={this.state.isProfilePageImageModalOpen} onHide={() => { this.closeProfilePageImageModal() }} className="profilePageImageChange">
-
-                <Modal.Body>
-                  <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
-                  <form className="uploadPhotoForm">
-                    <div className="profileImage">
-                      <img src={profileSmall} alt="profileSmall" />
-                    </div>
-                    <div>Upload Photo</div>
-                    <div className="form-group">
-                      <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                      <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
-                    </div>
-                    <div>or</div>
-                    <div className="form-group">
-                      <input type="url" className="photoURL" placeholder="URL" />
-                    </div>
-                    <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
-                      (e) => {
-                        e.preventDefault()
-                      }
-                    }>Submit</button>
-                  </form>
-                </Modal.Body>
-
-              </Modal>
-
-            </View>
-
-            <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profileImageChange">
-
-              <Modal.Body>
-                <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
-                <form className="uploadPhotoForm">
-                  <div className="profileImage">
-                    <img src={profileSmall} alt="profileSmall" />
-                  </div>
-                  <div>Upload Photo</div>
-                  <div className="form-group">
-                    <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                    <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
-                  </div>
-                  <div>or</div>
-                  <div className="form-group">
-                    <input type="url" className="photoURL" placeholder="URL" />
-                  </div>
-                  <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
-                    (e) => {
-                      e.preventDefault()
-                    }
-                  }>Submit</button>
-                </form>
-              </Modal.Body>
-
-            </Modal>
+        </Modal>
 
       </div>
     )
