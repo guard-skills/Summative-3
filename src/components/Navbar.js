@@ -11,20 +11,26 @@ class Navbar extends Component {
 
     handleHomeClick = () => {
         var {setActiveView}= this.props
-
+        this.handleCloseNavbar();
         setActiveView('dashboard')
     }
 
     handleProfileClick = () => {
         var {setActiveView}= this.props
-
+        this.handleCloseNavbar();
         setActiveView('profile-Page')
     }
 
     handleAddPostClick = () => {
         var {setActiveView}= this.props
-
+        this.handleCloseNavbar();
         setActiveView('create-page')
+    }
+
+    handleLogout = () => {
+        var {activeViewLogout} = this.props
+        this.handleCloseNavbar();
+        activeViewLogout('landing');
     }
 
     render (){
@@ -52,7 +58,7 @@ class Navbar extends Component {
                                 <Nav.Link href="https://zip.org.nz/contact" className="nav-link" target="_blank" rel="noopener noreferrer">Contact</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link className="nav-link">Logout</Nav.Link>
+                                <Nav.Link className="nav-link" onClick={this.handleLogout}>Logout</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
                                 <i className="far fa-times-circle" onClick={this.handleCloseNavbar}></i>
