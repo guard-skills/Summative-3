@@ -8,6 +8,8 @@ import postImage from '../assets/post-image-1.png';
 class Post extends Component {
 
     render (){
+      var { name, description, comments, location } = this.props
+      var {currentUser} = this.props
         return (
             <div className="post-item">
               <div className="post-image">
@@ -31,13 +33,13 @@ class Post extends Component {
                     <div className="container">
                       <div className="post-top">
                         <div className="post-title">
-                          Bird
+                          {name}
                       </div>
                         <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512' className="likePost"><title>ionicons-v5-f</title><path d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z' /></svg>
                       </div>
                       <div className="post-bottom">
                         <div className="post-location">
-                          Warkworth, Auckland
+                          {location}
                       </div>
                         <div className="post-profile">
                           <div className="post-profile-picture">
@@ -45,7 +47,7 @@ class Post extends Component {
                           </div>
                           <div className="post-profile-info">
                             <div className="post-name">
-                              David Smith
+                              {currentUser.userName}
                       </div>
                             <div className="post-timestamp">
                               2m ago
@@ -57,46 +59,46 @@ class Post extends Component {
                   </Tab.Pane>
                   <Tab.Pane eventKey="comments" className="tab-pane fade comments-tab">
 
-                    <div className="container comments">
-                      <div className="author-comment comment">
-                        <div className="author-profile-photo profile-photo">
-                          <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="author-profile" />
-                                    </div>
+                      <div className="container comments">
+                        <div className="author-comment comment">
+                          <div className="author-profile-photo profile-photo">
+                            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="author-profile" />
+                          </div>
                           <div className="author-info comment-content">
                             <span className="author-name comment-name">David Smith</span>
                                         This is a bird.
-                                    </div>
+                            </div>
                         </div>
                         <div className="comment">
                           <div className="profile-photo">
                             <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
-                                    </div>
+                          </div>
                             <div className="comment-content">
                               <span className="comment-name">Mary Jane</span>
                                         Yes, I concur with that statement.
-                                    </div>
-                          </div>
+                            </div>
+                        </div>
                           
-                          <div className="comment">
-                            <div className="profile-photo">
-                              <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
-                                    </div>
-                              <div className="comment-content">
-                                <span className="comment-name">Mary Jane</span>
-                                        That is certainly a bird.
-                                    </div>
-                            </div>
-                            
-                            <div className="makeComment">
-                              <div className="profile-image-small">
-                                <img src={profileSmall} alt="profile-small" />
-                              </div>
-                              <form>
-                                <input type="text" placeholder="Type comment..." />
-                                <button type="submit">Submit</button>
-                              </form>
-                            </div>
+                        <div className="comment">
+                          <div className="profile-photo">
+                            <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
                           </div>
+                            <div className="comment-content">
+                              <span className="comment-name">Mary Jane</span>
+                                      That is certainly a bird.
+                            </div>
+                        </div>
+                            
+                         <div className="makeComment">
+                          <div className="profile-image-small">
+                            <img src={profileSmall} alt="profile-small" />
+                          </div>
+                          <form>
+                            <input type="text" placeholder="Type comment..." />
+                            <button type="submit">Submit</button>
+                          </form>
+                        </div>
+                      </div>
                   </Tab.Pane>
 
                 </Tab.Content>

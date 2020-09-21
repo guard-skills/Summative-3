@@ -37,6 +37,7 @@ class App extends Component {
           name: '',
           description: '',
           type_id: 1,
+          location: '',
           comments: [],
         },
       ],
@@ -63,6 +64,7 @@ class App extends Component {
             name: '',
             description: '',
             type_id: 1,
+            location: '',
             comments: []
           },
         ],
@@ -208,7 +210,7 @@ class App extends Component {
   }
 
   render() {
-
+    var { currentUser } = this.state
     return (
       <div className="app">
 
@@ -300,8 +302,21 @@ class App extends Component {
             </Spring> : null}
 
           <div className="posts">
-            <Post />
-            <Post />
+          {
+              //shows all projects
+
+              this.state.projects.slice().reverse().map((project) => {
+
+                var projectProps = {
+                  ...project,
+                  key: project.id,
+                  listProjects: this.listProjects,
+                  setActiveView: this.setActiveView,
+                  setProjectToUpdate: this.setProjectToUpdate
+                }
+                return (<Post {...projectProps} currentUser={currentUser} />)
+              })
+            }
           </div>
 
           <div className="nav-bottom">
