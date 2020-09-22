@@ -5,22 +5,22 @@ let url = 'http://localhost:3003/api';
 let apiInfo = {
     serverUrl: 'http://localhost:3003/',
 
-    //CRUD for projectSchema
+    //CRUD for postSchema
 
-    getProjects: () => {
-        return axios.get(url + '/projects')
+    getPosts: () => {
+        return axios.get(url + '/posts')
     },
 
-    addProject: (data) => {
-        return axios.post(url + '/projects', data)
+    addPost: (data) => {
+        return axios.post(url + '/posts', data)
     },
 
-    deleteProject: (id) => {
-        return axios.delete(url + '/projects/' + id)
+    deletePost: (id) => {
+        return axios.delete(url + '/posts/' + id)
     },
 
-    updateProject: (id, data) => {
-        return axios.put(url + '/projects/' + id, data)
+    updatePost: (id, data) => {
+        return axios.put(url + '/posts/' + id, data)
     },
 
     getUser: (id) => {

@@ -19,13 +19,13 @@ class RegisterUser extends Component {
 			location: formData.get('regionInput'),
 			id: Date.now() + Math.round(Math.random() * (1000000 - 1) + 1),
 			profileImage: '',
-			projects: [],
+			posts: [],
 		}
-		var { setActiveView, listProjects, setUserId } = this.props
+		var { setActiveView, listPosts, setUserId } = this.props
 		console.log(data)
 		setUserId(data)
 
-		apiInfo.postUser(data).then(() => listProjects())
+		apiInfo.postUser(data).then(() => listPosts())
 		setActiveView('dashboard')
 	}
 

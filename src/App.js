@@ -31,7 +31,7 @@ class App extends Component {
 
       isFilterOpen: false,
 
-      projects: [
+      posts: [
         {
           id: 1,
           name: '',
@@ -42,7 +42,7 @@ class App extends Component {
         },
       ],
 
-      projectToUpdate: {
+      postToUpdate: {
         id: '',
         name: '',
         description: '',
@@ -58,7 +58,7 @@ class App extends Component {
         location: "",
         profileImage: "",
 
-        projects: [
+        posts: [
           {
             id: 1,
             name: '',
@@ -140,41 +140,41 @@ class App extends Component {
       })
   }
 
-  setProfileProjectToUpdate = (id) => { //take info from Project to updatedProjectForm
-    var foundProject = this.state.currentUser.projects.find((project) => {
-      console.log(project.id)
-      return project.id === id
+  setProfilePostToUpdate = (id) => { //take info from Post to updatedPostForm
+    var foundPost = this.state.currentUser.posts.find((post) => {
+      console.log(post.id)
+      return post.id === id
     })
-    this.setState({ projectToUpdate: foundProject }) //state 에있는 projectToUpdate 를 업뎃해줌
+    this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
   }
 
-  setProjectToUpdate = (id) => { //take info from Project to updatedProjectForm
-    var foundProject = this.state.projects.find((project) => {
-      console.log(project.id)
-      return project.id === id
+  setPostToUpdate = (id) => { //take info from Post to updatedPostForm
+    var foundPost = this.state.posts.find((post) => {
+      console.log(post.id)
+      return post.id === id
     })
-    this.setState({ projectToUpdate: foundProject }) //state 에있는 projectToUpdate 를 업뎃해줌
+    this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
   }
 
-  listProjects = () => { //create list of projects from DB (all projects)
-    apiInfo.getProjects().then(res => {
-      this.setState({ projects: res.data })
+  listPosts = () => { //create list of posts from DB (all posts)
+    apiInfo.getPosts().then(res => {
+      this.setState({ posts: res.data })
     })
   }
 
-  listUserProjects = () => { //create list of user's project from DB (only current logged in user)
+  listUserPosts = () => { //create list of user's post from DB (only current logged in user)
     apiInfo.getUser(this.state.currentUser.id).then(res => {
       this.setState({ currentUser: res.data })
     })
   }
 
-  activeViewListProject = (view) => {
-    apiInfo.getProjects().then(res => {
-      this.setState({ projects: res.data })
+  activeViewListPost = (view) => {
+    apiInfo.getPosts().then(res => {
+      this.setState({ posts: res.data })
     }).then(() => this.setActiveView(view))
   }
 
-  activeViewListUserProject = (view) => {
+  activeViewListUserPost = (view) => {
     apiInfo.getUser(this.state.currentUser.id).then(res => {
       this.setState({ currentUser: res.data })
     }).then(() => this.setActiveView(view))
@@ -191,7 +191,7 @@ class App extends Component {
         location: "",
         profileImage: "",
 
-        projects: [
+        posts: [
           {
             id: 1,
             name: '',
@@ -200,13 +200,13 @@ class App extends Component {
             comments: []
           },
         ],
-      }, projects:[]
+      }, posts:[]
     })
     this.setActiveView(view)
   }
 
-  deleteProject = () => {
-    apiInfo.deleteProject()
+  deletePost = () => {
+    apiInfo.deletePost()
   }
 
   render() {
@@ -238,7 +238,7 @@ class App extends Component {
           </div>
           <RegisterUser
             setActiveView={this.setActiveView}
-            listProjects={this.listProjects}
+            listPosts={this.listPosts}
             setUserId={this.setUserId}>
           </RegisterUser>
 
@@ -249,10 +249,10 @@ class App extends Component {
           </div>
           <Login
             setActiveView={this.setActiveView}
-            listProjects={this.listProjects}
+            listPosts={this.listPosts}
             setUserId={this.setUserId}
             userLogin={this.userLogin}
-            listUserProjects={this.listUserProjects}>
+            listUserPosts={this.listUserPosts}>
           </Login>
         </View>
 
@@ -303,18 +303,18 @@ class App extends Component {
 
           <div className="posts">
           {
-              //shows all projects
+              //shows all posts
 
-              this.state.projects.slice().reverse().map((project) => {
+              this.state.posts.slice().reverse().map((post) => {
 
-                var projectProps = {
-                  ...project,
-                  key: project.id,
-                  listProjects: this.listProjects,
+                var postProps = {
+                  ...post,
+                  key: post.id,
+                  listPosts: this.listPosts,
                   setActiveView: this.setActiveView,
-                  setProjectToUpdate: this.setProjectToUpdate
+                  setPostToUpdate: this.setPostToUpdate
                 }
-                return (<Post {...projectProps} currentUser={currentUser} />)
+                return (<Post {...postProps} currentUser={currentUser} />)
               })
             }
           </div>
@@ -351,7 +351,7 @@ class App extends Component {
             </div>
           </div>
 
-          <Create />
+          <Create currentUser={currentUser} setActiveView={this.setActiveView} listPosts={this.listPosts} />
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={

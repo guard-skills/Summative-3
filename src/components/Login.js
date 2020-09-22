@@ -16,7 +16,7 @@ class Login extends Component {
             userName: formData.get('nameInput'),
             password: formData.get('passwordInput'),
         }
-        var { setActiveView, listProjects, setUserId,} = this.props
+        var { setActiveView, listPosts, setUserId,} = this.props
 
         apiInfo.userCheck(data.userName).then(res => {
             var user = res.data
@@ -28,7 +28,7 @@ class Login extends Component {
                     console.log(res.data.password)
                     if (data.password == res.data.password) {
                         setUserId(res.data)
-                        listProjects()
+                        listPosts()
                         setActiveView('dashboard')
                     } else {
                         console.log('wrong pw')
