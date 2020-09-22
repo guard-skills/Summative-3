@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import navbar from './assets/navbar.png';
 import Modal from 'react-bootstrap/Modal';
-import axios from 'axios';
 import placeholder from './assets/profile-placeholder.png';
 //components
 import Navbar from './components/Navbar';
@@ -15,8 +14,6 @@ import LoginRegister from './components/Login-Register';
 import {Spring} from 'react-spring/renderprops';
 import { Button,Form } from 'react-bootstrap';
 import apiInfo from './components/apiInfo';
-
-var url = 'http://localhost:4000/api'
 
 class App extends Component {
   constructor(props) {

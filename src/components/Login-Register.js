@@ -32,7 +32,7 @@ class LoginRegister extends Component {
 
                 apiInfo.getUser(user.id).then(res => {
                     // console.log(res.data.password)
-                    if (data.password == res.data.password) {
+                    if (data.password === res.data.password) {
                         setUserId(res.data)
                         listPosts()
                         setActiveView('dashboard')

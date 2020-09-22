@@ -9,16 +9,22 @@ class Create extends Component {
   constructor() {
     super();
     this.state = {
-        title: '',
-        description: '',
-        city: '',
+        file: null
     };
+
+    this.handlePostImage = this.handlePostImage.bind(this)
+  }
+
+  handlePostImage = (e) => {
+    this.setState({
+      file: URL.createObjectURL(e.target.files[0])
+    })
   }
 
   handleFormSubmit = (e) => {
     e.preventDefault()
 
-    var {uploadFile,addPost,setActiveView,user} = this.props;
+    var {setActiveView,user} = this.props;
 
     var formData = new FormData(this.form);
 
@@ -74,14 +80,18 @@ class Create extends Component {
           <div className="photo-upload-buttons">
             <div className="form-group">
               <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-              <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" />
+              <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handlePostImage}/>
             </div>
             <div className="or">or</div>
             <div className="form-group">
               <input type="url" id="url-input" name="url-input" className="photoURL" placeholder="URL" />
             </div>
           </div>
-          <img src={this.props.postImage ? this.props.postImage : imagePlaceholder} alt="#" className="add-post-img"></img>
+          <div className="addIMG">
+            <div className="add-post-img">
+              <img src={this.state.file ? this.state.file : imagePlaceholder} alt="#"></img>
+            </div>
+          </div>
               <Form.Group>
                   <Form.Label>Title</Form.Label>
                   <Form.Control id="title-input" name="title-input"  type="title"></Form.Control>

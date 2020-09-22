@@ -9,8 +9,6 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import apiInfo from './apiInfo'
 
-var url = 'http://localhost:4000/api';
-
 class Post extends Component {
   constructor(props){
     super(props)
@@ -34,7 +32,7 @@ class Post extends Component {
     return (
         <div className="post-item">
           <div className="post-image">
-            <img src={url+this.props.postImage ? url+this.props.postImage : this.props.postImageURL} alt="" />
+            <img src={apiInfo.serverUrl+this.props.postImage ? apiInfo.serverUrl+this.props.postImage : this.props.postImageURL} alt="" />
           </div>
 
           {/* Tabbies */}
