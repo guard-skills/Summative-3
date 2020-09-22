@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../assets/logo-large.png';
 import {Spring} from 'react-spring/renderprops';
+import apiInfo from '../components/apiInfo';
 
 class LoginRegister extends Component {
     constructor(props){
@@ -12,6 +13,57 @@ class LoginRegister extends Component {
             isLoginActive : false,
         }
     }
+
+    handleLoginFormSubmit = (e) => {
+        e.preventDefault()
+        var formData = new FormData(this.loginForm)
+        var data = {
+            email: formData.get('email-input'),
+            password: formData.get('password-input'),
+        }
+        var { setActiveView, listPosts, setUserId,} = this.props
+
+        apiInfo.userCheck(data.email).then(res => {
+            var user = res.data
+            if (user == null) {
+                console.log('user is null')
+            }
+            else if (user != null && data.email!= null && data.password != null) {
+
+                apiInfo.getUser(user.id).then(res => {
+                    // console.log(res.data.password)
+                    if (data.password == res.data.password) {
+                        setUserId(res.data)
+                        listPosts()
+                        setActiveView('dashboard')
+                        localStorage.setItem('id',user.id)
+                    } else {
+                        console.log('wrong pw')
+                    }
+                })
+            }
+        })
+    }
+
+    handleRegisterFormSubmit = (e) => {
+		e.preventDefault()
+		var formData = new FormData(this.addForm)
+		var data = {
+			userName: formData.get('register-username-input'),
+			email: formData.get('register-email-input'),
+			password: formData.get('register-password-input'),
+			location: formData.get('region-input'),
+			id: Date.now() + Math.round(Math.random() * (1000000 - 1) + 1),
+			profileImage: '',
+			projects: [],
+		}
+		var { setActiveView, listPosts, setUserId } = this.props
+		console.log(data)
+		setUserId(data)
+
+		apiInfo.postUser(data).then(() => listPosts())
+		setActiveView('dashboard')
+	}
 
     setDashboardView = () => {
         var {setActiveView} = this.props
@@ -93,15 +145,15 @@ class LoginRegister extends Component {
                         <div style={{bottom:props.y+'%', left:props.x+'%'}} className="signupBox">
                             <h3>Sign Up</h3>
             
-                            <form className="register-form">
+                            <form className="register-form" onSubmit={this.handleRegisterFormSubmit} ref={(el) => { this.addForm = el }}>
                                 <div className="form-group">
-                                    <input type="text" className="form-control" name="register-username-input" id="register-username-input" placeholder="Username" />
+                                    <input type="text" className="form-control" name="register-username-input" id="register-username-input" placeholder="Username" required />
                                 </div>
                                 <div className="form-group">
-                                    <input type="email" className="form-control" name="register-email-input" id="register-email-input" placeholder="Email Address" />
+                                    <input type="email" className="form-control" name="register-email-input" id="register-email-input" placeholder="Email Address" required />
                                 </div>
                                 <div className="form-group">
-                                    <input type="password" className="form-control" name="register-password-input" id="register-password-input" placeholder="Password" />
+                                    <input type="password" className="form-control" name="register-password-input" id="register-password-input" placeholder="Password" required />
                                 </div>
                                 <div className="form-group">
                                     <select className="form-control custom-select" name="region-input" id="region-input">
@@ -121,11 +173,7 @@ class LoginRegister extends Component {
                                     () => this.closeSignUp()
                                     }></i>
                                 </button>
-                                <button type="submit" className="btn btn-primary btn-next" onClick={(e) => {
-                                    e.preventDefault()
-            
-                                    this.setDashboardView()
-                                }}>
+                                <button type="submit" className="btn btn-primary btn-next">
                                     Next
                                 </button>
                                 </div>
@@ -144,7 +192,7 @@ class LoginRegister extends Component {
                         <div className="signinBox" style={{left:props.x+'%'}}>
                             <h3>Login</h3>
         
-                            <form className="login-form">
+                            <form className="login-form" onSubmit={this.handleLoginFormSubmit} ref={(el) => { this.loginForm = el }}>
                                 <div className="form-group">
                                 <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" />
                                 </div>
@@ -159,12 +207,7 @@ class LoginRegister extends Component {
                                 <button type="button" className="btn btn-light btn-back">
                                     <i className="fas fa-arrow-left" onClick={()=>{this.closeLogin()}}></i>
                                 </button>
-                                <button type="submit" className="btn btn-primary btn-next"
-                                    onClick={(e) => {
-                                    e.preventDefault()
-        
-                                    this.setDashboardView()
-                                    }}>
+                                <button type="submit" className="btn btn-primary btn-next">
                                     Next
                                     </button>
                                 </div>

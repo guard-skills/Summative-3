@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import navbar from './assets/navbar.png';
-import profileSmall from './assets/profile-image-small.png';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import placeholder from './assets/profile-placeholder.png';
 //components
 import Navbar from './components/Navbar';
 import View from './components/View';
@@ -14,9 +14,9 @@ import Update from './components/Update';
 import LoginRegister from './components/Login-Register';
 import {Spring} from 'react-spring/renderprops';
 import { Button,Form } from 'react-bootstrap';
+import apiInfo from './components/apiInfo';
 
 var url = 'http://localhost:4000/api'
-
 
 class App extends Component {
   constructor(props) {
@@ -24,6 +24,33 @@ class App extends Component {
 
     this.state = {
       post: [],
+
+      postToUpdate: {
+        id: '',
+        name: '',
+        description: '',
+        type_id: '',
+      },
+
+      currentUser: {
+        _id: 1,
+        id: 1,
+        userName: "",
+        email: "",
+        password: "",
+        location: "",
+        profileImage: "",
+
+        post: [
+          {
+            id: 1,
+            name: '',
+            description: '',
+            type_id: 1,
+            comments: []
+          },
+        ],
+      },
 
       activeView: 'landing',
 
@@ -77,41 +104,6 @@ class App extends Component {
   handleNavbarClick = () => {
     this.openNavbar();
   }
-
-  //CRUD for posts
-  getPosts = () => {
-    axios.get(url + '/posts')
-    .then(res => {
-      this.setState({post:res.data})
-    })
-  }
-
-  addPost = (data) => {
-    axios.post(url + '/posts', data)
-    .then(res => {
-      this.getPosts()
-    })
-  }
-
-  updatePost = (id,data) => {
-    axios.put(url + '/posts/' + id, data)
-    .then(res => {
-      this.getPosts()
-    })
-  }
-
-  deletePost = (id) => {
-    axios.delete(url + '/posts/' + id)
-    .then(rest=>{
-      this.getPosts()
-    })
-  }
-
-  
-  componentDidMount = () => {
-    this.getPosts()
-    // this.getProjects()
-  }
   
   //Filter
   openFilter = () => {
@@ -129,11 +121,93 @@ class App extends Component {
   }
 
   //file upload
-  uploadFile = (formData) => {
 
-    var settings = { headers: {'Content-Type': 'multipart/form-data' }}
-    return axios.post(url+'/upload',formData,settings)
 
+  //Jin's functions (login/logout)
+
+  setUserId = (user) => {
+    this.setState({ currentUser: user })
+    return user
+  }
+
+  userLogin = (data) => {
+    apiInfo.userAuth(data)
+      .then(res => {
+        var user = res.data
+        console.log(res.data)
+        return user
+      })
+  }
+
+  setProfilePostToUpdate = (id) => { //take info from Post to updatedPostForm
+    var foundPost = this.state.currentUser.post.find((post) => {
+      console.log(post.id)
+      return post.id === id
+    })
+    this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
+  }
+
+  setPostToUpdate = (id) => { //take info from Post to updatedPostForm
+    var foundPost = this.state.post.find((post) => {
+      console.log(post.id)
+      return post.id === id
+    })
+    this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
+  }
+
+  listPosts = () => { //create list of posts from DB (all posts)
+    apiInfo.getPosts().then(res => {
+      this.setState({ post: res.data })
+    })
+  }
+
+  listUserPosts = () => { //create list of user's post from DB (only current logged in user)
+    apiInfo.getUser(this.state.currentUser.id).then(res => {
+      this.setState({ currentUser: res.data })
+    })
+  }
+
+  activeViewListPost = (view) => {
+    apiInfo.getPosts().then(res => {
+      this.setState({ post: res.data })
+    }).then(() => this.setActiveView(view))
+  }
+
+  activeViewListUserPost = (view) => {
+    apiInfo.getUser(this.state.currentUser.id).then(res => {
+      this.setState({ currentUser: res.data })
+    }).then(() => this.setActiveView(view))
+  }
+
+  activeViewLogout = (view) => {
+    this.setState({
+      currentUser: {
+        _id: 1,
+        id: 1,
+        userName: "",
+        email: "",
+        password: "",
+        location: "",
+        profileImage: "",
+
+        post: [
+          {
+            id: 1,
+            name: '',
+            description: '',
+            type_id: 1,
+            comments: []
+          },
+        ],
+      }, post:[]
+    })
+    this.setActiveView(view)
+  }
+
+  componentDidMount = () => {
+    apiInfo.getPosts()
+    // this.getPosts()
+    apiInfo.getUser()
   }
 
   render() {
@@ -144,7 +218,13 @@ class App extends Component {
 
         <View viewName="landing" activeView={this.state.activeView} className="landing landing-page">
 
-          <LoginRegister {...this.state.activeView} setActiveView={this.setActiveView}/>
+          <LoginRegister {...this.state.activeView}             
+            setActiveView={this.setActiveView}
+            listPosts={this.listPosts}
+            setUserId={this.setUserId}
+            userLogin={this.userLogin}
+            listUserPosts={this.listUserPosts}
+          />
 
         </View>
 
@@ -156,7 +236,7 @@ class App extends Component {
             <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
             <div className="heading">Dashboard</div>
             <div className="dashboard-image-change" onClick={this.handleProfileImageClick}>
-              <img src={profileSmall} alt="profile-small" />
+              <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-small" />
             </div>
           </div>
 
@@ -194,6 +274,7 @@ class App extends Component {
           </Spring>
 
           <div className="posts">
+            
             {
               this.state.post.reverse().map((item) => {
                 var itemProps = {
@@ -235,11 +316,11 @@ class App extends Component {
                 <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
                 <div className="heading">Create Post</div>
                 <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={profileSmall} alt="profile-small" />
+                  <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-small" />
                 </div>
               </div>
 
-              <Create uploadFile={this.uploadFile} addPost={this.addPost} setActiveView={this.setActiveView}/>
+              <Create user={this.state.currentUser} setActiveView={this.setActiveView}/>
 
               <div className="nav-bottom">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -267,7 +348,7 @@ class App extends Component {
                 <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
                 <div className="heading">Update Post</div>
                 <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={profileSmall} alt="profile-small" />
+                  <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-small" />
                 </div>
               </div>
 
@@ -304,11 +385,11 @@ class App extends Component {
 
               <div className="profile-info">
                 <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
-                  <img src={profileSmall} alt="profile-big" />
+                  <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-big" />
                 </div>
                 <div className="personal-details">
-                  <h1>Jane Doe</h1>
-                  <h2>Auckland</h2>
+                  <h1>{this.state.currentUser.userName}</h1>
+                  <h2>{this.state.currentUser.location}</h2>
                   <div className="edit-personal-details">
                     <i className="fas fa-pen"></i>
                   </div>
@@ -359,9 +440,9 @@ class App extends Component {
 
                 <Modal.Body>
                   <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
-                  <form className="uploadPhotoForm">
+                  <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
                     <div className="profileImage">
-                      <img src={profileSmall} alt="profileSmall" />
+                      <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profileSmall" />
                     </div>
                     <div>Upload Photo</div>
                     <div className="form-group">
@@ -372,11 +453,7 @@ class App extends Component {
                     <div className="form-group">
                       <input type="url" className="photoURL" placeholder="URL" />
                     </div>
-                    <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
-                      (e) => {
-                        e.preventDefault()
-                      }
-                    }>Submit</button>
+                    <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
                   </form>
                 </Modal.Body>
 
@@ -388,9 +465,9 @@ class App extends Component {
 
               <Modal.Body>
                 <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
-                <form className="uploadPhotoForm">
+                <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
                   <div className="profileImage">
-                    <img src={profileSmall} alt="profileSmall" />
+                    <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profileSmall" />
                   </div>
                   <div>Upload Photo</div>
                   <div className="form-group">
@@ -401,11 +478,7 @@ class App extends Component {
                   <div className="form-group">
                     <input type="url" className="photoURL" placeholder="URL" />
                   </div>
-                  <button type="submit" className="btn btn-primary submitPhotoChange" onClick={
-                    (e) => {
-                      e.preventDefault()
-                    }
-                  }>Submit</button>
+                  <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
                 </form>
               </Modal.Body>
 

@@ -323,7 +323,7 @@
 
 .nav-top .profile-image-small img, .nav-top .dashboard-image-change img {
   width: 2.5em;
-  min-height: 4em;
+  min-height: 2.5em;
 }
 
 .nav-top .heading {
@@ -1230,7 +1230,7 @@
 
 .profile-info .profile-image-big img {
   width: 6em;
-  height: 8em;
+  min-height: 6em;
   position: relative;
   top: -2%;
 }

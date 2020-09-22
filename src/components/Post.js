@@ -7,6 +7,9 @@ import placeholder from '../assets/profile-placeholder.png';
 import {Spring} from 'react-spring/renderprops';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import apiInfo from './apiInfo'
+
+var url = 'http://localhost:4000/api';
 
 class Post extends Component {
   constructor(props){
@@ -31,7 +34,7 @@ class Post extends Component {
     return (
         <div className="post-item">
           <div className="post-image">
-            <img src={this.props.postImage} alt="" />
+            <img src={url+this.props.postImage ? url+this.props.postImage : this.props.postImageURL} alt="" />
           </div>
 
           {/* Tabbies */}
