@@ -32,11 +32,15 @@ let apiInfo = {
     },
 
     userCheck: (data) => {
-        return axios.get(url + '/getUserName/' + data)
+        return axios.get(url + '/checkUserName/' + data)
     },
 
     userAuth: (data) => {
         return axios.post(url + '/userAuth', data)
+    },
+
+    getuserName: (data) => {
+        return axios.get(url + '/getUsername/' + data)
     }
 }
 
