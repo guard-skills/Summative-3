@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import apiInfo from '../components/apiInfo';
-/*import {navigate} from '@reach/router'
-import API from './API'*/
 
 class Create extends Component {
 
@@ -38,17 +35,16 @@ class Create extends Component {
 			user_id: currentUser.id,
 		}
 		
-		//destructure
-		var {setActiveView , listPosts} = this.props
-		apiInfo.addPost(data).then(()=>listPosts())
-		setActiveView('dashboard')
-		
-	}
-
-
+		var {setActiveView , listPosts, listUserPosts} = this.props
+    apiInfo.addPost(data)
+    .then(()=>listPosts())
+    .then(()=>listUserPosts())
+    .then(()=>setActiveView('dashboard'))
+  }
+  
   render() {
-    return (
 
+    return (
       <div className="wrap" viewname="create-Page">
         <div className="add-post">
           <form onSubmit={this.handleFormSubmit} ref={(el) => {this.addForm = el}}>
@@ -69,7 +65,7 @@ class Create extends Component {
               </div>
               <div className="form-group">
                   <label>Area</label>
-                  <select className="form-control">
+                  <select className="form-control" name="location">
                     <option value="Auckland">Auckland</option>
                     <option value="Wellington">Wellington</option>
                     <option value="Christchurch">Christchurch</option>

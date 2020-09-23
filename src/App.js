@@ -351,7 +351,7 @@ class App extends Component {
             </div>
           </div>
 
-          <Create currentUser={currentUser} setActiveView={this.setActiveView} listPosts={this.listPosts} />
+          <Create currentUser={currentUser} setActiveView={this.setActiveView} listPosts={this.listPosts} listUserPosts={this.listUserPosts} />
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -383,7 +383,7 @@ class App extends Component {
             </div>
           </div>
 
-          <Update />
+          <Update {...this.state.postToUpdate} currentUser={currentUser} setActiveView={this.setActiveView} listUserPosts={this.listUserPosts} listPosts={this.listPosts}/>
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -430,7 +430,7 @@ class App extends Component {
           <div className="posts-search">
             <div className="mypost">
               <div className="number-of-post">My posts</div>
-              <div className="number-of-post2">2</div>
+              <div className="number-of-post2">{currentUser.posts.length}</div>
             </div>
 
             <div className="search">
@@ -443,14 +443,26 @@ class App extends Component {
           </div>
 
           <div className="profile-posts">
-            <MyPost setActiveView={this.setActiveView} />
-            <MyPost setActiveView={this.setActiveView} />
-            <MyPost setActiveView={this.setActiveView} />
+            {
+              //shows user profile
+              this.state.currentUser.posts.slice().reverse().map((posts) => {
+
+                var postsProps = {
+                  ...posts,
+                  key: posts.id,
+                  listUserPosts: this.listUserPosts,
+                  setActiveView: this.setActiveView,
+                  setPostToUpdate: this.setPostToUpdate
+
+                }
+                return (<MyPost setActiveView={this.setActiveView} currentUser={currentUser} {...postsProps} />)
+              })
+            }
           </div>
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-              () => this.setActiveView('dashboard')}>
+              () => this.activeViewListPost('dashboard')}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -460,7 +472,7 @@ class App extends Component {
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
             </svg>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-              () => this.setActiveView('profile-Page')}>
+              () => this.activeViewListUserPost('profile-Page')}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path
                 d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
