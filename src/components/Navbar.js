@@ -12,35 +12,34 @@ class Navbar extends Component {
         }
     }
 
-    handleLogoutClick = () => {
-        var {setActiveView, closeNavbar} = this.props
+    handleHomeClick = () => {
+        var {setActiveView, closeNavbar}= this.props
 
-        setActiveView('landing')
+        setActiveView('dashboard')
+
+        closeNavbar()
+    }
+
+    handleProfileClick = () => {
+        var {setActiveView, closeNavbar}= this.props
+
+        setActiveView('profile-Page')
+
+        closeNavbar()
+    }
+
+    handleAddPostClick = () => {
+        var {setActiveView, closeNavbar}= this.props
+
+        setActiveView('create-page')
 
         closeNavbar()
     }
 
     handleCloseNavbar = () => {
         var {closeNavbar} = this.props
+        
         closeNavbar()
-    }
-
-    handleHomeClick = () => {
-        var {setActiveView}= this.props
-
-        setActiveView('dashboard')
-    }
-
-    handleProfileClick = () => {
-        var {setActiveView}= this.props
-
-        setActiveView('profile-Page')
-    }
-
-    handleAddPostClick = () => {
-        var {setActiveView}= this.props
-
-        setActiveView('create-page')
     }
     
     componentWillUnmount(){
@@ -76,10 +75,10 @@ class Navbar extends Component {
                                 <Nav.Link href="https://zip.org.nz/contact" className="nav-link" target="_blank" rel="noopener noreferrer">Contact</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <Nav.Link onClick={this.handleLogoutClick} className="nav-link">Logout</Nav.Link>
+                                <Nav.Link onClick={()=>{this.props.activeViewLogout()}} className="nav-link">Logout</Nav.Link>
                             </Nav.Item>
                             <Nav.Item className="nav-item">
-                                <i className="far fa-times-circle" onClick={this.handleCloseNavbar}></i>
+                                <i className="far fa-times-circle" onClick={()=>{this.handleCloseNavbar()}}></i>
                             </Nav.Item>
                         </Nav>
                         <div className="visit">

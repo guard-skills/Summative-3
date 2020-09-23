@@ -23,6 +23,10 @@ let apiInfo = {
         return axios.post(url + '/userAuth', data)
     },
 
+    updateUser: (id,data) => {
+        return axios.put(url + '/users/' + id, data)
+    },
+
     //CRUD for posts
     getPosts: () => {
         return axios.get(url + '/posts')

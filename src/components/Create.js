@@ -43,6 +43,7 @@ class Create extends Component {
         }
 
         apiInfo.addPost(data).then(res=>{
+          this.props.listPosts()
           setActiveView('dashboard')
         })
         
@@ -59,6 +60,7 @@ class Create extends Component {
       }
 
       apiInfo.addPost(data).then(res=>{
+        this.props.listPosts()
         setActiveView('dashboard')
       })
 

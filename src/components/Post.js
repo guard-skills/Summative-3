@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import './App.css';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
-import profileSmall from '../assets/profile-image-small.png';
 import placeholder from '../assets/profile-placeholder.png';
 import {Spring} from 'react-spring/renderprops';
 import Moment from 'react-moment';
@@ -24,15 +23,43 @@ class Post extends Component {
     // console.log(this.state)
   }
 
+  handleSubmitComment = (e) => {
+    e.preventDefault();
+
+    // var user = this.props.currentUser
+
+    var {comments, listPosts} = this.props
+
+    var formData = new FormData(this.form);
+
+    var newComment = {
+      // user_id: user.id,
+      user_id: this.props.currentUser.userName,
+      profileImage: this.props.currentUser.profileImage,
+      profileImageURL: this.props.currentUser.profileImageURL,
+      comment: formData.get('comment-input'),
+    }
+
+    comments.push(newComment)
+
+    var data = { comments }
+    var {id} = this.props
+
+    apiInfo.updatePost(id, data).then(()=>listPosts());
+
+  }
+
   render (){
     const likeToggle = this.state.isLiked
 
     var dateString = this.props.createdAt;
 
+    var { comments } = this.props 
+
     return (
         <div className="post-item">
           <div className="post-image">
-            <img src={apiInfo.serverUrl+this.props.postImage ? apiInfo.serverUrl+this.props.postImage : this.props.postImageURL} alt="" />
+            <img src={this.props.postImage ? apiInfo.serverUrl+this.props.postImage : this.props.postImageURL} alt="" />
           </div>
 
           {/* Tabbies */}
@@ -54,20 +81,6 @@ class Post extends Component {
                     <div className="post-title">
                       {this.props.title}
                     </div>
-
-                    {/* <div className={ likeToggle ? 'likePost liked' : 'likePost'} onClick={this.handleLikeClick}>
-                      <svg viewBox="-5 -5 110 110">
-                        <defs>
-                          <clipPath id="svgPath">
-                            <path d='M70.617,6.296c-10.321,0-16.836,5.023-20.617,9.565c-3.781-4.542-10.295-9.565-20.62-9.565   C11.805,6.296,0,22.577,0,37.782c0,22.135,42.518,51.801,47.366,55.11c0.794,0.541,1.714,0.812,2.634,0.812s1.84-0.271,2.634-0.812   C57.482,89.583,100,59.917,100,37.782C100,22.577,88.193,6.296,70.617,6.296z' />
-                          </clipPath>
-                        </defs>
-                        <g>
-                          <path fill="none" stroke="#5B8C5A" strokeWidth="10px" d='M70.617,6.296c-10.321,0-16.836,5.023-20.617,9.565c-3.781-4.542-10.295-9.565-20.62-9.565   C11.805,6.296,0,22.577,0,37.782c0,22.135,42.518,51.801,47.366,55.11c0.794,0.541,1.714,0.812,2.634,0.812s1.84-0.271,2.634-0.812   C57.482,89.583,100,59.917,100,37.782C100,22.577,88.193,6.296,70.617,6.296z' />
-                        </g>
-                      </svg>
-                      <div className="likeFill"></div>
-                    </div> */}
                     
                     <div className="postLikeButton">
                       <svg viewBox="-5 -5 110 110" className='likePost'>
@@ -97,14 +110,13 @@ class Post extends Component {
                   </div>
                     <div className="post-profile">
                       <div className="post-profile-picture">
-                        <img src={this.props.user.profileImage ? this.props.user.profileImage : placeholder} alt="profile-placeholder" />
+                        <img src={ this.props.user.profileImage  ? apiInfo.serverUrl+this.props.user.profileImage : this.props.user.profileImageURL ? this.props.user.profileImageURL : placeholder } alt="profile-placeholder" />
                       </div>
                       <div className="post-profile-info">
                         <div className="post-name">
-                          {this.props.user.userName}
+                          {this.props.user ? this.props.user.userName : '' }
                         </div>
                         <div className="post-timestamp">
-                          {/* <Moment format="YYYY/MM/DD HH:mm" date={dateString} /> */}
                           <Moment fromNow>{dateString}</Moment>
                         </div>
                       </div>
@@ -117,43 +129,57 @@ class Post extends Component {
                 <div className="container comments">
                   <div className="author-comment comment">
                     <div className="author-profile-photo profile-photo">
-                      <img src={this.props.user.profileImage ? this.props.user.profileImage : placeholder} alt="author-profile" />
-                                </div>
-                      <div className="author-info comment-content">
-                        <span className="author-name comment-name">{this.props.userName}</span>
-                                    {this.props.description}
-                                </div>
+                      <img src={ this.props.user.profileImage  ? apiInfo.serverUrl+this.props.user.profileImage : this.props.user.profileImageURL ? this.props.user.profileImageURL : placeholder } alt="author-profile" />
                     </div>
+                      <div className="author-info comment-content">
+                        <span className="author-name comment-name">{this.props.user.userName}</span>
+                          {this.props.description}
+                      </div>
+                  </div>
+
+                  {comments.map((comment) => {
+                    return (
+                      <div className="comment">
+                        <div className="profile-photo">
+                          <img src={ comment.profileImage ? apiInfo.serverUrl+comment.profileImage : comment.profileImageURL ? comment.profileImageURL : placeholder} alt="profile" />
+                        </div>
+                        <div className="comment-content">
+                          <span className="comment-name">{comment.user_id}</span>
+                            {comment.comment}
+                          </div>
+                      </div>
+                    )
+                  })}
+                  {/* <div className="comment">
+                    <div className="profile-photo">
+                      <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
+                              </div>
+                      <div className="comment-content">
+                        <span className="comment-name">Mary Jane</span>
+                                  Yes, I concur with that statement.
+                              </div>
+                    </div>
+                    
                     <div className="comment">
                       <div className="profile-photo">
                         <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
-                                </div>
+                              </div>
                         <div className="comment-content">
                           <span className="comment-name">Mary Jane</span>
-                                    Yes, I concur with that statement.
-                                </div>
+                                  That is certainly a bird.
+                              </div>
                       </div>
-                      
-                      <div className="comment">
-                        <div className="profile-photo">
-                          <img src="https://images.pexels.com/photos/2726111/pexels-photo-2726111.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="profile" />
-                                </div>
-                          <div className="comment-content">
-                            <span className="comment-name">Mary Jane</span>
-                                    That is certainly a bird.
-                                </div>
+                        */}
+                      <div className="makeComment">
+                        <div className="profile-image-small">
+                          <img src={this.props.currentUser.profileImage ? apiInfo.serverUrl+this.props.currentUser.profileImage : this.props.currentUser.profileImageURL ? this.props.currentUser.profileImageURL : placeholder} alt="profile-small" />
                         </div>
-                        
-                        <div className="makeComment">
-                          <div className="profile-image-small">
-                            <img src={profileSmall} alt="profile-small" />
-                          </div>
-                          <form>
-                            <input type="text" placeholder="Type comment..." />
-                            <button type="submit">Submit</button>
-                          </form>
-                        </div>
+                        <form onSubmit={this.handleSubmitComment} ref={(el) => {this.form = el}}>
+                          <input type="text" name="comment-input" placeholder="Type comment..." />
+                          <button type="submit">Submit</button>
+                        </form>
                       </div>
+                    </div>
               </Tab.Pane>
 
             </Tab.Content>

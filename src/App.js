@@ -58,7 +58,18 @@ class App extends Component {
       isNavbarOpen: false,
 
       isFilterOpen: false,
+
+      file: null,
     }
+
+    this.handleProfileImage = this.handleProfileImage.bind(this)
+
+  }
+
+  handleProfileImage = (e) => {
+    this.setState({
+      file: URL.createObjectURL(e.target.files[0])
+    })
   }
 
 
@@ -90,6 +101,23 @@ class App extends Component {
     this.openProfilePageImageModal();
   }
 
+  handleProfileChangeClick = (e) => {
+    e.preventDefault()
+
+    var formData = new FormData(this.form);
+
+    apiInfo.uploadFile(formData).then(res => {
+      var fileName = res.data;
+
+      var data = {
+        profileImage: fileName,
+      }
+
+      apiInfo.updateUser(this.state.currentUser.id,data).then(res => this.setState({ currentUser: res.data }))
+
+    })
+  }
+
   //Navbar
   openNavbar = () => {
     this.setState({ isNavbarOpen: true })
@@ -113,12 +141,9 @@ class App extends Component {
     e.preventDefault()
   }
 
-  handleFilterClick = () => {
-    this.openFilter();
-  }
-
-  //file upload
-
+  // handleFilterClick = () => {
+  //   this.openFilter();
+  // }
 
   //Jin's functions (login/logout)
 
@@ -127,14 +152,14 @@ class App extends Component {
     return user
   }
 
-  userLogin = (data) => {
-    apiInfo.userAuth(data)
-      .then(res => {
-        var user = res.data
-        console.log(res.data)
-        return user
-      })
-  }
+  // userLogin = (data) => {
+  //   apiInfo.userAuth(data)
+  //     .then(res => {
+  //       var user = res.data
+  //       console.log(res.data)
+  //       return user
+  //     })
+  // }
 
   setProfilePostToUpdate = (id) => { //take info from Post to updatedPostForm
     var foundPost = this.state.currentUser.post.find((post) => {
@@ -176,35 +201,27 @@ class App extends Component {
     }).then(() => this.setActiveView(view))
   }
 
-  activeViewLogout = (view) => {
-    this.setState({
-      currentUser: {
-        _id: 1,
-        id: 1,
-        userName: "",
-        email: "",
-        password: "",
-        location: "",
-        profileImage: "",
-
-        post: [
-          {
-            id: 1,
-            name: '',
-            description: '',
-            type_id: 1,
-            comments: []
-          },
-        ],
-      }, post:[]
-    })
-    this.setActiveView(view)
+  activeViewLogout = () => {
+    localStorage.removeItem('id')
+    this.setState({currentUser:0})
+    this.setActiveView('landing')
+    this.closeNavbar()
   }
 
   componentDidMount = () => {
     apiInfo.getPosts()
-    // this.getPosts()
+    this.listPosts()
     apiInfo.getUser()
+
+    //local storage
+    var userId = localStorage.getItem('id')
+    if(userId){
+      apiInfo.getUser(userId).then(res => {
+        this.setState({ currentUser: res.data })
+      })
+
+      this.setActiveView('dashboard')
+    }
   }
 
   render() {
@@ -225,7 +242,7 @@ class App extends Component {
 
         </View>
 
-        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView}/>
+        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} activeViewLogout={this.activeViewLogout}/>
         
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
@@ -233,13 +250,13 @@ class App extends Component {
             <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
             <div className="heading">Dashboard</div>
             <div className="dashboard-image-change" onClick={this.handleProfileImageClick}>
-              <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-small" />
+              <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
             </div>
           </div>
 
           <div className="filter-bar">
             <div>All</div>
-            <div className="filter" onClick={this.handleFilterClick}>
+            <div className="filter" onClick={this.state.isFilterOpen ? this.closeFilter : this.openFilter}>
               <i className="fas fa-chevron-down"></i>
                     Filter
                 </div>
@@ -276,6 +293,9 @@ class App extends Component {
               this.state.post.reverse().map((item) => {
                 var itemProps = {
                   key: item.id,
+                  listPosts: this.listPosts,
+                  setPostToUpdate: this.setPostToUpdate,
+                  currentUser: this.state.currentUser,
                   ...item
                 }
 
@@ -313,11 +333,11 @@ class App extends Component {
                 <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
                 <div className="heading">Create Post</div>
                 <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-small" />
+                  <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
                 </div>
               </div>
 
-              <Create user={this.state.currentUser} setActiveView={this.setActiveView}/>
+              <Create listPosts={this.listPosts} user={this.state.currentUser} setActiveView={this.setActiveView}/>
 
               <div className="nav-bottom">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -345,7 +365,7 @@ class App extends Component {
                 <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
                 <div className="heading">Update Post</div>
                 <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-small" />
+                  <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
                 </div>
               </div>
 
@@ -382,11 +402,11 @@ class App extends Component {
 
               <div className="profile-info">
                 <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
-                  <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profile-big" />
+                  <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-big" />
                 </div>
                 <div className="personal-details">
-                  <h1>{this.state.currentUser.userName}</h1>
-                  <h2>{this.state.currentUser.location}</h2>
+                  <h1>{this.state.currentUser ? this.state.currentUser.userName : null}</h1>
+                  <h2>{this.state.currentUser ? this.state.currentUser.location : null}</h2>
                   <div className="edit-personal-details">
                     <i className="fas fa-pen"></i>
                   </div>
@@ -439,12 +459,12 @@ class App extends Component {
                   <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
                   <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
                     <div className="profileImage">
-                      <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profileSmall" />
+                      <img src={this.state.file ? this.state.file : this.state.currentUser.profileImage  ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profileSmall" />
                     </div>
                     <div>Upload Photo</div>
                     <div className="form-group">
                       <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                      <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse  form-control-file" />
+                      <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handleProfileImage}/>
                     </div>
                     <div>or</div>
                     <div className="form-group">
@@ -464,16 +484,16 @@ class App extends Component {
                 <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
                 <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
                   <div className="profileImage">
-                    <img src={this.state.currentUser.profileImage ? this.state.currentUser.profileImage : placeholder} alt="profileSmall" />
+                    <img src={this.state.file ? this.state.file : this.state.currentUser.profileImage  ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profileSmall" />
                   </div>
                   <div>Upload Photo</div>
                   <div className="form-group">
                     <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                    <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" />
+                    <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handleProfileImage} />
                   </div>
                   <div>or</div>
                   <div className="form-group">
-                    <input type="url" className="photoURL" placeholder="URL" />
+                    <input type="url" className="photoURL" placeholder="URL"/>
                   </div>
                   <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
                 </form>
