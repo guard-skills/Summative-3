@@ -29,25 +29,26 @@ class App extends Component {
         type_id: '',
       },
 
-      currentUser: {
-        _id: 1,
-        id: 1,
-        userName: "",
-        email: "",
-        password: "",
-        location: "",
-        profileImage: "",
+      // currentUser: {
+      //   _id: 1,
+      //   id: 1,
+      //   userName: "",
+      //   email: "",
+      //   password: "",
+      //   location: "",
+      //   profileImage: "",
 
-        post: [
-          {
-            id: 1,
-            name: '',
-            description: '',
-            type_id: 1,
-            comments: []
-          },
-        ],
-      },
+      //   posts: [
+      //     {
+      //       id: 1,
+      //       name: '',
+      //       description: '',
+      //       type_id: 1,
+      //       comments: []
+      //     },
+      //   ],
+      // },
+      currentUser:0,
 
       activeView: 'landing',
 
@@ -60,15 +61,26 @@ class App extends Component {
       isFilterOpen: false,
 
       file: null,
+
+      url: null,
     }
 
-    this.handleProfileImage = this.handleProfileImage.bind(this)
+    // this.handleProfileImage = this.handleProfileImage.bind(this)
+
+    // this.handleProfileImageURL = this.handleProfileImageURL.bind(this)
 
   }
 
   handleProfileImage = (e) => {
     this.setState({
       file: URL.createObjectURL(e.target.files[0])
+    })
+  }
+
+  handleProfileImageURL = (e) => {
+    // console.log('bla')
+    this.setState({
+      url: e.target.value
     })
   }
 
@@ -106,16 +118,25 @@ class App extends Component {
 
     var formData = new FormData(this.form);
 
-    apiInfo.uploadFile(formData).then(res => {
-      var fileName = res.data;
-
+    if(formData.get('photoBrowse').size > 0){
+      apiInfo.uploadFile(formData).then(res => {
+        var fileName = res.data;
+  
+        var data = {
+          profileImage: fileName,
+        }
+  
+        apiInfo.updateUser(this.state.currentUser.id,data).then(res => this.setState({ currentUser: res.data }))
+  
+      })
+    } else {
+      
       var data = {
-        profileImage: fileName,
+        profileImageURL: formData.get('url-input')
       }
 
       apiInfo.updateUser(this.state.currentUser.id,data).then(res => this.setState({ currentUser: res.data }))
-
-    })
+    }
   }
 
   //Navbar
@@ -141,10 +162,6 @@ class App extends Component {
     e.preventDefault()
   }
 
-  // handleFilterClick = () => {
-  //   this.openFilter();
-  // }
-
   //Jin's functions (login/logout)
 
   setUserId = (user) => {
@@ -152,26 +169,9 @@ class App extends Component {
     return user
   }
 
-  // userLogin = (data) => {
-  //   apiInfo.userAuth(data)
-  //     .then(res => {
-  //       var user = res.data
-  //       console.log(res.data)
-  //       return user
-  //     })
-  // }
-
-  setProfilePostToUpdate = (id) => { //take info from Post to updatedPostForm
-    var foundPost = this.state.currentUser.post.find((post) => {
-      console.log(post.id)
-      return post.id === id
-    })
-    this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
-  }
-
   setPostToUpdate = (id) => { //take info from Post to updatedPostForm
-    var foundPost = this.state.post.find((post) => {
-      console.log(post.id)
+    var foundPost = this.state.currentUser.posts.find((post) => {
+      // console.log(post.id)
       return post.id === id
     })
     this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
@@ -189,18 +189,6 @@ class App extends Component {
     })
   }
 
-  activeViewListPost = (view) => {
-    apiInfo.getPosts().then(res => {
-      this.setState({ post: res.data })
-    }).then(() => this.setActiveView(view))
-  }
-
-  activeViewListUserPost = (view) => {
-    apiInfo.getUser(this.state.currentUser.id).then(res => {
-      this.setState({ currentUser: res.data })
-    }).then(() => this.setActiveView(view))
-  }
-
   activeViewLogout = () => {
     localStorage.removeItem('id')
     this.setState({currentUser:0})
@@ -211,14 +199,17 @@ class App extends Component {
   componentDidMount = () => {
     apiInfo.getPosts()
     this.listPosts()
-    apiInfo.getUser()
+    // apiInfo.getUser()
+    
 
     //local storage
     var userId = localStorage.getItem('id')
     if(userId){
+      // console.log(userId)
       apiInfo.getUser(userId).then(res => {
         this.setState({ currentUser: res.data })
       })
+      .then(()=>this.listUserPosts())
 
       this.setActiveView('dashboard')
     }
@@ -258,8 +249,8 @@ class App extends Component {
             <div>All</div>
             <div className="filter" onClick={this.state.isFilterOpen ? this.closeFilter : this.openFilter}>
               <i className="fas fa-chevron-down"></i>
-                    Filter
-                </div>
+              Filter
+            </div>
           </div> 
 
           <Spring 
@@ -327,179 +318,198 @@ class App extends Component {
 
         </View>
 
-            <View viewName="create-page" activeView={this.state.activeView} className="create-page">
+        <View viewName="create-page" activeView={this.state.activeView} className="create-page">
 
-              <div className="nav-top">
-                <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
-                <div className="heading">Create Post</div>
-                <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
+            <div className="heading">Create Post</div>
+            <div className="profile-image-small" onClick={this.handleProfileImageClick}>
+              <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
+            </div>
+          </div>
+
+          <Create listPosts={this.listPosts} user={this.state.currentUser} setActiveView={this.setActiveView} listUserPosts={this.listUserPosts}/>
+
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+        </View>
+
+        <View viewName="update-Page" activeView={this.state.activeView} className="update-page">
+
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
+            <div className="heading">Update Post</div>
+            <div className="profile-image-small" onClick={this.handleProfileImageClick}>
+              <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
+            </div>
+          </div>
+
+          <Update {...this.state.postToUpdate} setActiveView={this.setActiveView} listUserPosts={this.listUserPosts} listPosts={this.listPosts}/>
+
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+
+        </View>
+
+        <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
+
+          <div className="nav-top">
+            <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
+            <div className="heading">My Profile</div>
+
+          </div>
+
+          <div className="profile-info">
+            <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
+              <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-big" />
+            </div>
+            <div className="personal-details">
+              <h1>{this.state.currentUser ? this.state.currentUser.userName : null}</h1>
+              <h2>{this.state.currentUser ? this.state.currentUser.location : null}</h2>
+              <div className="edit-personal-details">
+                <i className="fas fa-pen"></i>
+              </div>
+            </div>
+          </div>
+
+          <div className="posts-search">
+            <div className="mypost">
+              <div className="number-of-post">My posts</div>
+              <div className="number-of-post2">2</div>
+            </div>
+
+            <div className="search">
+              <div className="form-group-search">
+                <div className="search-icon"><i className="fas fa-search"></i>
                 </div>
+                <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
               </div>
+            </div>
+          </div>
 
-              <Create listPosts={this.listPosts} user={this.state.currentUser} setActiveView={this.setActiveView}/>
+          <div className="profile-posts">
+            {
+      
 
-              <div className="nav-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('dashboard')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                  () => this.setActiveView('create-page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('profile-Page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-              </div>
-            </View>
+              this.state.currentUser ? 
 
-            <View viewName="update-Page" activeView={this.state.activeView} className="update-page">
+              this.state.currentUser.posts.reverse().map((item) => {
+                var itemProps = {
+                  key: item.id,
+                  listUserPosts: this.listUserPosts,
+                  listPosts: this.listPosts,
+                  setPostToUpdate: this.setPostToUpdate,
+                  setActiveView: this.setActiveView,
+                  currentUser: this.state.currentUser,
+                  ...item
+                }
+                return (<MyPost {...itemProps}/>)
+              }) 
 
-              <div className="nav-top">
-                <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
-                <div className="heading">Update Post</div>
-                <div className="profile-image-small" onClick={this.handleProfileImageClick}>
-                  <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-small" />
+              : null
+
+
+            }
+          </div>
+
+          <div className="nav-bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('dashboard')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
+              () => this.setActiveView('create-page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
+              () => this.setActiveView('profile-Page')}>
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          </div>
+
+          <Modal show={this.state.isProfilePageImageModalOpen} onHide={() => { this.closeProfilePageImageModal() }} className="profilePageImageChange">
+
+            <Modal.Body>
+              <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
+              <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
+                <div className="profileImage">
+                  <img src={this.state.file ? this.state.file : this.state.url ? this.state.url : this.state.currentUser.profileImage  ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profileSmall" />
                 </div>
-              </div>
-
-              <Update />
-
-              <div className="nav-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('dashboard')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('create-page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                  () => this.setActiveView('profile-Page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-              </div>
-
-            </View>
-
-            <View viewName="profile-Page" activeView={this.state.activeView} className="profile profile-page">
-
-              <div className="nav-top">
-                <img src={navbar} alt="navbar" className="navbar" onClick={this.handleNavbarClick} />
-                <div className="heading">My Profile</div>
-
-              </div>
-
-              <div className="profile-info">
-                <div className="profile-image-big" onClick={this.handleProfilePageImageClick}>
-                  <img src={this.state.currentUser && this.state.currentUser.profileImage ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profile-big" />
+                <div>Upload Photo</div>
+                <div className="form-group">
+                  <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+                  <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handleProfileImage}/>
                 </div>
-                <div className="personal-details">
-                  <h1>{this.state.currentUser ? this.state.currentUser.userName : null}</h1>
-                  <h2>{this.state.currentUser ? this.state.currentUser.location : null}</h2>
-                  <div className="edit-personal-details">
-                    <i className="fas fa-pen"></i>
-                  </div>
+                <div>or</div>
+                <div className="form-group">
+                  <input type="url" name="url-input" className="photoURL" placeholder="URL" />
                 </div>
+                <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
+              </form>
+            </Modal.Body>
+
+          </Modal>
+
+        </View>
+
+        <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profileImageChange">
+
+          <Modal.Body>
+            <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
+            <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
+              <div className="profileImage">
+                <img src={this.state.file ? this.state.file : this.state.url ? this.state.url : this.state.currentUser.profileImage  ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profileSmall" />
               </div>
-
-              <div className="posts-search">
-                <div className="mypost">
-                  <div className="number-of-post">My posts</div>
-                  <div className="number-of-post2">2</div>
-                </div>
-
-                <div className="search">
-                  <div className="form-group-search">
-                    <div className="search-icon"><i className="fas fa-search"></i>
-                    </div>
-                    <input type="text" className="form-control" name="search-bar" id="search-bar" placeholder="Search by title" />
-                  </div>
-                </div>
+              <div>Upload Photo</div>
+              <div className="form-group">
+                <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+                <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handleProfileImage} />
               </div>
-
-              <div className="profile-posts">
-                <MyPost setActiveView={this.setActiveView} />
-                <MyPost setActiveView={this.setActiveView} />
-                <MyPost setActiveView={this.setActiveView} />
+              <div>or</div>
+              <div className="form-group">
+                <input type="url" name="url-input" className="photoURL" placeholder="URL" onChange={this.handleProfileImageURL}/>
               </div>
+              <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
+            </form>
+          </Modal.Body>
 
-              <div className="nav-bottom">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('dashboard')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                  () => this.setActiveView('create-page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                  () => this.setActiveView('profile-Page')}>
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-              </div>
-
-              <Modal show={this.state.isProfilePageImageModalOpen} onHide={() => { this.closeProfilePageImageModal() }} className="profilePageImageChange">
-
-                <Modal.Body>
-                  <i className="far fa-times-circle" onClick={this.closeProfilePageImageModal}></i>
-                  <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
-                    <div className="profileImage">
-                      <img src={this.state.file ? this.state.file : this.state.currentUser.profileImage  ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profileSmall" />
-                    </div>
-                    <div>Upload Photo</div>
-                    <div className="form-group">
-                      <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                      <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handleProfileImage}/>
-                    </div>
-                    <div>or</div>
-                    <div className="form-group">
-                      <input type="url" className="photoURL" placeholder="URL" />
-                    </div>
-                    <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
-                  </form>
-                </Modal.Body>
-
-              </Modal>
-
-            </View>
-
-            <Modal show={this.state.isProfileImageModalOpen} onHide={() => { this.closeProfileImageModal() }} className="profileImageChange">
-
-              <Modal.Body>
-                <i className="far fa-times-circle" onClick={this.closeProfileImageModal}></i>
-                <form className="uploadPhotoForm" onSubmit={this.handleProfileChangeClick} ref={(el) => {this.form = el}}>
-                  <div className="profileImage">
-                    <img src={this.state.file ? this.state.file : this.state.currentUser.profileImage  ? apiInfo.serverUrl+this.state.currentUser.profileImage : this.state.currentUser.profileImageURL ? this.state.currentUser.profileImageURL : placeholder} alt="profileSmall" />
-                  </div>
-                  <div>Upload Photo</div>
-                  <div className="form-group">
-                    <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
-                    <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handleProfileImage} />
-                  </div>
-                  <div>or</div>
-                  <div className="form-group">
-                    <input type="url" className="photoURL" placeholder="URL"/>
-                  </div>
-                  <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
-                </form>
-              </Modal.Body>
-
-            </Modal>
+        </Modal>
 
       </div>
     )

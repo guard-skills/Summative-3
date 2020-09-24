@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import './App.css';
+import Butterfly1 from '../assets/Butterfly1.jpg';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import placeholder from '../assets/profile-placeholder.png';
@@ -9,16 +10,25 @@ import 'moment-timezone';
 import apiInfo from './apiInfo'
 
 class Post extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    
+
+    var {likes,currentUser} = this.props
     this.state = {
-      // isLiked: this.props.isLiked
-      isLiked:false
+      isLiked: currentUser && likes.includes(currentUser.id) ? true : false,
     }
   }
 
   handleLikeClick = () => {
+    var {isLiked} = this.state
+    if(!isLiked){
+      // console.log('yes')
+      apiInfo.addLikes(this.props.id,this.props.currentUser.id)
+    }else{
+      apiInfo.removeLikes(this.props.id,this.props.currentUser.id)
+      // console.log('no')
+    }
+
     this.setState({ isLiked:!this.state.isLiked })
     // console.log(this.state)
   }
@@ -50,16 +60,17 @@ class Post extends Component {
   }
 
   render (){
-    const likeToggle = this.state.isLiked
+    const {isLiked} = this.state
 
     var dateString = this.props.createdAt;
 
     var { comments } = this.props 
+    
 
     return (
         <div className="post-item">
           <div className="post-image">
-            <img src={this.props.postImage ? apiInfo.serverUrl+this.props.postImage : this.props.postImageURL} alt="" />
+            <img src={this.props.postImage ? apiInfo.serverUrl+this.props.postImage : this.props.postImageURL ? this.props.postImageURL : Butterfly1} alt="" />
           </div>
 
           {/* Tabbies */}
@@ -91,7 +102,7 @@ class Post extends Component {
                       <Spring
                         config={{ tension: 500, precision: 0.1 }}
                         from={{ opacity: 0 }}
-                        to={{ opacity: likeToggle ? 1 : 0 }}
+                        to={{ opacity: isLiked ? 1 : 0 }}
                         >
                           {props => 
                             <svg style={props} viewBox="-5 -5 110 110" className='likePost liked' onClick={this.handleLikeClick}>
@@ -137,9 +148,9 @@ class Post extends Component {
                       </div>
                   </div>
 
-                  {comments.map((comment) => {
+                  {comments.map((comment, i) => {
                     return (
-                      <div className="comment">
+                      <div className="comment" key={i}>
                         <div className="profile-photo">
                           <img src={ comment.profileImage ? apiInfo.serverUrl+comment.profileImage : comment.profileImageURL ? comment.profileImageURL : placeholder} alt="profile" />
                         </div>

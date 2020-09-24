@@ -1,116 +1,129 @@
 import React, { Component } from 'react';
-import Butterfly1 from '../assets/Butterfly1.jpg'
+// import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-/*import {navigate} from '@reach/router'
-import API from './API'*/
+import apiInfo from './apiInfo'
 
 class Update extends Component {
 
   constructor() {
     super();
     this.state = {
-        title: '',
-        description: '',
-        city: '',
+        file: null,
+        url: null
     };
   }
 
-  onChange = (e) => {
-    const state = this.state
-    state[e.target.name] = e.target.value;
-    this.setState(state);
+  handlePostImage = (e) => {
+    this.setState({
+      file: URL.createObjectURL(e.target.files[0])
+    })
   }
 
-  handleBrowseBtnClick = (e)=>{
-    this.fileInput.click()
-  }
-  handleBrowseBlur = (e)=>{
-    this.closeBrowseInput()
-  }
-  
-  handleUrlBtnClick = (e)=>{
-    this.openUrlInput()
-  }
-  handleUrlBlur = (e)=>{
-    this.closeUrlInput()
+  handlePostImageURL = (e) => {
+    // console.log('bla')
+    this.setState({
+      url: e.target.value
+    })
   }
 
-  formSubmit = (e) => {
+  handleFormSubmit = (e) => {
     e.preventDefault()
 
-    /*var formData = new FormData(this.form)
+    var { setActiveView, id } = this.props;
 
-    API.uploadFile(formData)
-      .then(res => res.data)
+    var formData = new FormData(this.form);
 
-      .then(fileName => {
-        var {currentUser} = this.props;
+    if(formData.get('photoBrowse').size > 0){
+
+      apiInfo.uploadFile(formData).then(res => {
+        var fileName = res.data;
+
         var data = {
-          tittle:formData.get('tittle-input'),
-          description:formData.get('description-input'),
-          photo: fileName,
-          type_id:formData.get('type-input'),
-          user_id:currentUser.id
+          title: formData.get('title-input'),
+          description: formData.get('description-input'),
+          postImage: fileName,
+          postImageURL: formData.get('url-input'),
+          type_id: parseInt(formData.get('area-input')),
         }
-        API.addProject(data).then(res => navigate('/post'))
 
-      })*/
-  
+        apiInfo.updatePost(id,data).then(res=>{
+          this.props.listPosts()
+          this.props.listUserPosts()
+          setActiveView('profile-Page')
+        })
+        
+      })
+
+    }else{
+
+      var data = {
+        title: formData.get('title-input'),
+        description: formData.get('description-input'),
+        postImageURL: formData.get('url-input'),
+        type_id: parseInt(formData.get('area-input')),
+      }
+
+      apiInfo.updatePost(id,data).then(res=>{
+        this.props.listPosts()
+        this.props.listUserPosts()
+        setActiveView('profile-Page')
+      })
+
+    }
+
   }
 
 
   render() {
-    const { title, description, city} = this.state;
+    // const imagePlaceholder = Butterfly1;
+
+    var { title, description, type_id, postImage, postImageURL } = this.props
+
     return (
 
-      <div className="wrap update-wrap" viewname="update-Page" activeview={this.state.activeView}>
+      <div className="wrap" viewname="create-Page" activeview={this.state.activeView}>
         <div className="add-post">
-          <Form onSubmit={this.onSubmit}>
-              <h3 className="add-post-title">Upload Photo</h3>
-              <div className="photo-upload-buttons">
-                <Button type="button" className="btn btn-browse" onClick={this.handleBrowseBtnClick}>Browse</Button>
-                <h3>or</h3>
-                <input type="url" className="urlInput" placeholder="URL"></input>
-
-              </div>
-              <img src={Butterfly1} alt="" className="add-post-img"></img>
-              <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control id="tittle-input" type="title" defaultValue={title} onChange={this.onChange}></Form.Control>
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>City</Form.Label>
-                  <Form.Control id="city-input" type="city" defaultValue={city} onChange={this.onChange}></Form.Control>
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>Area</Form.Label>
-                  <Form.Control id="area-input" as="select" onChange={this.onChange}>
-                  <option>Auckland</option>
-                  <option>Wellington</option>
-                  <option>Christchurch</option>
-                  <option>Dunedin</option>
-                  <option>Waikato</option>
-                  </Form.Control>
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" id="description-input" defaultValue={description} onChange={this.onChange} rows="2"></Form.Control>
-              </Form.Group>
-              <Button type="submit" className="btn btn-success">Submit</Button>
+          <Form className="createForm" onSubmit={this.handleFormSubmit} ref={(el) => {this.form = el}}>
+          <h3 className="add-post-title">Upload Photo</h3>
+          <div className="photo-upload-buttons">
+            <div className="form-group">
+              <label className="browseLabel" htmlFor="photoBrowse">Browse</label>
+              <input type="file" name="photoBrowse" id="photoBrowse" className="photoBrowse form-control-file" onChange={this.handlePostImage} />
+            </div>
+            <div className="or">or</div>
+            <div className="form-group">
+              <input type="url" id="url-input" name="url-input" className="photoURL" placeholder="URL" onChange={this.handlePostImageURL} defaultValue={postImageURL}/>
+            </div>
+          </div>
+          <div className="addIMG">
+            <div className="add-post-img">
+              <img src={ this.state.file ? this.state.file : this.state.url ? this.state.url : postImage ? apiInfo.serverUrl+postImage : postImageURL} alt="#"></img>
+            </div>
+          </div>
+            <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control id="title-input" name="title-input" type="title" defaultValue={title}></Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Location</Form.Label>
+                <Form.Control id="area-input" name="area-input" as="select" defaultValue={type_id}>
+                  <option value="1">Auckland</option>
+                  <option value="2">Wellington</option>
+                  <option value="3">Christchurch</option>
+                  <option value="4">Dunedin</option>
+                  <option value="5">Waikato</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" id="description-input" name="description-input" rows="2" defaultValue={description}></Form.Control>
+            </Form.Group>
+            <Button type="submit" className="btn btn-success">Submit</Button>
           </Form>
         </div>
-  
-        <div className="browse-popup">
-          <input className="browse-input" id="browse-input" type="file" ref={(el) => {this.fileInput = el}}/>
-        </div>
-  
-
-        <div className="url-popup">
-          <input className="url-input" id="url-input" type="url" placeholder=" https://"></input>
-        </div>
         
-      </div>
+    </div>
 
     );
   }

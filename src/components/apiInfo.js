@@ -43,6 +43,12 @@ let apiInfo = {
     deletePost: (id) => {
         return axios.delete(url + '/posts/' + id)
     },
+    addLikes: (postId,userId) => {
+        return axios.post(url + '/posts/'+postId+'/likes/'+userId)
+    },
+    removeLikes: (postId,userId) => {
+        return axios.delete(url + '/posts/'+postId+'/likes/'+userId)
+    },
     // getPosts = () => {
     //     axios.get(url + '/posts')
     //     .then(res => {
@@ -69,6 +75,7 @@ let apiInfo = {
     //     .then(rest=>{
     //     this.getPosts()
     //     })
+
 
     uploadFile : (formData) => {
 

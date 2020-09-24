@@ -9,15 +9,21 @@ class Create extends Component {
   constructor() {
     super();
     this.state = {
-        file: null
+        file: null,
+        url: null
     };
-
-    this.handlePostImage = this.handlePostImage.bind(this)
   }
 
   handlePostImage = (e) => {
     this.setState({
       file: URL.createObjectURL(e.target.files[0])
+    })
+  }
+
+  handlePostImageURL = (e) => {
+    // console.log('bla')
+    this.setState({
+      url: e.target.value
     })
   }
 
@@ -40,10 +46,12 @@ class Create extends Component {
           postImageURL: formData.get('url-input'),
           type_id: parseInt(formData.get('area-input')),
           user_id: user.id,
+          isLiked: "false",
         }
 
         apiInfo.addPost(data).then(res=>{
           this.props.listPosts()
+          this.props.listUserPosts()
           setActiveView('dashboard')
         })
         
@@ -61,6 +69,7 @@ class Create extends Component {
 
       apiInfo.addPost(data).then(res=>{
         this.props.listPosts()
+        this.props.listUserPosts()
         setActiveView('dashboard')
       })
 
@@ -86,33 +95,33 @@ class Create extends Component {
             </div>
             <div className="or">or</div>
             <div className="form-group">
-              <input type="url" id="url-input" name="url-input" className="photoURL" placeholder="URL" />
+              <input type="url" id="url-input" name="url-input" className="photoURL" placeholder="URL" onChange={this.handlePostImageURL} />
             </div>
           </div>
           <div className="addIMG">
             <div className="add-post-img">
-              <img src={this.state.file ? this.state.file : imagePlaceholder} alt="#"></img>
+              <img src={this.state.file ? this.state.file : this.state.url ? this.state.url : imagePlaceholder} alt="#"></img>
             </div>
           </div>
-              <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control id="title-input" name="title-input"  type="title"></Form.Control>
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>Location</Form.Label>
-                  <Form.Control id="area-input" name="area-input" as="select">
-                    <option value="1">Auckland</option>
-                    <option value="2">Wellington</option>
-                    <option value="3">Christchurch</option>
-                    <option value="4">Dunedin</option>
-                    <option value="5">Waikato</option>
-                  </Form.Control>
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" id="description-input" name="description-input" rows="2"></Form.Control>
-              </Form.Group>
-              <Button type="submit" className="btn btn-success">Submit</Button>
+            <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control id="title-input" name="title-input"  type="title"></Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Location</Form.Label>
+                <Form.Control id="area-input" name="area-input" as="select">
+                  <option value="1">Auckland</option>
+                  <option value="2">Wellington</option>
+                  <option value="3">Christchurch</option>
+                  <option value="4">Dunedin</option>
+                  <option value="5">Waikato</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" id="description-input" name="description-input" rows="2"></Form.Control>
+            </Form.Group>
+            <Button type="submit" className="btn btn-success">Submit</Button>
           </Form>
         </div>
         
