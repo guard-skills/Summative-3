@@ -372,76 +372,31 @@ $dark-color: #4E4E4E;
 	justify-content: space-between;
 	padding: 0 8.5%;
 	margin-top: 1em;
-	div {
+	// border: 1px red solid;
+	.all {
 		color: #5B8C5A;
 		border-bottom: 1px #5B8C5A solid;
 		padding-bottom: 0.4em;
 	}
-	.filter {
-		font-weight: 300;
-		color: #707070;
-		border-bottom: 1px #707070 solid;
-	}
-	i {
-		font-size: 0.7em;
-		margin-right: 0.6em;
-	}
 }
 
 .filter-select {
-    //border: 1px red solid;
-    width: 50vw;
-    position: absolute;
+    // border: 1px red solid;
+    width: 40vw;
+	position: absolute;
+	top: 5.75em;
     right: 1.8em;
     height: 50%;
-    overflow: hidden;
+	overflow: hidden;
+	z-index: 50;
 
-    form {
-		z-index: 20;
-        border-radius: 0.5em 0em 0em 0.5em;
-        padding: 1.5em;
-        background-color: white;
-        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
-        color: $dark-color;
-        position: absolute;
-        right: 0;
-        top: -100%;
-    }
-
-    i {
-        position: absolute;
-        color: rgba(112, 112, 112, 0.6);
-        top: 0.5em;
-        right: 0.5em;
-    }
-
-    .form-buttons {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 0.5em;
-
-        button {
-            background-color: transparent;
-            color: $alt-color;
-            border: none;
-            padding: 0.2em 0.5em;
-
-            &:focus {
-                outline: none;
-                box-shadow: none !important;
-                background-color: transparent !important;
-            }
-        }
-
-        .submit {
-            background-color: $main-color;
-            color: white;
-
-            &:focus {
-                background-color: lighten($main-color, 10%) !important;
-            }
-        }
-    }
+	.css-yk16xz-control, .css-1pahdxg-control {
+		background-color: transparent !important;
+		border: none !important;
+		border-bottom: 1px $main-color solid !important;
+		border-radius: 0;
+		box-shadow: none;
+	}
 }
 
 .post-item {
@@ -1161,6 +1116,7 @@ $dark-color: #4E4E4E;
         padding-bottom: 0;
 		margin-bottom: 0;
 		margin-left: 1em;
+		position: relative;
         h1 {
             font-size: 1.2em;
             font-weight: bold;
@@ -1255,4 +1211,52 @@ $dark-color: #4E4E4E;
 			letter-spacing: 0.05em;
         }
     }
+}
+
+.edit-profile-form {
+	display: none;
+	position: absolute;
+	width: 52vw;
+	top: -30%;
+	background-color: #eeeeee;
+	// border: 1px red solid;
+
+	&.active {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.form-group {
+		margin: 0.2em 0;
+	}
+
+	.form-control {
+		height: 2em;
+		padding-left: 0.5em;
+		background-color: transparentize($color: #ffffff, $amount: 0.2);
+		border: none;
+		color: $dark-color;
+		
+		&.name {
+			font-weight: 600;
+		}
+
+		&:focus {
+			box-shadow: none;
+			border: none;
+			outline: none;
+		}
+	}
+	
+	.btn {
+		margin: 0.2em 0 0 0;
+		padding: 0em 1em;
+		text-transform: uppercase;
+		font-weight: 300;
+		letter-spacing: 0.02em;
+		background-color: #5B8C5A;
+		border: none;
+		width: 5em;
+		font-size: 0.9em;
+	}
 }

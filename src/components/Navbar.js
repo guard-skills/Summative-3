@@ -21,11 +21,13 @@ class Navbar extends Component {
     }
 
     handleProfileClick = () => {
-        var {setActiveView, closeNavbar}= this.props
+        var {setActiveView, closeNavbar, handleProfileClick}= this.props
 
         setActiveView('profile-Page')
 
         closeNavbar()
+
+        handleProfileClick()
     }
 
     handleAddPostClick = () => {

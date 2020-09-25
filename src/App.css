@@ -391,82 +391,29 @@
   margin-top: 1em;
 }
 
-.filter-bar div {
+.filter-bar .all {
   color: #5B8C5A;
   border-bottom: 1px #5B8C5A solid;
   padding-bottom: 0.4em;
 }
 
-.filter-bar .filter {
-  font-weight: 300;
-  color: #707070;
-  border-bottom: 1px #707070 solid;
-}
-
-.filter-bar i {
-  font-size: 0.7em;
-  margin-right: 0.6em;
-}
-
 .filter-select {
-  width: 50vw;
+  width: 40vw;
   position: absolute;
+  top: 5.75em;
   right: 1.8em;
   height: 50%;
   overflow: hidden;
+  z-index: 50;
 }
 
-.filter-select form {
-  z-index: 20;
-  border-radius: 0.5em 0em 0em 0.5em;
-  padding: 1.5em;
-  background-color: white;
-  -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
-          box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
-  color: #4E4E4E;
-  position: absolute;
-  right: 0;
-  top: -100%;
-}
-
-.filter-select i {
-  position: absolute;
-  color: rgba(112, 112, 112, 0.6);
-  top: 0.5em;
-  right: 0.5em;
-}
-
-.filter-select .form-buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin-top: 0.5em;
-}
-
-.filter-select .form-buttons button {
-  background-color: transparent;
-  color: #707070;
-  border: none;
-  padding: 0.2em 0.5em;
-}
-
-.filter-select .form-buttons button:focus {
-  outline: none;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+.filter-select .css-yk16xz-control, .filter-select .css-1pahdxg-control {
   background-color: transparent !important;
-}
-
-.filter-select .form-buttons .submit {
-  background-color: #5B8C5A;
-  color: white;
-}
-
-.filter-select .form-buttons .submit:focus {
-  background-color: #75a574 !important;
+  border: none !important;
+  border-bottom: 1px #5B8C5A solid !important;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .post-item {
@@ -1258,6 +1205,7 @@
   padding-bottom: 0;
   margin-bottom: 0;
   margin-left: 1em;
+  position: relative;
 }
 
 .profile-info .personal-details h1 {
@@ -1361,5 +1309,58 @@
   margin-top: -0.5em;
   text-transform: none;
   letter-spacing: 0.05em;
+}
+
+.edit-profile-form {
+  display: none;
+  position: absolute;
+  width: 52vw;
+  top: -30%;
+  background-color: #eeeeee;
+}
+
+.edit-profile-form.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.edit-profile-form .form-group {
+  margin: 0.2em 0;
+}
+
+.edit-profile-form .form-control {
+  height: 2em;
+  padding-left: 0.5em;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  color: #4E4E4E;
+}
+
+.edit-profile-form .form-control.name {
+  font-weight: 600;
+}
+
+.edit-profile-form .form-control:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: none;
+  outline: none;
+}
+
+.edit-profile-form .btn {
+  margin: 0.2em 0 0 0;
+  padding: 0em 1em;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  background-color: #5B8C5A;
+  border: none;
+  width: 5em;
+  font-size: 0.9em;
 }
 /*# sourceMappingURL=App.css.map */

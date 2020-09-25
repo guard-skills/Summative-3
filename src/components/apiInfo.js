@@ -19,17 +19,29 @@ let apiInfo = {
         return axios.get(url + '/getEmail/' + data)
     },
 
-    userAuth: (data) => {
-        return axios.post(url + '/userAuth', data)
-    },
-
     updateUser: (id,data) => {
         return axios.put(url + '/users/' + id, data)
+    },
+
+    getUserPostCount: (id,data) => {
+        return axios.get(url+'/users/' + id,data)
     },
 
     //CRUD for posts
     getPosts: () => {
         return axios.get(url + '/posts')
+    },
+    
+    getSinglePost: (id) => {
+        return axios.get(url +'/posts/'+id)
+    },
+
+    getTypes: () => {
+        return axios.get(url + '/types')
+    },
+
+    getSingleType : (id) => {
+        return axios.get(url + '/types/' + id)
     },
 
     addPost: (data) => {
@@ -43,39 +55,14 @@ let apiInfo = {
     deletePost: (id) => {
         return axios.delete(url + '/posts/' + id)
     },
+
     addLikes: (postId,userId) => {
         return axios.post(url + '/posts/'+postId+'/likes/'+userId)
     },
+
     removeLikes: (postId,userId) => {
         return axios.delete(url + '/posts/'+postId+'/likes/'+userId)
     },
-    // getPosts = () => {
-    //     axios.get(url + '/posts')
-    //     .then(res => {
-    //     this.setState({post:res.data})
-    //     })
-    // }
-
-    // addPost = (data) => {
-    //     axios.post(url + '/posts', data)
-    //     .then(res => {
-    //     this.getPosts()
-    //     })
-    // }
-
-    // updatePost = (id,data) => {
-    //     axios.put(url + '/posts/' + id, data)
-    //     .then(res => {
-    //     this.getPosts()
-    //     })
-    // }
-
-    // deletePost = (id) => {
-    //     axios.delete(url + '/posts/' + id)
-    //     .then(rest=>{
-    //     this.getPosts()
-    //     })
-
 
     uploadFile : (formData) => {
 

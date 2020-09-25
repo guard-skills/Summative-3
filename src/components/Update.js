@@ -60,6 +60,7 @@ class Update extends Component {
       var data = {
         title: formData.get('title-input'),
         description: formData.get('description-input'),
+        postImage: null,
         postImageURL: formData.get('url-input'),
         type_id: parseInt(formData.get('area-input')),
       }

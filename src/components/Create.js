@@ -30,7 +30,7 @@ class Create extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault()
 
-    var {setActiveView,user} = this.props;
+    var {setActiveView,user,handlePostCount} = this.props;
 
     var formData = new FormData(this.form);
 
@@ -53,6 +53,7 @@ class Create extends Component {
           this.props.listPosts()
           this.props.listUserPosts()
           setActiveView('dashboard')
+          handlePostCount()
         })
         
       })
@@ -63,6 +64,7 @@ class Create extends Component {
         title: formData.get('title-input'),
         description: formData.get('description-input'),
         postImageURL: formData.get('url-input'),
+        postImage: null,
         type_id: parseInt(formData.get('area-input')),
         user_id: user.id,
       }
@@ -71,11 +73,10 @@ class Create extends Component {
         this.props.listPosts()
         this.props.listUserPosts()
         setActiveView('dashboard')
+        handlePostCount()
       })
 
     }
-
-  
   }
 
 

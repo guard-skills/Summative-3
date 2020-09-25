@@ -11,9 +11,9 @@ import Create from './components/Create';
 import MyPost from './components/MyPost';
 import Update from './components/Update';
 import LoginRegister from './components/Login-Register';
-import {Spring} from 'react-spring/renderprops';
-import { Button,Form } from 'react-bootstrap';
+import Select from 'react-select';
 import apiInfo from './components/apiInfo';
+import { Form, Button } from 'react-bootstrap';
 
 class App extends Component {
   constructor(props) {
@@ -29,26 +29,15 @@ class App extends Component {
         type_id: '',
       },
 
-      // currentUser: {
-      //   _id: 1,
-      //   id: 1,
-      //   userName: "",
-      //   email: "",
-      //   password: "",
-      //   location: "",
-      //   profileImage: "",
+      postCount: '0',
 
-      //   posts: [
-      //     {
-      //       id: 1,
-      //       name: '',
-      //       description: '',
-      //       type_id: 1,
-      //       comments: []
-      //     },
-      //   ],
-      // },
-      currentUser:0,
+      typeFilter : [],
+
+      typeFilterId: 0,
+
+      typeFilterReset: 'All',
+
+      currentUser: 0,
 
       activeView: 'landing',
 
@@ -59,15 +48,15 @@ class App extends Component {
       isNavbarOpen: false,
 
       isFilterOpen: false,
+      
+      isProfileEditActive: false,
+      
+      profileEdit: "",
 
       file: null,
 
       url: null,
     }
-
-    // this.handleProfileImage = this.handleProfileImage.bind(this)
-
-    // this.handleProfileImageURL = this.handleProfileImageURL.bind(this)
 
   }
 
@@ -78,21 +67,59 @@ class App extends Component {
   }
 
   handleProfileImageURL = (e) => {
-    // console.log('bla')
     this.setState({
       url: e.target.value
     })
   }
 
-
   setActiveView = (view) => {
     this.setState({ activeView: view })
+  }
+
+  handlePostCount = () => {
+    var length = this.state.currentUser.posts.length
+
+    this.setState({postCount: length})
+  }
+
+  handleProfileClick = () => {
+    this.handlePostCount()
+
+    this.setState({ activeView: 'profile-Page'})
+  }
+
+  handleProfileEditClick = () => {
+    this.setState({ isProfileEditActive: true })
+
+    this.setState({profileEdit:'active'})
+
+    console.log('hi')
+  }
+
+  handleProfileEditForm = (e) => {
+    e.preventDefault()
+
+    this.setState({ isProfileEditActive: false })
+
+    var formData = new FormData(this.form);
+      
+    var data = {
+      userName: formData.get('username-input'),
+      location: formData.get('location-input'),
+    }
+
+    apiInfo.updateUser(this.state.currentUser.id,data).then(res => {
+      // console.log(res.data)
+      this.setState({ currentUser: res.data })
+    })  
+
   }
 
   //Modal
   openProfileImageModal = () => {
     this.setState({ isProfileImageModalOpen: true })
   }
+
   closeProfileImageModal = () => {
     this.setState({ isProfileImageModalOpen: false })
   }
@@ -105,6 +132,7 @@ class App extends Component {
   openProfilePageImageModal = () => {
     this.setState({ isProfilePageImageModalOpen: true })
   }
+
   closeProfilePageImageModal = () => {
     this.setState({ isProfilePageImageModalOpen: false })
   }
@@ -124,6 +152,7 @@ class App extends Component {
   
         var data = {
           profileImage: fileName,
+          profileImageURL : null,
         }
   
         apiInfo.updateUser(this.state.currentUser.id,data).then(res => this.setState({ currentUser: res.data }))
@@ -132,34 +161,31 @@ class App extends Component {
     } else {
       
       var data = {
-        profileImageURL: formData.get('url-input')
+        profileImageURL: formData.get('url-input'),
+        profileImage: null,
       }
 
-      apiInfo.updateUser(this.state.currentUser.id,data).then(res => this.setState({ currentUser: res.data }))
+      apiInfo.updateUser(this.state.currentUser.id,data).then(res => {
+        console.log(res.data)
+        this.setState({ currentUser: res.data })
+      })
     }
+    
+    this.closeProfileImageModal()
+    this.closeProfilePageImageModal()
   }
 
   //Navbar
   openNavbar = () => {
     this.setState({ isNavbarOpen: true })
   }
+
   closeNavbar = () => {
     this.setState({ isNavbarOpen: false })
   }
 
   handleNavbarClick = () => {
     this.openNavbar();
-  }
-  
-  //Filter
-  openFilter = () => {
-    this.setState({ isFilterOpen: true })
-  }
-
-  closeFilter = (e) => {
-    this.setState({ isFilterOpen: false })
-
-    e.preventDefault()
   }
 
   //Jin's functions (login/logout)
@@ -186,6 +212,7 @@ class App extends Component {
   listUserPosts = () => { //create list of user's post from DB (only current logged in user)
     apiInfo.getUser(this.state.currentUser.id).then(res => {
       this.setState({ currentUser: res.data })
+      this.handlePostCount()
     })
   }
 
@@ -199,9 +226,7 @@ class App extends Component {
   componentDidMount = () => {
     apiInfo.getPosts()
     this.listPosts()
-    // apiInfo.getUser()
     
-
     //local storage
     var userId = localStorage.getItem('id')
     if(userId){
@@ -211,14 +236,45 @@ class App extends Component {
       })
       .then(()=>this.listUserPosts())
 
-      this.setActiveView('dashboard')
+      // this.setActiveView('dashboard')
+      this.setActiveView('profile-Page')
     }
+
+    // types
+    apiInfo.getTypes()
+    .then( res => res.data)
+    .then( types => {
+      return types.map(type => {
+        return { value : type.id, label: type.location }
+      })
+    })
+    .then( typeFilter => this.setState({typeFilter : typeFilter}))
+
   }
 
+  //Filter/Search
+
+  handleTypeFilter = (e) => {
+    var selected = e.value;
+
+    this.setState({typeFilterId:selected});
+    this.setState( {typeFilterReset : 'Reset'})
+    // this.setActiveView('dashboard')
+  }
+
+  handeAllClick = () => {
+    this.setState( {typeFilterId : 0})
+    this.setState( {typeFilterReset : 'All'})
+  }
+
+
   render() {
-    const filterToggle = this.state.isFilterOpen
+    var { typeFilter,typeFilterId,typeFilterReset, postCount } = this.state
+    var posts = typeFilterId ? this.state.post.filter(post=>post.type.id === typeFilterId): this.state.post
 
     return (
+
+
       <div className="app">
 
         <View viewName="landing" activeView={this.state.activeView} className="landing landing-page">
@@ -233,7 +289,7 @@ class App extends Component {
 
         </View>
 
-        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} activeViewLogout={this.activeViewLogout}/>
+        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} activeViewLogout={this.activeViewLogout} handleProfileClick={this.handleProfileClick}/>
         
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
@@ -246,42 +302,16 @@ class App extends Component {
           </div>
 
           <div className="filter-bar">
-            <div>All</div>
-            <div className="filter" onClick={this.state.isFilterOpen ? this.closeFilter : this.openFilter}>
-              <i className="fas fa-chevron-down"></i>
-              Filter
+            <div className="all" onClick={this.handeAllClick}>{typeFilterReset}</div>
+            <div className="filter-select">
+              <Select className="select" onChange={this.handleTypeFilter} options={typeFilter} placeholder="Filter..."/> 
             </div>
           </div> 
-
-          <Spring 
-          from={{ y: -55 }} 
-          to={{ y: filterToggle ? 0 : -55 }}> 
-            {props => (
-              <div className="filter-select"> 
-                <Form style={{ top: props.y + '%' }}> 
-                  <i className="far fa-times-circle" onClick={this.closeFilter}></i> 
-                  <Form.Check id="Auckland" label="Auckland" /> 
-                  <Form.Check id="Wellington" label="Wellington" /> 
-                  <Form.Check id="Christchurch" label="Christchurch" /> 
-                  <Form.Check id="Dunedin" label="Dunedin" /> 
-                  <Form.Check id="Waikato" label="Waikato" /> 
-                  <div className="form-buttons"> 
-                    <Button type="submit" className="submit" onClick={this.closeFilter}>
-                      Submit
-                    </Button> 
-                    <Button type="reset">
-                      Reset
-                    </Button> 
-                  </div> 
-                </Form> 
-              </div>
-            )}
-          </Spring>
 
           <div className="posts">
             
             {
-              this.state.post.reverse().map((item) => {
+              posts.reverse().map((item) => {
                 var itemProps = {
                   key: item.id,
                   listPosts: this.listPosts,
@@ -307,8 +337,7 @@ class App extends Component {
                 <path
                   d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-                () => this.setActiveView('profile-Page')}>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={this.handleProfileClick}>
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path
                   d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -328,7 +357,7 @@ class App extends Component {
             </div>
           </div>
 
-          <Create listPosts={this.listPosts} user={this.state.currentUser} setActiveView={this.setActiveView} listUserPosts={this.listUserPosts}/>
+          <Create listPosts={this.listPosts} user={this.state.currentUser} setActiveView={this.setActiveView} listUserPosts={this.listUserPosts} handlePostCount={this.handlePostCount}/>
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -341,8 +370,7 @@ class App extends Component {
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-              () => this.setActiveView('profile-Page')}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={this.handleProfileClick}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path
                 d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -373,8 +401,7 @@ class App extends Component {
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-              () => this.setActiveView('profile-Page')}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={this.handleProfileClick}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path
                 d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -399,15 +426,26 @@ class App extends Component {
               <h1>{this.state.currentUser ? this.state.currentUser.userName : null}</h1>
               <h2>{this.state.currentUser ? this.state.currentUser.location : null}</h2>
               <div className="edit-personal-details">
-                <i className="fas fa-pen"></i>
+                <i className="fas fa-pen" onClick={this.handleProfileEditClick}></i>
               </div>
+              <Form tabIndex={0} className={this.state.isProfileEditActive ? this.state.profileEdit + " edit-profile-form" : "edit-profile-form"} onSubmit={this.handleProfileEditForm} ref={(el) => {this.form = el}}>
+                <Form.Group controlId="changeUserName">
+                  <Form.Control type="text" className="name" name="username-input" defaultValue={this.state.currentUser ? this.state.currentUser.userName : null}/>
+                </Form.Group>
+                <Form.Group controlId="changeLocation">
+                  <Form.Control type="text" name="location-input" defaultValue={this.state.currentUser ? this.state.currentUser.location : null}/>
+                </Form.Group>
+                <Button className="btn" type="submit">
+                  Save
+                </Button>
+              </Form>
             </div>
           </div>
 
           <div className="posts-search">
             <div className="mypost">
               <div className="number-of-post">My posts</div>
-              <div className="number-of-post2">2</div>
+            <div className="number-of-post2">{postCount}</div>
             </div>
 
             <div className="search">
@@ -478,7 +516,7 @@ class App extends Component {
                 </div>
                 <div>or</div>
                 <div className="form-group">
-                  <input type="url" name="url-input" className="photoURL" placeholder="URL" />
+                  <input type="url" name="url-input" className="photoURL" placeholder="URL" onChange={this.handleProfileImageURL}/>
                 </div>
                 <button type="submit" className="btn btn-primary submitPhotoChange">Submit</button>
               </form>
