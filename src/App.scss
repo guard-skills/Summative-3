@@ -98,6 +98,14 @@ $dark-color: #4E4E4E;
 	}
 }
 
+.error {
+	color: red;
+	font-size: 0.8em;
+	position: absolute;
+	top: 19%;
+	left: 10%;
+}
+
 .landing {
 	.signin {
 		position: relative;
@@ -137,6 +145,7 @@ $dark-color: #4E4E4E;
 			padding-bottom: 0.5em;
 			padding-left: 0.2em;
 			border-radius: 0em;
+			font-size: 1em;
 			&:focus {
 				outline: none !important;
 				-webkit-box-shadow: none !important;
@@ -152,6 +161,7 @@ $dark-color: #4E4E4E;
 			padding-bottom: 0.5em;
 			padding-left: 0.2em;
 			border-radius: 0em;
+			font-size: 1em;
 			&:focus {
 				outline: none !important;
 				-webkit-box-shadow: none !important;
@@ -160,7 +170,7 @@ $dark-color: #4E4E4E;
 		}
 	}
 	.subtext {
-		margin: -0.5rem 0 2rem 0;
+		margin: -0.5rem 0 1.5rem 0;
 		font-size: 0.9em;
 		color: #3d3d3d;
 		span {
@@ -182,6 +192,7 @@ $dark-color: #4E4E4E;
 		background-color: #a3a3a3;
 		border: none;
 		margin-right: 1.5em;
+		font-size: 1em;
 		i {
 			color: white;
 		}
@@ -195,6 +206,7 @@ $dark-color: #4E4E4E;
 		letter-spacing: 0.1em;
 		background-color: #5B8C5A;
 		border: none;
+		font-size: 1em;
 	}
 }
 
@@ -225,6 +237,7 @@ $dark-color: #4E4E4E;
 			padding-bottom: 0.5em;
 			padding-left: 0.2em;
 			border-radius: 0em;
+			font-size: 1em;
 			&:focus {
 				outline: none !important;
 				-webkit-box-shadow: none !important;
@@ -240,6 +253,7 @@ $dark-color: #4E4E4E;
 			padding-bottom: 0.5em;
 			padding-left: 0.2em;
 			border-radius: 0em;
+			font-size: 1em;
 			&:focus {
 				outline: none !important;
 				-webkit-box-shadow: none !important;
@@ -248,7 +262,7 @@ $dark-color: #4E4E4E;
 		}
 	}
 	.subtext {
-		margin: -0.5rem 0 2rem 0;
+		margin: -0.5rem 0 1.5rem 0;
 		font-size: 0.9em;
 		color: #3d3d3d;
 		span {
@@ -270,6 +284,7 @@ $dark-color: #4E4E4E;
 		background-color: #a3a3a3;
 		border: none;
 		margin-right: 1.5em;
+		font-size: 1em;
 		i {
 			color: white;
 		}
@@ -283,6 +298,7 @@ $dark-color: #4E4E4E;
 		letter-spacing: 0.1em;
 		background-color: #5B8C5A;
 		border: none;
+		font-size: 1em;
 	}
 }
 
@@ -498,10 +514,10 @@ $dark-color: #4E4E4E;
 	}
 	.comments-tab {
 		position: absolute;
-		top: 0.1rem;
-		left: 1.75rem;
+		top: 5%;
+		left: 8.5%;
 		background-color: #5B8C5A;
-		height: 1.5rem;
+		height: 1.6em;
 		display: -webkit-box;
 		display: -ms-flexbox;
 		display: flex;
@@ -1219,6 +1235,7 @@ $dark-color: #4E4E4E;
 	width: 52vw;
 	top: -30%;
 	background-color: #eeeeee;
+
 	// border: 1px red solid;
 
 	&.active {
@@ -1236,6 +1253,7 @@ $dark-color: #4E4E4E;
 		background-color: transparentize($color: #ffffff, $amount: 0.2);
 		border: none;
 		color: $dark-color;
+		font-size: 1em;
 		
 		&.name {
 			font-weight: 600;

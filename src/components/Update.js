@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Butterfly1 from '../assets/Butterfly1.jpg'
+import Butterfly1 from '../assets/Butterfly1.jpg'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import apiInfo from './apiInfo'
@@ -77,7 +77,7 @@ class Update extends Component {
 
 
   render() {
-    // const imagePlaceholder = Butterfly1;
+    const imagePlaceholder = Butterfly1;
 
     var { title, description, type_id, postImage, postImageURL } = this.props
 
@@ -99,7 +99,7 @@ class Update extends Component {
           </div>
           <div className="addIMG">
             <div className="add-post-img">
-              <img src={ this.state.file ? this.state.file : this.state.url ? this.state.url : postImage ? apiInfo.serverUrl+postImage : postImageURL} alt="#"></img>
+              <img src={ this.state.file ? this.state.file : this.state.url ? this.state.url : postImage ? apiInfo.serverUrl+postImage : postImageURL ? postImageURL : imagePlaceholder} alt="#"></img>
             </div>
           </div>
             <Form.Group>

@@ -13,9 +13,9 @@ class Navbar extends Component {
     }
 
     handleHomeClick = () => {
-        var {setActiveView, closeNavbar}= this.props
+        var {handleDashboardClick, closeNavbar}= this.props
 
-        setActiveView('dashboard')
+        handleDashboardClick()
 
         closeNavbar()
     }
@@ -47,7 +47,7 @@ class Navbar extends Component {
     componentWillUnmount(){
     
         this.setState({isActive:false})
-        // console.log(this.state.isActive)
+
     }
 
     render (){

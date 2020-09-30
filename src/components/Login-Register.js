@@ -11,6 +11,10 @@ class LoginRegister extends Component {
             isSignUpActive: false,
 
             isLoginActive : false,
+
+            loginMessage: '',
+
+            noUser: ''
         }
     }
 
@@ -26,19 +30,20 @@ class LoginRegister extends Component {
         apiInfo.userCheck(data.email).then(res => {
             var user = res.data
             if (user == null) {
-                console.log('user is null')
+                this.setState({ noUser: 'Cannot find user. Please sign up or try another email.' })
             }
             else if (user != null && data.email!= null && data.password != null) {
 
                 apiInfo.getUser(user.id).then(res => {
-                    // console.log(res.data.password)
+                    this.setState({ noUser: '' })
                     if (data.password === res.data.password) {
                         setUserId(res.data)
                         listPosts()
                         setActiveView('dashboard')
+                        this.setState({ loginMessage: '' })
                         localStorage.setItem('id',user.id)
                     } else {
-                        console.log('wrong pw')
+                        this.setState({ loginMessage: 'Email/password is incorrect. Please try again.' })
                     }
                 })
             }
@@ -55,14 +60,29 @@ class LoginRegister extends Component {
 			location: formData.get('region-input'),
 			id: Date.now() + Math.round(Math.random() * (1000000 - 1) + 1),
 			profileImage: '',
-			projects: [],
+			posts: [],
 		}
-		var { setActiveView, listPosts, setUserId } = this.props
-		console.log(data)
-		setUserId(data)
+        var { setActiveView, listPosts, setUserId } = this.props
+        
+        apiInfo.userCheck(data.email).then(res => {
+            var email = res.data
+            if (email == null) {
+                apiInfo.userCheck(data.userName).then(res => {
+                    var user = res.userName
+                    if ( user == null ) {
+                        console.log(data)
+                        setUserId(data)
+                        apiInfo.postUser(data).then(() => listPosts())
+                        setActiveView('dashboard')
+                    } else {
+                        console.log('username already taken')
+                    }
+                })
+            } else {
+                console.log('email already taken')
+            }
+        })
 
-		apiInfo.postUser(data).then(() => listPosts())
-		setActiveView('dashboard')
 	}
 
     setDashboardView = () => {
@@ -105,6 +125,8 @@ class LoginRegister extends Component {
     render() {
         const signupToggle = this.state.isSignUpActive
         const loginToggle = this.state.isLoginActive
+        const noUser = this.state.noUser
+        const loginMessage = this.state.loginMessage
 
         return (
             <div className="landing landing-page">
@@ -150,10 +172,10 @@ class LoginRegister extends Component {
                                     <input type="text" className="form-control" name="register-username-input" id="register-username-input" placeholder="Username" required />
                                 </div>
                                 <div className="form-group">
-                                    <input type="email" className="form-control" name="register-email-input" id="register-email-input" placeholder="Email Address" required />
+                                    <input type="email" className="form-control" name="register-email-input" id="register-email-input" placeholder="Email Address" autoComplete="email" required />
                                 </div>
                                 <div className="form-group">
-                                    <input type="password" className="form-control" name="register-password-input" id="register-password-input" placeholder="Password" required />
+                                    <input type="password" className="form-control" name="register-password-input" id="register-password-input" placeholder="Password" autoComplete="current-password" required />
                                 </div>
                                 <div className="form-group">
                                     <select className="form-control custom-select" name="region-input" id="region-input">
@@ -194,10 +216,12 @@ class LoginRegister extends Component {
         
                             <form className="login-form" onSubmit={this.handleLoginFormSubmit} ref={(el) => { this.loginForm = el }}>
                                 <div className="form-group">
-                                <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" />
+                                    <input type="email" className="form-control" name="email-input" id="email-input" placeholder="Email Address" autoComplete="email" />
+                                    <div className="error">{ noUser }</div>
                                 </div>
                                 <div className="form-group">
-                                <input type="password" className="form-control" name="password-input" id="password-input" placeholder="Password" />
+                                    <input type="password" className="form-control" name="password-input" id="password-input" placeholder="Password" autoComplete="current-password" required/>
+                                    <div className="error">{ loginMessage }</div>
                                 </div>
                                 <div className="subtext">
                                 Don't have an account? <span onClick={()=>{this.closeLogin()}}>Sign Up.</span>

@@ -45,7 +45,7 @@ class Post extends Component {
     var newComment = {
       // user_id: user.id,
       user_id: this.props.currentUser.userName,
-      profileImage: this.props.currentUser.profileImage,
+      profileImage: this.props.currentUser.profileImage, 
       profileImageURL: this.props.currentUser.profileImageURL,
       comment: formData.get('comment-input'),
     }

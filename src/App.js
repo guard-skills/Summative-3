@@ -82,6 +82,12 @@ class App extends Component {
     this.setState({postCount: length})
   }
 
+  handleDashboardClick = () => {
+    this.listPosts()
+
+    this.setState({ activeView: 'dashboard' })
+  }
+
   handleProfileClick = () => {
     this.handlePostCount()
 
@@ -236,8 +242,8 @@ class App extends Component {
       })
       .then(()=>this.listUserPosts())
 
-      // this.setActiveView('dashboard')
-      this.setActiveView('profile-Page')
+      this.setActiveView('dashboard')
+      // this.setActiveView('profile-Page')
     }
 
     // types
@@ -283,13 +289,12 @@ class App extends Component {
             setActiveView={this.setActiveView}
             listPosts={this.listPosts}
             setUserId={this.setUserId}
-            userLogin={this.userLogin}
             listUserPosts={this.listUserPosts}
           />
 
         </View>
 
-        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} activeViewLogout={this.activeViewLogout} handleProfileClick={this.handleProfileClick}/>
+        <Navbar isActive={this.state.isNavbarOpen} {...this.state.activeView} closeNavbar={this.closeNavbar} setActiveView={this.setActiveView} activeViewLogout={this.activeViewLogout} handleProfileClick={this.handleProfileClick} handleDashboardClick={this.handleDashboardClick}/>
         
         <View viewName="dashboard" activeView={this.state.activeView} className="dashboard">
 
@@ -328,7 +333,7 @@ class App extends Component {
 
             <div className="nav-bottom">
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
-                () => this.setActiveView('dashboard')}>
+                this.handleDashboardClick}>
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -361,7 +366,7 @@ class App extends Component {
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-              () => this.setActiveView('dashboard')}>
+              this.handleDashboardClick}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" className="selected" onClick={
@@ -392,7 +397,7 @@ class App extends Component {
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-              () => this.setActiveView('dashboard')}>
+              this.handleDashboardClick}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
@@ -484,7 +489,7 @@ class App extends Component {
 
           <div className="nav-bottom">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={
-              () => this.setActiveView('dashboard')}>
+              this.handleDashboardClick}>
               <path d="M0 0h24v24H0z" fill="none" />
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={

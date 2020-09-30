@@ -46,7 +46,7 @@ class Create extends Component {
           postImageURL: formData.get('url-input'),
           type_id: parseInt(formData.get('area-input')),
           user_id: user.id,
-          isLiked: "false",
+          isLiked: 'false',
         }
 
         apiInfo.addPost(data).then(res=>{
@@ -67,6 +67,7 @@ class Create extends Component {
         postImage: null,
         type_id: parseInt(formData.get('area-input')),
         user_id: user.id,
+        isLiked: 'false',
       }
 
       apiInfo.addPost(data).then(res=>{
