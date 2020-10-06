@@ -36,14 +36,6 @@ let apiInfo = {
         return axios.get(url +'/posts/'+id)
     },
 
-    getTypes: () => {
-        return axios.get(url + '/types')
-    },
-
-    getSingleType : (id) => {
-        return axios.get(url + '/types/' + id)
-    },
-
     addPost: (data) => {
         return axios.post(url + '/posts', data)
     },
@@ -54,6 +46,14 @@ let apiInfo = {
 
     deletePost: (id) => {
         return axios.delete(url + '/posts/' + id)
+    },
+
+    getTypes: () => {
+        return axios.get(url + '/types')
+    },
+
+    getSingleType : (id) => {
+        return axios.get(url + '/types/' + id)
     },
 
     addLikes: (postId,userId) => {

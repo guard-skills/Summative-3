@@ -418,7 +418,7 @@
   position: absolute;
   top: 5.75em;
   right: 1.8em;
-  height: 50%;
+  height: 32%;
   overflow: hidden;
   z-index: 50;
 }
@@ -1379,5 +1379,12 @@
   border: none;
   width: 5em;
   font-size: 0.9em;
+}
+
+.registerError {
+  position: absolute;
+  top: 13%;
+  color: red;
+  font-size: 0.8em;
 }
 /*# sourceMappingURL=App.css.map */

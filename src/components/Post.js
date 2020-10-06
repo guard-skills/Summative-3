@@ -24,8 +24,10 @@ class Post extends Component {
     if(!isLiked){
       // console.log('yes')
       apiInfo.addLikes(this.props.id,this.props.currentUser.id)
+            .then(()=>this.props.listPosts())
     }else{
       apiInfo.removeLikes(this.props.id,this.props.currentUser.id)
+            .then(()=>this.props.listPosts())
       // console.log('no')
     }
 

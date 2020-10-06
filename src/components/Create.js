@@ -47,6 +47,7 @@ class Create extends Component {
           type_id: parseInt(formData.get('area-input')),
           user_id: user.id,
           isLiked: 'false',
+       
         }
 
         apiInfo.addPost(data).then(res=>{
@@ -68,6 +69,7 @@ class Create extends Component {
         type_id: parseInt(formData.get('area-input')),
         user_id: user.id,
         isLiked: 'false',
+      
       }
 
       apiInfo.addPost(data).then(res=>{

@@ -206,7 +206,7 @@ class App extends Component {
       // console.log(post.id)
       return post.id === id
     })
-    this.setState({ postToUpdate: foundPost }) //state 에있는 postToUpdate 를 업뎃해줌
+    this.setState({ postToUpdate: foundPost }) //state postToUpdate
   }
 
   listPosts = () => { //create list of posts from DB (all posts)

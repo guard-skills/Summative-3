@@ -14,7 +14,9 @@ class LoginRegister extends Component {
 
             loginMessage: '',
 
-            noUser: ''
+            noUser: '',
+
+            registerMessage: ''
         }
     }
 
@@ -75,11 +77,11 @@ class LoginRegister extends Component {
                         apiInfo.postUser(data).then(() => listPosts())
                         setActiveView('dashboard')
                     } else {
-                        console.log('username already taken')
+                        this.setState({ registerMessage: 'This user already exists.' })
                     }
                 })
             } else {
-                console.log('email already taken')
+                this.setState({ registerMessage: 'This user already exists.' })
             }
         })
 
@@ -127,6 +129,7 @@ class LoginRegister extends Component {
         const loginToggle = this.state.isLoginActive
         const noUser = this.state.noUser
         const loginMessage = this.state.loginMessage
+        const registerMessage = this.state.registerMessage
 
         return (
             <div className="landing landing-page">
@@ -168,6 +171,7 @@ class LoginRegister extends Component {
                             <h3>Sign Up</h3>
             
                             <form className="register-form" onSubmit={this.handleRegisterFormSubmit} ref={(el) => { this.addForm = el }}>
+                                <div className="registerError">{ registerMessage }</div>
                                 <div className="form-group">
                                     <input type="text" className="form-control" name="register-username-input" id="register-username-input" placeholder="Username" required />
                                 </div>
